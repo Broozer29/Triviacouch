@@ -1,4 +1,4 @@
-package net.riezebos.triviacouch.triviacouch;
+package net.riezebos.triviacouch.triviacouch.oud;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

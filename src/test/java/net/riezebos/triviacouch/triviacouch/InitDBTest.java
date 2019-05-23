@@ -5,7 +5,7 @@ import java.sql.SQLException;
 
 import org.junit.Test;
 
-import net.riezebos.triviacouch.triviacouch.core.factories.InitDB;
+import net.riezebos.triviacouch.triviacouch.core.util.InitDB;
 import net.riezebos.triviacouch.triviacouch.util.TestDBBase;
 import net.riezebos.triviacouch.triviacouch.util.TestDataCreator;
 

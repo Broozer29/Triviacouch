@@ -4,8 +4,10 @@ import java.text.MessageFormat;
 
 public class Speler {
 	private long id;
-	private String userid;
 	private String spelernaam;
+	private long winPercentage;
+	private long correctPercentage;
+	private String wachtwoord;
 
 	public long getId() {
 		return id;
@@ -15,14 +17,6 @@ public class Speler {
 		this.id = id;
 	}
 
-	public void setUserid(String userid) {
-		this.userid = userid;
-	}
-
-	public String getUserid() {
-		return userid;
-	}
-
 	public String getSpelernaam() {
 		return spelernaam;
 	}
@@ -30,10 +24,34 @@ public class Speler {
 	public void setSpelernaam(String spelernaam) {
 		this.spelernaam = spelernaam;
 	}
+	
+	public void setWinPercentage(long percentage) {
+		this.winPercentage = percentage;
+	}
+	
+	public void setCorrectPercentage(long percentage) {
+		this.correctPercentage = percentage;
+	}
+	
+	public long getWinPercentage() {
+		return this.winPercentage;
+	}
+	
+	public long getCorrectPercentage() {
+		return this.correctPercentage;
+	}
+	
+	public void setWachtwoord(String wachtwoord) {
+		this.wachtwoord = wachtwoord;
+	}
+	
+	public String getWachtwoord() {
+		return this.wachtwoord;
+	}
 
 	@Override
 	public String toString() {
-		return MessageFormat.format("Speler {0,number,#} {1} {2}", id, userid, spelernaam);
+		return MessageFormat.format("Speler {0,number,#} {1} {2}", id, spelernaam);
 	}
 
 }
