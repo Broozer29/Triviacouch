@@ -15,7 +15,7 @@ public class VraagFactoryTest extends TestDBBase{
 		VraagFactory factory = new VraagFactory();
 		Vraag nieuweVraag = new Vraag();
 		nieuweVraag.setVraag("Testvraagje!");
-		nieuweVraag.setId(IDUtil.getNextId());
+		nieuweVraag.setID(IDUtil.getNextId());
 		factory.createVraag(getConnection(), nieuweVraag);
 
 		Vraag vraag = factory.findVraag(getConnection(), 1000);

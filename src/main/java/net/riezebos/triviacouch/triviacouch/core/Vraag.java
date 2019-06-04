@@ -6,10 +6,10 @@ public class Vraag {
 	private long id;
 	private String vraag;
 	
-	public long getId() {
+	public long getID() {
 		return id;
 	}
-	public void setId(long id) {
+	public void setID(long id) {
 		this.id = id;
 	}
 	public String getVraag() {

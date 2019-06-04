@@ -32,7 +32,7 @@ public class AntwoordFactory {
 			result = new Antwoord();
 			result.setAntwoord(rs.getString(1));
 			result.setCorrect_jn(rs.getString(2));
-			result.setID(rs.getLong(3));
+			result.setVraagID(rs.getLong(3));
 		}
 		rs.close();
 		return result;
@@ -50,6 +50,7 @@ public class AntwoordFactory {
 			result.setAntwoord(rs.getString(1));
 			result.setCorrect_jn(rs.getString(2));
 			result.setID(rs.getLong(3));
+			result.setVraagID(antwoordID);
 			antwoorden.add(result);
 		}
 		rs.close();

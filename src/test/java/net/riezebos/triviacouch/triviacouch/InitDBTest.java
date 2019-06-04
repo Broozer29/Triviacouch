@@ -18,6 +18,6 @@ public class InitDBTest extends TestDBBase {
 
 		TestDataCreator testDataCreator = new TestDataCreator();
 		testDataCreator.execute(getConnection());
-		System.out.println(System.currentTimeMillis()-1557429970258L);
+		//System.out.println(System.currentTimeMillis()-1557429970258L);
 	}
 }

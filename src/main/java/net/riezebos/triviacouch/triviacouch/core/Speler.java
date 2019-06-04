@@ -8,6 +8,7 @@ public class Speler {
 	private long winPercentage;
 	private long correctPercentage;
 	private String wachtwoord;
+	private long score;
 
 	public long getId() {
 		return id;
@@ -47,6 +48,18 @@ public class Speler {
 	
 	public String getWachtwoord() {
 		return this.wachtwoord;
+	}
+	
+	public void setScore(Integer score) {
+		this.score = score;
+	}
+	
+	public Long getScore() {
+		return this.score;
+	}
+	
+	public void addScore(Integer score) {
+		this.score += score;
 	}
 
 	@Override
