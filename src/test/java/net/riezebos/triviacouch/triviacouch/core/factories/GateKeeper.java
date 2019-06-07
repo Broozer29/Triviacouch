@@ -1,5 +1,6 @@
 package net.riezebos.triviacouch.triviacouch.core.factories;
 
+
 import java.sql.SQLException;
 import java.util.Scanner;
 
@@ -10,31 +11,30 @@ import net.riezebos.triviacouch.triviacouch.core.Speler;
 import net.riezebos.triviacouch.triviacouch.core.factories.SpelerFactory;
 import net.riezebos.triviacouch.triviacouch.util.TestDBBase;
 
-public class Inloggen extends TestDBBase {
+public class GateKeeper extends TestDBBase {
 
-	@Test
-	public void logIn() throws SQLException {
+	public Boolean logIn(String username) throws SQLException {
 		Boolean ingelogd = false;
 		SpelerFactory factory = new SpelerFactory();
 		Scanner reader = new Scanner(System.in);
 		while (!ingelogd) {
-			Speler speler = logProfielnaam(factory, reader);
+			Speler speler = logProfielnaam(username, factory, reader);
 			ingelogd = logWachtwoord(speler, reader);
 		}
 
 		if (ingelogd) {
-			System.out.println("Huzzah!");
+			return true;
 		}
+		return false;
 	}
 
-	public Speler logProfielnaam(SpelerFactory factory, Scanner reader) throws SQLException {
+	public Speler logProfielnaam(String username, SpelerFactory factory, Scanner reader) throws SQLException {
 		Speler speler = null;
 		while (speler == null) {
-			System.out.println("Profielnaam: ");
-			String profielNaam = reader.nextLine();
-			speler = factory.findSpeler(getConnection(), profielNaam);
+			speler = factory.findSpeler(getConnection(), username);
 			if (speler == null) {
 				System.out.println("Er bestaat geen profiel met die naam. Controleer de spelling of maak er een aan.");
+				break;
 			}
 		}
 		return speler;

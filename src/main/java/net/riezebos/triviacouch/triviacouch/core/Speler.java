@@ -9,6 +9,7 @@ public class Speler {
 	private long correctPercentage;
 	private String wachtwoord;
 	private long score;
+	private String spelerAntwoord;
 
 	public long getId() {
 		return id;
@@ -65,6 +66,21 @@ public class Speler {
 	@Override
 	public String toString() {
 		return MessageFormat.format("Speler {0,number,#} {1} {2}", id, spelernaam);
+	}
+	
+	public Boolean equalsSpeler(Speler speler) {
+		if (id == speler.getId() && spelernaam.equals(speler.getSpelernaam())) {
+			return true;
+		}
+		return false;
+	}
+
+	public String getSpelerAntwoord() {
+		return spelerAntwoord;
+	}
+
+	public void setSpelerAntwoord(String spelerAntwoord) {
+		this.spelerAntwoord = spelerAntwoord;
 	}
 
 }

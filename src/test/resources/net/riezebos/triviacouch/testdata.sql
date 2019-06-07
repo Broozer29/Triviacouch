@@ -10,3 +10,5 @@ insert into antwoord (id, correct_jn, antwoord, vraagID) values (1005, 'J', 'A',
 insert into antwoord (id, correct_jn, antwoord, vraagID) values (1006, 'N', 'B', 1001)
 insert into antwoord (id, correct_jn, antwoord, vraagID) values (1007, 'N', 'C', 1001)
 insert into antwoord (id, correct_jn, antwoord, vraagID) values (1008, 'N', 'D', 1001)
+insert into highscores (id, spelerid, score) values (1, 105515, 1000)
+insert into highscores (id, spelerid, score) values (2, 758341, 500)

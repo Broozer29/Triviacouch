@@ -12,14 +12,21 @@ public class Vraag {
 	public void setID(long id) {
 		this.id = id;
 	}
-	public String getVraag() {
+	public String getVraagText() {
 		return vraag;
 	}
-	public void setVraag(String vraag) {
+	public void setVraagText(String vraag) {
 		this.vraag = vraag;
 	}
 	
 	public String toString() {
 		return MessageFormat.format("Vraag {0,number,#} {1} {2}", id, vraag);
+	}
+	
+	public Boolean equalsVraag(Vraag vraag) {
+		if (id == vraag.getID() && this.vraag.equals(vraag.getVraagText())) {
+			return true;
+		}
+		return false;
 	}
 }

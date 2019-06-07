@@ -10,14 +10,41 @@ public class Spel {
 	private List<Antwoord> antwoordenLijst = new ArrayList<Antwoord>();
 
 	public void voegSpelerToe(Speler speler) {
-		if (!spelerLijst.contains(speler)) {
+		boolean spelerAanwezig = false;
+		for (Speler speler1 : spelerLijst) {
+			if (speler1.equalsSpeler(speler)) {
+				spelerAanwezig = true;
+			}
+		}
+
+		if (!spelerAanwezig) {
 			spelerLijst.add(speler);
 		}
 	}
 
 	public void verwijderSpeler(Speler speler) {
-		if (spelerLijst.contains(speler)) {
+		boolean spelerAanwezig = false;
+		for (Speler speler1 : spelerLijst) {
+			if (speler1.equalsSpeler(speler)) {
+				spelerAanwezig = true;
+			}
+		}
+
+		if (spelerAanwezig) {
 			spelerLijst.remove(speler);
+		}
+	}
+
+	public void addVraag(Vraag vraag) {
+		boolean vraagAanwezig = false;
+		for (Vraag vraag1 : vraagLijst) {
+			if (vraag1.equalsVraag(vraag)) {
+				vraagAanwezig = true;
+			}
+		}
+
+		if (!vraagAanwezig) {
+			vraagLijst.add(vraag);
 		}
 	}
 
@@ -25,17 +52,11 @@ public class Spel {
 		return spelerLijst;
 	}
 
-	public void addVraag(Vraag vraag) {
-		if (!this.vraagLijst.contains(vraag.getID())) {
-			this.vraagLijst.add(vraag);
-		}
-	}
-
 	public Vraag getVraag(Integer index) {
 		return vraagLijst.get(index);
 	}
-	
-	public List<Vraag> getVraagLijst(){
+
+	public List<Vraag> getVraagLijst() {
 		return this.vraagLijst;
 	}
 
@@ -48,5 +69,5 @@ public class Spel {
 	public List<Antwoord> getAntwoordenLijst() {
 		return antwoordenLijst;
 	}
-	
+
 }

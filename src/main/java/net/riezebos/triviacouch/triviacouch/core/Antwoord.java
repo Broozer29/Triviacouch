@@ -24,11 +24,11 @@ public class Antwoord {
 		this.vraagID = id;
 	}
 
-	public String getAntwoord() {
+	public String getAntwoordText() {
 		return antwoord;
 	}
 
-	public void setAntwoord(String antwoord) {
+	public void setAntwoordText(String antwoord) {
 		this.antwoord = antwoord;
 	}
 

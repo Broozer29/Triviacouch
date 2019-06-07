@@ -11,22 +11,22 @@ import net.riezebos.triviacouch.triviacouch.core.util.IDUtil;
 import net.riezebos.triviacouch.triviacouch.util.TestDBBase;
 
 public class AntwoordFactoryTest extends TestDBBase{
-//	@Test
+	@Test
 	public void testCreate() throws SQLException {
 		AntwoordFactory factory = new AntwoordFactory();
 		Antwoord nieuwAntwoord = new Antwoord();
-		nieuwAntwoord.setAntwoord("Asdf");
+		nieuwAntwoord.setAntwoordText("Asdf");
 		nieuwAntwoord.setVraagID(1001);
 		nieuwAntwoord.setCorrect_jn("N");
 		nieuwAntwoord.setID(51);
 		factory.createAntwoord(getConnection(), nieuwAntwoord);
 
 		Antwoord antwoord = factory.findAntwoordID(getConnection(), 51);
-		System.out.println(antwoord.getAntwoord() + " gevonden!");
+		System.out.println(antwoord.getAntwoordText() + " gevonden!");
 		Assert.assertNotNull(antwoord);
 	}
 
-//	@Test
+	@Test
 	public void testFindID() throws SQLException {
 		AntwoordFactory factory = new AntwoordFactory();
 		Antwoord antwoord = factory.findAntwoordID(getConnection(), 1001);
@@ -38,35 +38,34 @@ public class AntwoordFactoryTest extends TestDBBase{
 	@Test	
 	public void testFindVraagID() throws SQLException {
 		AntwoordFactory factory = new AntwoordFactory();
-		List<Antwoord> antwoorden = factory.findAntwoordVraagID(getConnection(), 1001);
+		List<Antwoord> antwoorden = factory.findAntwoordVraagID(getConnection(), 1001L);
 		Assert.assertNotNull(antwoorden);
 
-		antwoorden = factory.findAntwoordVraagID(getConnection(), 0);
+		antwoorden = factory.findAntwoordVraagID(getConnection(), 0L);
 		Assert.assertTrue(antwoorden.isEmpty());
 	}
 	
 	
 
-//	@Test
+	@Test
 	public void testUpdate() throws SQLException {
 		AntwoordFactory factory = new AntwoordFactory();
-		Antwoord antwoord = factory.findAntwoordID(getConnection(), 100);
+		Antwoord antwoord = factory.findAntwoordID(getConnection(), 1001);
 		Assert.assertNotNull(antwoord);
-		antwoord.setAntwoord("hey_hoi_test!");
+		antwoord.setAntwoordText("hey_hoi_test!");
 		factory.updateAntwoord(getConnection(), antwoord);
 
-		Antwoord check = factory.findAntwoordID(getConnection(), 1000);
-		Assert.assertEquals("hey_hoi_test!", check.getAntwoord());
+		Antwoord check = factory.findAntwoordID(getConnection(), 1001);
+		Assert.assertEquals("hey_hoi_test!", check.getAntwoordText());
 	}
 
 //	@Test
 	public void testVerwijder() throws SQLException {
 		AntwoordFactory factory = new AntwoordFactory();
-		Antwoord antwoord = factory.findAntwoordID(getConnection(), 1000);
+		Antwoord antwoord = factory.findAntwoordID(getConnection(), 1001);
 		factory.deleteAntwoord(getConnection(), antwoord);
 
-		Antwoord check = factory.findAntwoordID(getConnection(), 1000);
-		System.out.println(check.getVraagID() + "Hey");
+		Antwoord check = factory.findAntwoordID(getConnection(), 1001);
 		Assert.assertNull(check);
 
 	}

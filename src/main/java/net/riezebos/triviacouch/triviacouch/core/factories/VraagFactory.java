@@ -18,39 +18,41 @@ public class VraagFactory {
 		// de database
 		PreparedStatement stmt = connection.prepareStatement("insert into vraag (id, vraag) values (?,?)");
 		stmt.setLong(1, vraag.getID());
-		stmt.setString(2, vraag.getVraag());
+		stmt.setString(2, vraag.getVraagText());
 		stmt.execute();
 		stmt.close();
 	}
 
-	public Vraag findVraag(Connection connection, int randomLong) throws SQLException {
+	public Vraag findVraag(Connection connection, long randomLong) throws SQLException {
 
 		PreparedStatement stmt = connection.prepareStatement("select vraag, id from vraag where id = ?");
 		stmt.setLong(1, randomLong);
 		ResultSet rs = stmt.executeQuery();
 		Vraag result = null;
 
+		
 		// Maak speler aan met de gegevens die verkregen worden uit hierboven beschreven
 		// select statement.
 		if (rs.next()) {
 			result = new Vraag();
-			result.setVraag(rs.getString(1));
+			result.setVraagText(rs.getString(1));
 			result.setID(rs.getLong(2));
 		}
 		rs.close();
 		return result;
+
 	}
 
 	public void updateVraag(Connection connection, Vraag vraag) throws SQLException {
-		PreparedStatement stmt = connection.prepareStatement("update vraag set vraag = (?) where id = (?)");
+		PreparedStatement stmt = connection.prepareStatement("update vraag set vraag = ? where id = ?");
 		stmt.setLong(2, vraag.getID());
-		stmt.setString(1, vraag.getVraag());
+		stmt.setString(1, vraag.getVraagText());
 		stmt.execute();
 		stmt.close();
 	}
 
 	public void deleteVraag(Connection connection, Vraag vraag) throws SQLException {
-		PreparedStatement stmt = connection.prepareStatement("delete from vraag where id = (?)");
+		PreparedStatement stmt = connection.prepareStatement("delete from vraag where id = ?");
 		stmt.setLong(1, vraag.getID());
 		stmt.execute();
 		stmt.close();
@@ -58,13 +60,13 @@ public class VraagFactory {
 
 	}
 
-	public List<Integer> getVraagIDLijst(Connection connection) throws SQLException  {
+	public List<Long> getVraagIDLijst(Connection connection) throws SQLException  {
 		PreparedStatement stmt = connection.prepareStatement("select id from vraag");
 		ResultSet rs = stmt.executeQuery();
-		List<Integer> vraagIDLijst = new ArrayList<Integer>();
+		List<Long> vraagIDLijst = new ArrayList<Long>();
 
 		while (rs.next()) {
-			vraagIDLijst.add((int) rs.getLong(1));
+			vraagIDLijst.add(rs.getLong(1));
 		}
 		rs.close();
 		return vraagIDLijst;

@@ -12,7 +12,7 @@ public class SpelerFactory {
 
 	public Speler findSpeler(Connection connection, String profielnaam) throws SQLException {
 		PreparedStatement stmt = connection.prepareStatement(
-				"select id, profielNaam, wachtwoord, winPercentage, correctPercentage from speler where profielNaam = ?");
+				"select id, wachtwoord, winPercentage, correctPercentage from speler where profielNaam = ?");
 		stmt.setString(1, profielnaam);
 		ResultSet rs = stmt.executeQuery();
 		Speler result = null;
@@ -23,9 +23,9 @@ public class SpelerFactory {
 			result = new Speler();
 			result.setSpelernaam(profielnaam);
 			result.setId(rs.getLong(1));
-			result.setWachtwoord(rs.getString(3));
-			result.setWinPercentage(rs.getLong(4));
-			result.setWinPercentage(rs.getLong(5));
+			result.setWachtwoord(rs.getString(2));
+			result.setWinPercentage(rs.getLong(3));
+			result.setCorrectPercentage(rs.getLong(4));
 		}
 		rs.close();
 		return result;
@@ -49,7 +49,7 @@ public class SpelerFactory {
 
 	public void updateSpeler(Connection connection, Speler speler) throws SQLException {
 		PreparedStatement stmt = connection.prepareStatement(
-				"update speler set profielNaam = (?), wachtwoord = (?), winPercentage = (?), correctPercentage = (?) where id = (?)");
+				"update speler set profielNaam = ?, wachtwoord = ?, winPercentage = ?, correctPercentage = ? where id = ?");
 		stmt.setString(1, speler.getSpelernaam());
 		stmt.setString(2, speler.getWachtwoord());
 		stmt.setLong(3, speler.getWinPercentage());
@@ -61,7 +61,7 @@ public class SpelerFactory {
 
 	public void deleteSpeler(Connection connection, Speler speler) throws SQLException {
 
-		PreparedStatement stmt = connection.prepareStatement("delete from speler where id = (?)");
+		PreparedStatement stmt = connection.prepareStatement("delete from speler where id = ?");
 		stmt.setLong(1, speler.getId());
 		stmt.execute();
 		stmt.close();
