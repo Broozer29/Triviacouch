@@ -16,7 +16,7 @@ public class StartScherm extends TestDBBase {
 	@Test
 	public void start() throws SQLException {
 		Scanner reader = new Scanner(System.in);
-		System.out.println("'start' voor spelsessie, 'score' voor scores:");
+		System.out.println("'start' voor spelsessie, 'score' voor scores, 'editor' voor vraag maken:");
 		String keuze = reader.nextLine();
 
 		if (keuze.equals("start")) {
@@ -45,9 +45,15 @@ public class StartScherm extends TestDBBase {
 						"Rank " + getal + ": " + score.getSpelerID() + " met een score van: " + score.getScore());
 			}
 
-		} else {
+		} else if(keuze.equals("editor")) {
+			Editor editor = new Editor();
+			editor.maakVraag();
+		}
+		
+		else {
 			System.out.println("Invalide commando! Start programma opnieuw op.");
 		}
+		
 
 	}
 
