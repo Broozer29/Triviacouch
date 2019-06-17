@@ -1,4 +1,4 @@
-package net.riezebos.triviacouch.triviacouch;
+package net.riezebos.triviacouch.triviacouch.core;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -8,18 +8,12 @@ import java.util.Scanner;
 import java.util.concurrent.ThreadLocalRandom;
 import java.sql.SQLException;
 
-import org.junit.Assert;
-import org.junit.Test;
 
-import net.riezebos.triviacouch.triviacouch.core.Antwoord;
-import net.riezebos.triviacouch.triviacouch.core.Spel;
-import net.riezebos.triviacouch.triviacouch.core.Speler;
-import net.riezebos.triviacouch.triviacouch.core.Vraag;
 import net.riezebos.triviacouch.triviacouch.core.factories.AntwoordFactory;
 import net.riezebos.triviacouch.triviacouch.core.factories.GateKeeper;
 import net.riezebos.triviacouch.triviacouch.core.factories.SpelerFactory;
 import net.riezebos.triviacouch.triviacouch.core.factories.VraagFactory;
-import net.riezebos.triviacouch.triviacouch.util.TestDBBase;
+import net.riezebos.triviacouch.triviacouch.core.util.TestDBBase;
 
 public class SpelSessie extends TestDBBase {
 
@@ -30,10 +24,13 @@ public class SpelSessie extends TestDBBase {
 	private Speler speler;
 	private Integer huidigeVraagIndex;
 	private GateKeeper gateKeeper;
+	
+	UpdateSpelerAntwoordDatabase usad;
+	UpdateDeelnemerDatabase udd;
+	UpdateSpelDatabase usd;
 
-	@Test
 	public void setup(List<String> spelerLijst) throws SQLException {
-		this.sessieID = new Random().nextLong();
+		this.setSessieID(new Random().nextLong());
 		this.spel = new Spel();
 		this.huidigeVraagIndex = 0;
 		this.gateKeeper = new GateKeeper();
@@ -50,39 +47,41 @@ public class SpelSessie extends TestDBBase {
 	public void joinSpelers(String username, GateKeeper gateKeeper) throws SQLException {
 		if (gateKeeper.logIn(username)) {
 			voegSpelerToe(username);
+			udd = new UpdateDeelnemerDatabase();
+			udd.addSpelerAanSessie(getConnection(), speler, sessieID);
 		}
 	}
 
 	public void verwijderSpeler(String username) throws SQLException {
 		spelerFactory = new SpelerFactory();
+		udd = new UpdateDeelnemerDatabase();
 		speler = spelerFactory.findSpeler(getConnection(), username);
 		spel.voegSpelerToe(speler);
-		Assert.assertFalse(spel.getSpelers().isEmpty());
 		spel.verwijderSpeler(speler);
-		Assert.assertTrue(spel.getSpelers().isEmpty());
+		udd.deleteSpelerVanSessie(getConnection(), speler);
 	}
 
 	public void voegSpelerToe(String username) throws SQLException {
 		spelerFactory = new SpelerFactory();
 		speler = spelerFactory.findSpeler(getConnection(), username);
 		spel.voegSpelerToe(speler);
-		Assert.assertFalse(spel.getSpelers().isEmpty());
 	}
 
 	public void maakVraagSet() throws SQLException {
 
 		vraagFactory = new VraagFactory();
+		usd = new UpdateSpelDatabase();
 		List<Long> vraagIDLijst = maakVraagIDLijst();
+		
 
 		for (int i = 0; i < vraagIDLijst.size(); i++) {
 			Vraag vraag = vraagFactory.findVraag(getConnection(), vraagIDLijst.get(i));
 			spel.addVraag(vraag);
+			usd.addVraagAanSessie(getConnection(), vraag, sessieID);
 
 		}
 
 		maakAntwoordenSet(spel, vraagIDLijst);
-		Assert.assertNotNull(spel.getAntwoordenLijst());
-		Assert.assertNotNull(spel.getVraagLijst());
 
 	}
 
@@ -104,9 +103,9 @@ public class SpelSessie extends TestDBBase {
 
 		long minIndex = Collections.min(idLijst);
 		long maxIndex = Collections.max(idLijst);
-		// Het getal hieronder mag NOOIT kleiner zijn dan de hoeveelheid vragen in de
-		// DB. Dit moet nog aangepast worden!
-		while (vraagIDLijst.size() < 2) {
+		// Het getal hieronder mag NOOIT kleiner zijn dan de hoeveelheid vragen in de DB. 
+		// Dit moet nog aangepast worden!
+		while (vraagIDLijst.size() < 10) {
 
 			long generatedLong = ThreadLocalRandom.current().nextLong(minIndex, maxIndex + 1);
 			if (!vraagIDLijst.contains(generatedLong)) {
@@ -118,8 +117,10 @@ public class SpelSessie extends TestDBBase {
 
 	}
 
-	public void stelVraag() {
+	public void stelVraag() throws SQLException {
 		Vraag huidigeVraag = spel.getVraag(huidigeVraagIndex);
+		usd = new UpdateSpelDatabase();
+		
 		System.out.println(huidigeVraag.getVraagText());
 
 		List<Speler> spelerLijst = spel.getSpelers();
@@ -131,11 +132,18 @@ public class SpelSessie extends TestDBBase {
 		for (Speler speler : spelerLijst) {
 			controleerAntwoord(speler.getSpelerAntwoord(), huidigeVraag, speler);
 		}
+		
+		usd.deleteVraagVanSessie(getConnection(), huidigeVraag);
+		
 	}
 
-	public String geefAntwoord() {
+	public String geefAntwoord() throws SQLException {
 		Scanner reader = new Scanner(System.in);
 		String spelerAntwoord = reader.nextLine();
+		
+		usad = new UpdateSpelerAntwoordDatabase();
+		usad.addAntwoord(getConnection(), speler, spelerAntwoord);
+		
 		return spelerAntwoord;
 
 	}
@@ -149,7 +157,6 @@ public class SpelSessie extends TestDBBase {
 				correcteAntwoord = antwoord;
 			}
 		}
-		Assert.assertNotNull(correcteAntwoord);
 		spelerAntwoord = spelerAntwoord.toUpperCase();
 
 		if (spelerAntwoord.equals(correcteAntwoord.getAntwoordText())) {
@@ -172,6 +179,14 @@ public class SpelSessie extends TestDBBase {
 			}
 		}
 		return huidigeAntwoordLijst;
+	}
+
+	public long getSessieID() {
+		return sessieID;
+	}
+
+	public void setSessieID(long sessieID) {
+		this.sessieID = sessieID;
 	}
 
 }

@@ -7,7 +7,7 @@ import java.sql.Statement;
 
 import org.junit.Test;
 
-import net.riezebos.triviacouch.triviacouch.util.TestDBBase;
+import net.riezebos.triviacouch.triviacouch.core.util.TestDBBase;
 
 public class TestTest extends TestDBBase {
 

@@ -6,7 +6,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import net.riezebos.triviacouch.triviacouch.core.Speler;
-import net.riezebos.triviacouch.triviacouch.util.TestDBBase;
+import net.riezebos.triviacouch.triviacouch.core.util.TestDBBase;
 
 public class SpelerFactoryTest extends TestDBBase {
 

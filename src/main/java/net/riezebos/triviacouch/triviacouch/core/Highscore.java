@@ -3,7 +3,8 @@ package net.riezebos.triviacouch.triviacouch.core;
 public class Highscore {
 	private long id;
 	private long spelerID;
-
+	private long score;
+	
 	public long getId() {
 		return id;
 	}
@@ -28,6 +29,6 @@ public class Highscore {
 		this.score = score;
 	}
 
-	private long score;
+
 
 }

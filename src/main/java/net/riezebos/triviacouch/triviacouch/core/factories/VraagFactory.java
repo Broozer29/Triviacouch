@@ -30,9 +30,6 @@ public class VraagFactory {
 		ResultSet rs = stmt.executeQuery();
 		Vraag result = null;
 
-		
-		// Maak speler aan met de gegevens die verkregen worden uit hierboven beschreven
-		// select statement.
 		if (rs.next()) {
 			result = new Vraag();
 			result.setVraagText(rs.getString(1));

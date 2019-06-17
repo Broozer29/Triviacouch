@@ -1,4 +1,4 @@
-package net.riezebos.triviacouch.triviacouch;
+package net.riezebos.triviacouch.triviacouch.core;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -7,9 +7,8 @@ import java.util.Scanner;
 
 import org.junit.Test;
 
-import net.riezebos.triviacouch.triviacouch.core.Highscore;
 import net.riezebos.triviacouch.triviacouch.core.factories.HighscoreFactory;
-import net.riezebos.triviacouch.triviacouch.util.TestDBBase;
+import net.riezebos.triviacouch.triviacouch.core.util.TestDBBase;
 
 public class StartScherm extends TestDBBase {
 
@@ -45,15 +44,14 @@ public class StartScherm extends TestDBBase {
 						"Rank " + getal + ": " + score.getSpelerID() + " met een score van: " + score.getScore());
 			}
 
-		} else if(keuze.equals("editor")) {
+		} else if (keuze.equals("editor")) {
 			Editor editor = new Editor();
 			editor.maakVraag();
 		}
-		
+
 		else {
 			System.out.println("Invalide commando! Start programma opnieuw op.");
 		}
-		
 
 	}
 

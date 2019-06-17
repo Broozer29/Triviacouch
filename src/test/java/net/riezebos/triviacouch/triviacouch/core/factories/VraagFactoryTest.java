@@ -7,7 +7,7 @@ import org.junit.Test;
 
 import net.riezebos.triviacouch.triviacouch.core.Vraag;
 import net.riezebos.triviacouch.triviacouch.core.util.IDUtil;
-import net.riezebos.triviacouch.triviacouch.util.TestDBBase;
+import net.riezebos.triviacouch.triviacouch.core.util.TestDBBase;
 
 public class VraagFactoryTest extends TestDBBase{
 	@Test

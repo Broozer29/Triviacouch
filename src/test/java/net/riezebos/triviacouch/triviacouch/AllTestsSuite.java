@@ -4,6 +4,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
+import net.riezebos.triviacouch.triviacouch.core.StartScherm;
 import net.riezebos.triviacouch.triviacouch.core.factories.AntwoordFactoryTest;
 import net.riezebos.triviacouch.triviacouch.core.factories.GateKeeper;
 import net.riezebos.triviacouch.triviacouch.core.factories.SpelerFactoryTest;

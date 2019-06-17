@@ -4,12 +4,9 @@ package net.riezebos.triviacouch.triviacouch.core.factories;
 import java.sql.SQLException;
 import java.util.Scanner;
 
-import org.junit.Test;
-
-import junit.framework.Assert;
 import net.riezebos.triviacouch.triviacouch.core.Speler;
 import net.riezebos.triviacouch.triviacouch.core.factories.SpelerFactory;
-import net.riezebos.triviacouch.triviacouch.util.TestDBBase;
+import net.riezebos.triviacouch.triviacouch.core.util.TestDBBase;
 
 public class GateKeeper extends TestDBBase {
 
@@ -28,7 +25,7 @@ public class GateKeeper extends TestDBBase {
 		return false;
 	}
 
-	public Speler logProfielnaam(String username, SpelerFactory factory, Scanner reader) throws SQLException {
+	private Speler logProfielnaam(String username, SpelerFactory factory, Scanner reader) throws SQLException {
 		Speler speler = null;
 		while (speler == null) {
 			speler = factory.findSpeler(getConnection(), username);
@@ -40,7 +37,7 @@ public class GateKeeper extends TestDBBase {
 		return speler;
 	}
 
-	public Boolean logWachtwoord(Speler speler, Scanner reader) {
+	private Boolean logWachtwoord(Speler speler, Scanner reader) {
 		if (speler.getSpelernaam() != null) {
 			System.out.println("Geef het wachtwoord voor: " + speler.getSpelernaam() + ".");
 			String wachtwoord = reader.nextLine();

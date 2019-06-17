@@ -8,7 +8,7 @@ import org.junit.Test;
 
 import net.riezebos.triviacouch.triviacouch.core.Antwoord;
 import net.riezebos.triviacouch.triviacouch.core.util.IDUtil;
-import net.riezebos.triviacouch.triviacouch.util.TestDBBase;
+import net.riezebos.triviacouch.triviacouch.core.util.TestDBBase;
 
 public class AntwoordFactoryTest extends TestDBBase{
 	@Test

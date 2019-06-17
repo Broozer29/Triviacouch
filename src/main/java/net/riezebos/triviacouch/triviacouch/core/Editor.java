@@ -1,17 +1,14 @@
-package net.riezebos.triviacouch.triviacouch;
+package net.riezebos.triviacouch.triviacouch.core;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import junit.framework.Assert;
-import net.riezebos.triviacouch.triviacouch.core.Antwoord;
-import net.riezebos.triviacouch.triviacouch.core.Vraag;
 import net.riezebos.triviacouch.triviacouch.core.factories.AntwoordFactory;
 import net.riezebos.triviacouch.triviacouch.core.factories.VraagFactory;
 import net.riezebos.triviacouch.triviacouch.core.util.IDUtil;
-import net.riezebos.triviacouch.triviacouch.util.TestDBBase;
+import net.riezebos.triviacouch.triviacouch.core.util.TestDBBase;
 
 public class Editor extends TestDBBase {
 

@@ -1,4 +1,4 @@
-package net.riezebos.triviacouch.triviacouch.util;
+package net.riezebos.triviacouch.triviacouch.core.util;
 
 import java.io.BufferedReader;
 import java.io.IOException;
