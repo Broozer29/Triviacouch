@@ -70,4 +70,12 @@ public class Spel {
 		return antwoordenLijst;
 	}
 
+	public Long getSpelID() {
+		return spelID;
+	}
+
+	public void setSpelID(Long spelID) {
+		this.spelID = spelID;
+	}
+
 }

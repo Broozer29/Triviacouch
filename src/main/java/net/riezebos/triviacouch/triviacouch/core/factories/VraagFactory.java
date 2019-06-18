@@ -7,10 +7,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.riezebos.triviacouch.triviacouch.core.Antwoord;
-import net.riezebos.triviacouch.triviacouch.core.Speler;
 import net.riezebos.triviacouch.triviacouch.core.Vraag;
-import net.riezebos.triviacouch.triviacouch.core.util.IDUtil;
+
 
 public class VraagFactory {
 	public void createVraag(Connection connection, Vraag vraag) throws SQLException {

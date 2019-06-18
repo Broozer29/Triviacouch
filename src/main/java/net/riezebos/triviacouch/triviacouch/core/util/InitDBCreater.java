@@ -3,8 +3,6 @@ package net.riezebos.triviacouch.triviacouch.core.util;
 import java.io.IOException;
 import java.sql.SQLException;
 
-import org.junit.Test;
-
 import net.riezebos.triviacouch.triviacouch.core.util.InitDB;
 import net.riezebos.triviacouch.triviacouch.core.util.DataBase;
 import net.riezebos.triviacouch.triviacouch.core.util.InitialDataCreator;

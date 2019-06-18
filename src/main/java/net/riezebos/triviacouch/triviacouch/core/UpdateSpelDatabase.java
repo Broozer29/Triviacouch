@@ -1,13 +1,10 @@
 package net.riezebos.triviacouch.triviacouch.core;
 
-import java.util.List;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
-import net.riezebos.triviacouch.triviacouch.core.Antwoord;
 import net.riezebos.triviacouch.triviacouch.core.util.IDUtil;
 
 // create table spelvraag (id decimal(10),sessieID decimal(10),vraagID decimal(10) unique, PRIMARY KEY(id))
@@ -41,7 +38,6 @@ public class UpdateSpelDatabase {
 	public void deleteVraagVanSessie(Connection connection, Vraag vraag) throws SQLException {
 		PreparedStatement stmt = connection
 				.prepareStatement("delete from spelvraag where vraagID = ?");
-		ResultSet rs = stmt.executeQuery();
 		stmt.setLong(1, vraag.getID());
 		stmt.execute();
 		stmt.close();

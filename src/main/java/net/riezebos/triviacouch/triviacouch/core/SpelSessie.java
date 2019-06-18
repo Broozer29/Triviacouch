@@ -120,7 +120,6 @@ public class SpelSessie extends DataBase {
 
 	public void stelVraag() throws SQLException {
 		Vraag huidigeVraag = spel.getVraag(huidigeVraagIndex);
-		VraagStellen vs = new VraagStellen();
 		usd = new UpdateSpelDatabase();
 
 		System.out.println(huidigeVraag.getVraagText());
@@ -145,7 +144,7 @@ public class SpelSessie extends DataBase {
 		
 		usad = new UpdateSpelerAntwoordDatabase();
 		usad.addAntwoord(getConnection(), speler, spelerAntwoord);
-		
+		reader.close();
 		return spelerAntwoord;
 
 	}

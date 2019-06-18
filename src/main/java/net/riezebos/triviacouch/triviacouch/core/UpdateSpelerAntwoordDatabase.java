@@ -1,11 +1,8 @@
 package net.riezebos.triviacouch.triviacouch.core;
 
-import java.util.List;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 import net.riezebos.triviacouch.triviacouch.core.util.IDUtil;
 

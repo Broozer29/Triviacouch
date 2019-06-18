@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import org.junit.Test;
+
 
 import net.riezebos.triviacouch.triviacouch.core.factories.HighscoreFactory;
 import net.riezebos.triviacouch.triviacouch.core.util.DataBase;
@@ -14,7 +14,6 @@ import net.riezebos.triviacouch.triviacouch.core.util.InitDBCreater;
 
 public class StartScherm extends DataBase {
 
-	@Test
 	public void start() throws SQLException, IOException {
 		InitDBCreater indb = new InitDBCreater();
 		indb.createDatabase();
@@ -58,6 +57,7 @@ public class StartScherm extends DataBase {
 		else {
 			System.out.println("Invalide commando! Start programma opnieuw op.");
 		}
+		reader.close();
 
 	}
 	
