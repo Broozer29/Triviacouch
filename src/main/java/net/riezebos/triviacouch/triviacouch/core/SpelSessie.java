@@ -13,9 +13,10 @@ import net.riezebos.triviacouch.triviacouch.core.factories.AntwoordFactory;
 import net.riezebos.triviacouch.triviacouch.core.factories.GateKeeper;
 import net.riezebos.triviacouch.triviacouch.core.factories.SpelerFactory;
 import net.riezebos.triviacouch.triviacouch.core.factories.VraagFactory;
-import net.riezebos.triviacouch.triviacouch.core.util.TestDBBase;
+import net.riezebos.triviacouch.triviacouch.core.servlets.VraagStellen;
+import net.riezebos.triviacouch.triviacouch.core.util.DataBase;
 
-public class SpelSessie extends TestDBBase {
+public class SpelSessie extends DataBase {
 
 	private long sessieID;
 	private Spel spel;
@@ -119,8 +120,9 @@ public class SpelSessie extends TestDBBase {
 
 	public void stelVraag() throws SQLException {
 		Vraag huidigeVraag = spel.getVraag(huidigeVraagIndex);
+		VraagStellen vs = new VraagStellen();
 		usd = new UpdateSpelDatabase();
-		
+
 		System.out.println(huidigeVraag.getVraagText());
 
 		List<Speler> spelerLijst = spel.getSpelers();

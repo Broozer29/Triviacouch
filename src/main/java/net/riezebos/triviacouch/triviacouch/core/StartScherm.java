@@ -1,5 +1,6 @@
 package net.riezebos.triviacouch.triviacouch.core;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,12 +9,17 @@ import java.util.Scanner;
 import org.junit.Test;
 
 import net.riezebos.triviacouch.triviacouch.core.factories.HighscoreFactory;
-import net.riezebos.triviacouch.triviacouch.core.util.TestDBBase;
+import net.riezebos.triviacouch.triviacouch.core.util.DataBase;
+import net.riezebos.triviacouch.triviacouch.core.util.InitDBCreater;
 
-public class StartScherm extends TestDBBase {
+public class StartScherm extends DataBase {
 
 	@Test
-	public void start() throws SQLException {
+	public void start() throws SQLException, IOException {
+		InitDBCreater indb = new InitDBCreater();
+		indb.createDatabase();
+		
+		
 		Scanner reader = new Scanner(System.in);
 		System.out.println("'start' voor spelsessie, 'score' voor scores, 'editor' voor vraag maken:");
 		String keuze = reader.nextLine();
@@ -54,5 +60,14 @@ public class StartScherm extends TestDBBase {
 		}
 
 	}
-
+	
+	public List<Highscore> getScores() throws SQLException, IOException{
+		InitDBCreater indb = new InitDBCreater();
+		indb.createDatabase();
+		
+		HighscoreFactory highscoreFactory = new HighscoreFactory();
+		List<Highscore> scoreLijst = highscoreFactory.getHighScores(getConnection());
+		return scoreLijst;
+	}
+ 
 }

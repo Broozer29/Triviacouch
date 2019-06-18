@@ -1,4 +1,4 @@
-package net.riezebos.triviacouch.triviacouch;
+package net.riezebos.triviacouch.triviacouch.core.util;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -9,9 +9,8 @@ import net.riezebos.triviacouch.triviacouch.core.util.InitDB;
 import net.riezebos.triviacouch.triviacouch.core.util.DataBase;
 import net.riezebos.triviacouch.triviacouch.core.util.InitialDataCreator;
 
-public class InitDBTest extends DataBase {
+public class InitDBCreater extends DataBase {
 
-	@Test
 	public void createDatabase() throws IOException, SQLException {
 		InitDB initDb = new InitDB();
 		initDb.execute(getConnection());

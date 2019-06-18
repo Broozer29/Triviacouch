@@ -33,6 +33,8 @@ public class Voorbeeld extends HttpServlet {
 		HttpSession session = request.getSession();
 		session.setAttribute("naam", "waarde");
 
+		
+		//Loopen over de informatie die je verkrijgt.
 		request.getParameterMap().forEach((name, values) -> {
 			System.out.println(name + ": " + values[0]);
 		});

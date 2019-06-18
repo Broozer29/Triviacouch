@@ -6,9 +6,9 @@ import java.util.Scanner;
 
 import net.riezebos.triviacouch.triviacouch.core.Speler;
 import net.riezebos.triviacouch.triviacouch.core.factories.SpelerFactory;
-import net.riezebos.triviacouch.triviacouch.core.util.TestDBBase;
+import net.riezebos.triviacouch.triviacouch.core.util.DataBase;
 
-public class GateKeeper extends TestDBBase {
+public class GateKeeper extends DataBase {
 
 	public Boolean logIn(String username) throws SQLException {
 		Boolean ingelogd = false;

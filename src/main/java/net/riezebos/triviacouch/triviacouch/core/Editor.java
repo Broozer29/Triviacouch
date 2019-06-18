@@ -8,9 +8,9 @@ import java.util.Scanner;
 import net.riezebos.triviacouch.triviacouch.core.factories.AntwoordFactory;
 import net.riezebos.triviacouch.triviacouch.core.factories.VraagFactory;
 import net.riezebos.triviacouch.triviacouch.core.util.IDUtil;
-import net.riezebos.triviacouch.triviacouch.core.util.TestDBBase;
+import net.riezebos.triviacouch.triviacouch.core.util.DataBase;
 
-public class Editor extends TestDBBase {
+public class Editor extends DataBase {
 
 	public void maakVraag() throws SQLException  {
 		Scanner reader = new Scanner(System.in);

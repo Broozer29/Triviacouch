@@ -7,9 +7,9 @@ import java.sql.Statement;
 
 import org.junit.Test;
 
-import net.riezebos.triviacouch.triviacouch.core.util.TestDBBase;
+import net.riezebos.triviacouch.triviacouch.core.util.DataBase;
 
-public class TestTest extends TestDBBase {
+public class TestTest extends DataBase {
 
 	@Test
 	public void test() throws SQLException {

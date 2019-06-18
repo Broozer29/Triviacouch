@@ -6,9 +6,9 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import net.riezebos.triviacouch.triviacouch.core.Speler;
-import net.riezebos.triviacouch.triviacouch.core.util.TestDBBase;
+import net.riezebos.triviacouch.triviacouch.core.util.DataBase;
 
-public class SpelerFactoryTest extends TestDBBase {
+public class SpelerFactoryTest extends DataBase {
 
 	@Test
 	public void testCreate() throws SQLException {

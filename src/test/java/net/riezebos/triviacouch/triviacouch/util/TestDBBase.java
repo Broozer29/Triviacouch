@@ -1,4 +1,4 @@
-package net.riezebos.triviacouch.triviacouch.core.util;
+package net.riezebos.triviacouch.triviacouch.util;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -11,12 +11,11 @@ public class TestDBBase {
 	private static Connection connection = null;
 
 	public static Connection getConnection() {
-
+		
 		if (connection == null) {
 			try {
 				EmbeddedDriver driver = new EmbeddedDriver();
-				Connection conn = DriverManager.getConnection("jdbc:postgresql://127.0.0.1:5433", "triviacouch",
-						"trivia");
+				Connection conn = driver.connect("jdbc:derby:memory:MyDatabase;create=true", new Properties());
 				conn.setAutoCommit(false);
 				connection = conn;
 			} catch (Exception e) {

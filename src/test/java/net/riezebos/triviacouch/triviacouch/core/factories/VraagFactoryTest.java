@@ -7,9 +7,9 @@ import org.junit.Test;
 
 import net.riezebos.triviacouch.triviacouch.core.Vraag;
 import net.riezebos.triviacouch.triviacouch.core.util.IDUtil;
-import net.riezebos.triviacouch.triviacouch.core.util.TestDBBase;
+import net.riezebos.triviacouch.triviacouch.core.util.DataBase;
 
-public class VraagFactoryTest extends TestDBBase{
+public class VraagFactoryTest extends DataBase{
 	@Test
 	public void testCreate() throws SQLException {
 		VraagFactory factory = new VraagFactory();
