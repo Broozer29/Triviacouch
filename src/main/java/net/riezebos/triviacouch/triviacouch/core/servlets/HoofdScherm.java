@@ -47,12 +47,12 @@ public class HoofdScherm extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		Highscore waarde = null;
-		try {
-			List<Highscore> scoreLijst = startScherm.getScores();
-			waarde = scoreLijst.get(0);
-		} catch (SQLException e1) {
-			e1.printStackTrace();
-		}
+//		try {
+//			List<Highscore> scoreLijst = startScherm.getScores();
+//			waarde = scoreLijst.get(0);
+//		} catch (SQLException e1) {
+//			e1.printStackTrace();
+//		}
 		
 		
 		

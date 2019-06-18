@@ -17,8 +17,8 @@ public class UpdateDeelnemerDatabase {
 		PreparedStatement stmt = connection
 				.prepareStatement("insert into deelnemer (id, sessieID, spelerID) values (?,?,?)");
 		IDUtil id = new IDUtil();
-		Long randomLong = id.getNextId();
-		stmt.setLong(1, randomLong);
+//		Long randomLong = id.getNextId();
+		stmt.setLong(1, 1);
 		stmt.setLong(2, sessieID);
 		stmt.setLong(3, speler.getId());
 		stmt.execute();
