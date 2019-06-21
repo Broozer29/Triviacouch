@@ -5,9 +5,8 @@ import java.sql.SQLException;
 
 import net.riezebos.triviacouch.triviacouch.core.util.InitDB;
 import net.riezebos.triviacouch.triviacouch.core.util.DataBase;
-import net.riezebos.triviacouch.triviacouch.core.util.InitialDataCreator;
 
-public class InitDBCreater extends DataBase {
+public class vulDatabase extends DataBase {
 
 	public void createDatabase() throws IOException, SQLException {
 		InitDB initDb = new InitDB();
@@ -15,6 +14,5 @@ public class InitDBCreater extends DataBase {
 
 		InitialDataCreator testDataCreator = new InitialDataCreator();
 		testDataCreator.execute(getConnection());
-		//System.out.println(System.currentTimeMillis()-1557429970258L);
 	}
 }
