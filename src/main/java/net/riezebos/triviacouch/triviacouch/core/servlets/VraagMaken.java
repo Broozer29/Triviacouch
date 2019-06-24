@@ -37,17 +37,19 @@ public class VraagMaken extends HttpServlet {
 				+ "  Fout Antwoord: <input type=\"text\" name=\"foutDrie\" value=\"\"><br>\n"
 				+ " <button type=\"submit\" value=\"Pagina2\">Submit</button>" + "</form>";
 
-		String paginaString = opening + header + formString + sluit;
+		
+		String terugKnop = "<form action=\"startscherm\"><button type=\"submit\">Startscherm</button></form>";
+		String paginaString = opening + header + formString + terugKnop + sluit;
 
-		response.getWriter().append(paginaString).append(request.getContextPath());
+		response.getWriter().append(paginaString);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
+
 		String vraag = request.getParameter("vraag");
 		String juist = request.getParameter("juist");
-		
+
 		List<String> antwoordenLijst = new ArrayList<String>();
 		antwoordenLijst.add(request.getParameter("foutEen"));
 		antwoordenLijst.add(request.getParameter("foutTwee"));
@@ -60,7 +62,6 @@ public class VraagMaken extends HttpServlet {
 			e.printStackTrace();
 
 		}
-
 
 		doGet(request, response);
 	}

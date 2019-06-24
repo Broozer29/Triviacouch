@@ -34,8 +34,6 @@ public class HoofdScherm extends HttpServlet {
 		String tussenin = " </h1>";
 		String sluit = "</body> </html>";
 		
-		HttpSession session = request.getSession();
-		Object attribute = session.getAttribute("naam");
 		long waarde = 0;
 		try {
 			List<Highscore> scoreLijst = startScherm.getScores();
@@ -49,21 +47,19 @@ public class HoofdScherm extends HttpServlet {
 				"  Last name: <input type=\"text\" name=\"lname\"><br>\n" + 
 				" <button type=\"submit\" value=\"Pagina2\">Submit</button>"
 				+ "</form>";
-		
-		tussenin = "Highscore is " + waarde + tussenin;
-		tussenin = veldString + tussenin;
-		String paginaString = opening + tussenin + sluit;
+		String vraagMaken = "<form action=\"vraagmaken\"><button type=\"submit\">Vraag Maken</button></form>";
+		tussenin = "Highscore is " + waarde + veldString;
+		String paginaString = opening + tussenin + vraagMaken + sluit;
 		
 
 		
-		response.getWriter().append(paginaString).append(request.getContextPath());
+		response.getWriter().append(paginaString);
 	}
 
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		System.out.println(request.getParameter("fname"));
 		HttpSession session = request.getSession();
 		session.setAttribute("naam", "waarde");
 		doGet(request, response);
