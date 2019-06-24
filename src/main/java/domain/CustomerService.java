@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class CustomerService {
+	/*
 	private ArrayList<Customer> customers = new ArrayList<Customer>();
 	
 	public Customer createCustomer(String nm, String em) {
@@ -49,4 +50,5 @@ public class CustomerService {
 	public List<Customer> getAllCustomers() {
 		return Collections.unmodifiableList(customers);
 	}
+	*/
 }
