@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+	<h1>Highscores</h1>
+
+	<p id="eerstePlaats">Ad</p>
+	<p id="tweedePlaats">Infinitum</p>
+	<p id="derdePlaats">Ettum</p>
+
+
+
+	<input onclick="ophalen()" type="button" value="haalScoresOp"
+		id="scoresOphalen"></input>
+
+	<form action="Startscherm.html">
+		<input type="submit" value="Terug" />
+	</form>
+
+</body>
+
+<script>
+	function ophalen() {
+		document.getElementById("eerstePlaats").innerHTML = "Heihoi";
+		document.getElementById("tweedePlaats").innerHTML = "Haihar";
+		document.getElementById("derdePlaats").innerHTML = "HardieHar";
+	}
+</script>
+</html>
+
