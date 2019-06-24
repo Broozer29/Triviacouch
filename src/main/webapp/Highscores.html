@@ -4,27 +4,23 @@
 
 	<h1>Highscores</h1>
 
-	<p id="eerstePlaats">Ad</p>
+	<div style="display:inline-block"><p id="eersteScore">-</p><p id="eersteNaam">-</p></div>
 	<p id="tweedePlaats">Infinitum</p>
 	<p id="derdePlaats">Ettum</p>
-
-
-
-	<input onclick="ophalen()" type="button" value="haalScoresOp"
-		id="scoresOphalen"></input>
-
-	<form action="Startscherm.html">
-		<input type="submit" value="Terug" />
-	</form>
 
 </body>
 
 <script>
-	function ophalen() {
-		document.getElementById("eerstePlaats").innerHTML = "Heihoi";
-		document.getElementById("tweedePlaats").innerHTML = "Haihar";
-		document.getElementById("derdePlaats").innerHTML = "HardieHar";
-	}
+
+    fetch("api/highscores", { method: 'GET' })
+    .then(response => response.json())
+    .then(function (myJson) { 
+		      document.getElementById("eersteScore").innerHTML = myJson[0].score;
+		      document.getElementById("eersteNaam").innerHTML = myJson[0].spelerID;
+		      document.getElementById("tweedePlaats").innerHTML = "Haihar";
+		      document.getElementById("derdePlaats").innerHTML = "HardieHar";
+          });
 </script>
+
 </html>
 
