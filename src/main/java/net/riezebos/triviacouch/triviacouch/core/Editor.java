@@ -32,10 +32,6 @@ public class Editor extends DataBase {
 			for (Antwoord antwoord : antwoordLijst) {
 				antwoordFactory.createAntwoord(getConnection(), antwoord);
 			}
-			
-//			Commentaar, ik weet het, maar dit gebruikte ik om deze methode te testen.
-//			Vraag checkVraag = vraagFactory.findVraag(getConnection(), vraag.getID());
-//			System.out.println(checkVraag.getVraagText());
 
 		} else
 			System.out.println("De vraaglengte is te lang!");

@@ -1,6 +1,5 @@
 package net.riezebos.triviacouch.triviacouch.core.factories;
 
-
 import java.sql.SQLException;
 import java.util.Scanner;
 
@@ -10,13 +9,16 @@ import net.riezebos.triviacouch.triviacouch.core.util.DataBase;
 
 public class GateKeeper extends DataBase {
 
-	public Boolean logIn(String username) throws SQLException {
+	public Boolean logIn(String username, String wachtwoord) throws SQLException {
 		Boolean ingelogd = false;
 		SpelerFactory factory = new SpelerFactory();
-		Scanner reader = new Scanner(System.in);
-		while (!ingelogd) {
-			Speler speler = logProfielnaam(username, factory, reader);
-			ingelogd = logWachtwoord(speler, reader);
+		if (!ingelogd) {
+			try {
+			Speler speler = logProfielnaam(username, factory);
+			ingelogd = logWachtwoord(speler, wachtwoord);
+			} catch(Exception e) {
+				System.out.println(e.getMessage());
+			}
 		}
 
 		if (ingelogd) {
@@ -25,7 +27,7 @@ public class GateKeeper extends DataBase {
 		return false;
 	}
 
-	private Speler logProfielnaam(String username, SpelerFactory factory, Scanner reader) throws SQLException {
+	private Speler logProfielnaam(String username, SpelerFactory factory) throws SQLException {
 		Speler speler = null;
 		while (speler == null) {
 			speler = factory.findSpeler(getConnection(), username);
@@ -37,17 +39,17 @@ public class GateKeeper extends DataBase {
 		return speler;
 	}
 
-	private Boolean logWachtwoord(Speler speler, Scanner reader) {
-		if (speler.getSpelernaam() != null) {
-			System.out.println("Geef het wachtwoord voor: " + speler.getSpelernaam() + ".");
-			String wachtwoord = reader.nextLine();
-			if (wachtwoord.equals(speler.getWachtwoord())) {
-				System.out.println("Welkom bij Triviacouch " + speler.getSpelernaam());
-				return true;
-			} else {
-				System.out.println("Het wachtwoord is incorrect!");
+	private Boolean logWachtwoord(Speler speler, String wachtwoord) {
+		try {
+			if (speler.getSpelernaam() != null) {
+				if (wachtwoord.equals(speler.getWachtwoord())) {
+					return true;
+				}
 			}
+		} catch(Exception e) {
+			System.out.println(e.getMessage());
 		}
+
 		return false;
 	}
 

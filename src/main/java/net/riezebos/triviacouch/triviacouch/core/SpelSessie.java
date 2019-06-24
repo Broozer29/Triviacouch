@@ -8,7 +8,6 @@ import java.util.Scanner;
 import java.util.concurrent.ThreadLocalRandom;
 import java.sql.SQLException;
 
-
 import net.riezebos.triviacouch.triviacouch.core.factories.AntwoordFactory;
 import net.riezebos.triviacouch.triviacouch.core.factories.GateKeeper;
 import net.riezebos.triviacouch.triviacouch.core.factories.SpelerFactory;
@@ -25,32 +24,27 @@ public class SpelSessie extends DataBase {
 	private Speler speler;
 	private Integer huidigeVraagIndex;
 	private GateKeeper gateKeeper;
-	
+
 	UpdateSpelerAntwoordDatabase usad;
 	UpdateDeelnemerDatabase udd;
 	UpdateSpelDatabase usd;
 
-	public void setup(List<String> spelerLijst) throws SQLException {
+	public void setup() throws SQLException {
 		this.setSessieID(new Random().nextLong());
 		this.spel = new Spel();
 		this.huidigeVraagIndex = 0;
 		this.gateKeeper = new GateKeeper();
-
-		for (String username : spelerLijst) {
-			joinSpelers(username, gateKeeper);
-		}
 
 		maakVraagSet();
 		stelVraag();
 
 	}
 
-	public void joinSpelers(String username, GateKeeper gateKeeper) throws SQLException {
-		if (gateKeeper.logIn(username)) {
-			voegSpelerToe(username);
-			udd = new UpdateDeelnemerDatabase();
-			udd.addSpelerAanSessie(getConnection(), speler, sessieID);
-		}
+	public void joinSpelers(String username) throws SQLException {
+		voegSpelerToe(username);
+		udd = new UpdateDeelnemerDatabase();
+		udd.addSpelerAanSessie(getConnection(), speler, sessieID);
+
 	}
 
 	public void verwijderSpeler(String username) throws SQLException {
@@ -73,7 +67,6 @@ public class SpelSessie extends DataBase {
 		vraagFactory = new VraagFactory();
 		usd = new UpdateSpelDatabase();
 		List<Long> vraagIDLijst = maakVraagIDLijst();
-		
 
 		for (int i = 0; i < vraagIDLijst.size(); i++) {
 			Vraag vraag = vraagFactory.findVraag(getConnection(), vraagIDLijst.get(i));
@@ -104,7 +97,8 @@ public class SpelSessie extends DataBase {
 
 		long minIndex = Collections.min(idLijst);
 		long maxIndex = Collections.max(idLijst);
-		// Het getal hieronder mag NOOIT kleiner zijn dan de hoeveelheid vragen in de DB. 
+		// Het getal hieronder mag NOOIT kleiner zijn dan de hoeveelheid vragen in de
+		// DB.
 		// Dit moet nog aangepast worden!
 		while (vraagIDLijst.size() < 10) {
 
@@ -133,15 +127,15 @@ public class SpelSessie extends DataBase {
 		for (Speler speler : spelerLijst) {
 			controleerAntwoord(speler.getSpelerAntwoord(), huidigeVraag, speler);
 		}
-		
+
 		usd.deleteVraagVanSessie(getConnection(), huidigeVraag);
-		
+
 	}
 
 	public String geefAntwoord() throws SQLException {
 		Scanner reader = new Scanner(System.in);
 		String spelerAntwoord = reader.nextLine();
-		
+
 		usad = new UpdateSpelerAntwoordDatabase();
 		usad.addAntwoord(getConnection(), speler, spelerAntwoord);
 		reader.close();

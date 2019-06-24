@@ -33,8 +33,8 @@ public class HighscoreFactory {
 		while (rs.next()) {
 			Highscore result = new Highscore();
 			result.setId(rs.getLong(1));
-			result.setScore(rs.getLong(2));
-			result.setSpelerID(rs.getLong(3));
+			result.setSpelerID(rs.getLong(2));
+			result.setScore(rs.getLong(3));
 			scores.add(result);
 		}
 		

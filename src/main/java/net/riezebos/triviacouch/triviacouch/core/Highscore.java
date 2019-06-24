@@ -29,6 +29,10 @@ public class Highscore {
 		this.score = score;
 	}
 
+	public String toString() {
+		return "Highscore [id=" + id + ", spelerID=" + spelerID + ", score=" + score + "]";
+	}
+
 
 
 }

@@ -30,34 +30,42 @@ public class HoofdScherm extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		
+		String opening = "<html> <body> <h1>";
+		String tussenin = " </h1>";
+		String sluit = "</body> </html>";
+		
 		HttpSession session = request.getSession();
 		Object attribute = session.getAttribute("naam");
+		long waarde = 0;
 		try {
-			startScherm.start();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			List<Highscore> scoreLijst = startScherm.getScores();
+			waarde = scoreLijst.get(0).getScore();
+		} catch (SQLException e1) {
+			e1.printStackTrace();
 		}
 		
-		System.out.println("attribute=" + attribute);
-		response.getWriter().append("attribute=" + attribute + ", Served at: ").append(request.getContextPath());
+		String veldString = "<form action=\"startscherm\" method=\"post\" id=\"form1\">\n" + 
+				"  First name: <input type=\"text\" name=\"fname\" value=\"test\"><br>\n" + 
+				"  Last name: <input type=\"text\" name=\"lname\"><br>\n" + 
+				" <button type=\"submit\" value=\"Pagina2\">Submit</button>"
+				+ "</form>";
+		
+		tussenin = "Highscore is " + waarde + tussenin;
+		tussenin = veldString + tussenin;
+		String paginaString = opening + tussenin + sluit;
+		
+
+		
+		response.getWriter().append(paginaString).append(request.getContextPath());
 	}
 
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		Highscore waarde = null;
-//		try {
-//			List<Highscore> scoreLijst = startScherm.getScores();
-//			waarde = scoreLijst.get(0);
-//		} catch (SQLException e1) {
-//			e1.printStackTrace();
-//		}
-		
-		
-		
+
+		System.out.println(request.getParameter("fname"));
 		HttpSession session = request.getSession();
-		session.setAttribute("naam", waarde.getSpelerID());
+		session.setAttribute("naam", "waarde");
 		doGet(request, response);
 	}
 
