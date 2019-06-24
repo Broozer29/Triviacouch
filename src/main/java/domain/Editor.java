@@ -30,7 +30,7 @@ public class Editor extends DataBaseDao {
 
 			vraagFactory.createVraag(getConnection(), vraag);
 			for (Antwoord antwoord : antwoordLijst) {
-				antwoordFactory.createAntwoord(getConnection(), antwoord);
+				antwoordFactory.createAntwoord(getConnection(), antwoord, vraag);
 			}
 
 		} else

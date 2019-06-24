@@ -10,20 +10,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import domain.StartScherm;
+import domain.TriviaCouchGame;
 import domain.GateKeeper;
 
 @WebServlet("/inloggen")
 public class Inloggen extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private GateKeeper gateKeeper;
-	private StartScherm startScherm;
+	private TriviaCouchGame startScherm;
 	
 	
 	public Inloggen() {
 		super();
 		this.gateKeeper = new GateKeeper();
-		startScherm = new StartScherm();
+		startScherm = new TriviaCouchGame();
 	}
 
 	@Override

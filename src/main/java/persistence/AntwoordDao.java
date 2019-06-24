@@ -1,17 +1,21 @@
 package persistence;
 
-import java.util.List;
-
-import domain.Antwoord;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
+
+import domain.Antwoord;
+import domain.Vraag;
+import resource.IDUtil;
 
 public class AntwoordDao {
-	public void createAntwoord(Connection connection, Antwoord antwoord) throws SQLException {
+	public void createAntwoord(Connection connection, Antwoord antwoord, Vraag vraag) throws SQLException {
+
+		antwoord.setID(IDUtil.getNextId());
+
 		PreparedStatement stmt = connection
 				.prepareStatement("insert into antwoord (id, correct_jn, antwoord, vraagID) values (?,?,?,?)");
 
@@ -19,7 +23,7 @@ public class AntwoordDao {
 			stmt.setLong(1, antwoord.getID());
 			stmt.setString(2, antwoord.getCorrect_jn());
 			stmt.setString(3, antwoord.getAntwoordText());
-			stmt.setLong(4, 1001);
+			stmt.setLong(4, vraag.getID());
 			stmt.execute();
 			stmt.close();
 		} else
@@ -42,7 +46,7 @@ public class AntwoordDao {
 		return result;
 	}
 
-	public List<Antwoord> findAntwoordVraagID(Connection connection, Long vraagID) throws SQLException {
+	public List<Antwoord> findAntwoordenViaVraagID(Connection connection, Long vraagID) throws SQLException {
 		PreparedStatement stmt = connection.prepareStatement(
 				"select antwoord, correct_jn, id from antwoord where vraagID = ? order by correct_jn");
 		stmt.setLong(1, vraagID);

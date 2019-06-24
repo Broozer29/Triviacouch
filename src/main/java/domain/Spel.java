@@ -38,7 +38,7 @@ public class Spel {
 	public void addVraag(Vraag vraag) {
 		boolean vraagAanwezig = false;
 		for (Vraag vraag1 : vraagLijst) {
-			if (vraag1.equalsVraag(vraag)) {
+			if (vraag1.equals(vraag)) {
 				vraagAanwezig = true;
 			}
 		}

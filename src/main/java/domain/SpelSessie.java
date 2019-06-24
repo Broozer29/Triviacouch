@@ -1,12 +1,12 @@
 package domain;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.concurrent.ThreadLocalRandom;
-import java.sql.SQLException;
 
 import persistence.AntwoordDao;
 import persistence.DataBaseDao;
@@ -24,7 +24,6 @@ public class SpelSessie extends DataBaseDao {
 	private VraagDao vraagFactory;
 	private Speler speler;
 	private Integer huidigeVraagIndex;
-	private GateKeeper gateKeeper;
 
 	SpelerAntwoordDao usad;
 	DeelnemerDao udd;
@@ -34,7 +33,6 @@ public class SpelSessie extends DataBaseDao {
 		this.setSessieID(new Random().nextLong());
 		this.spel = new Spel();
 		this.huidigeVraagIndex = 0;
-		this.gateKeeper = new GateKeeper();
 
 		maakVraagSet();
 
@@ -82,7 +80,8 @@ public class SpelSessie extends DataBaseDao {
 	private void maakAntwoordenSet(Spel spel, List<Long> vraagIDLijst) throws SQLException {
 		AntwoordDao antwoordFactory = new AntwoordDao();
 		for (int i = 0; i < vraagIDLijst.size(); i++) {
-			List<Antwoord> antwoordLijstje = antwoordFactory.findAntwoordVraagID(getConnection(), vraagIDLijst.get(i));
+			List<Antwoord> antwoordLijstje = antwoordFactory.findAntwoordenViaVraagID(getConnection(),
+					vraagIDLijst.get(i));
 			for (int j = 0; j < antwoordLijstje.size(); j++) {
 				spel.addAntwoord(antwoordLijstje.get(j));
 			}
