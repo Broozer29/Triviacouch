@@ -58,10 +58,12 @@ public class VraagDao {
 	}
 
 	public void deleteVraag(Connection connection, Vraag vraag) throws SQLException {
-		
+
 		AntwoordDao antwoordDao = new AntwoordDao();
-		for(Antwoord antwoord : antwoordDao.findAntwoordenViaVraag(connection, vraag))
-			antwoordDao.deleteAntwoord(connection, antwoord);
+		antwoordDao.deleteAntwoordenVanVraag(connection, vraag);
+		
+		SpelVraagDao spelVraagDao = new SpelVraagDao();
+		spelVraagDao.deleteSpelVragen(connection, vraag);
 		
 		PreparedStatement stmt = connection.prepareStatement("delete from vraag where id = ?");
 		stmt.setLong(1, vraag.getID());

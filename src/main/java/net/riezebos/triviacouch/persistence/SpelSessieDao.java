@@ -12,8 +12,9 @@ public class SpelSessieDao {
 
 	public void createSpelSessie(Connection connection, SpelSessie sessie) throws SQLException {
 		PreparedStatement stmt = connection.prepareStatement("insert into spelsessie (id) values (?)");
-		Long randomLong = IDUtil.getNextId();
-		stmt.setLong(1, randomLong);
+		Long sessieID = IDUtil.getNextId();
+		sessie.setSessieID(sessieID);
+		stmt.setLong(1, sessieID);
 		stmt.execute();
 		stmt.close();
 	}

@@ -81,9 +81,17 @@ public class AntwoordDao {
 
 	}
 
-	public void deleteAntwoord(Connection connection, Antwoord antwoord) throws SQLException {
+	public void deleteAntwoordenVanVraag(Connection connection, Vraag vraag) throws SQLException {
 		PreparedStatement stmt = connection.prepareStatement("delete from antwoord where vraagID = ?");
-		stmt.setLong(1, antwoord.getVraagID());
+		stmt.setLong(1, vraag.getID());
+		stmt.execute();
+		stmt.close();
+
+	}
+
+	public void deleteAntwoord(Connection connection, Antwoord antwoord) throws SQLException {
+		PreparedStatement stmt = connection.prepareStatement("delete from antwoord where id = ?");
+		stmt.setLong(1, antwoord.getID());
 		stmt.execute();
 		stmt.close();
 

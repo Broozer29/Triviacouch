@@ -12,9 +12,9 @@ public class FullGameTest extends TestDBConnectionProvider {
 
 	@Test
 	public void test() throws SQLException {
-//		TriviaCouchGame game = new TriviaCouchGame(new TestDBConnectionProvider());
-//		SpelSessie sessie = game.genereerSessie();
-//		game.voegSpelerToe(sessieID, "Broozer");
+		TriviaCouchGame game = new TriviaCouchGame(new TestDBConnectionProvider());
+		SpelSessie sessie = game.genereerSessie();
+		game.voegSpelerToe(sessie.getSessieID(), "Broozer");
 
 	}
 }

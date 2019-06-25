@@ -100,7 +100,7 @@ public class SpelSessie {
 			controleerAntwoord(speler.getSpelerAntwoord(), huidigeVraag, speler);
 		}
 
-		spelVraagDao.deleteVraagVanSessie(getConnection(), huidigeVraag);
+		spelVraagDao.deleteSpelVragen(getConnection(), huidigeVraag);
 
 	}
 

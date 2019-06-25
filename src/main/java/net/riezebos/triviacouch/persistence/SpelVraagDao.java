@@ -37,7 +37,7 @@ public class SpelVraagDao {
 		return result;
 	}
 
-	public void deleteVraagVanSessie(Connection connection, Vraag vraag) throws SQLException {
+	public void deleteSpelVragen(Connection connection, Vraag vraag) throws SQLException {
 		PreparedStatement stmt = connection.prepareStatement("delete from spelvraag where vraagID = ?");
 		stmt.setLong(1, vraag.getID());
 		stmt.execute();
