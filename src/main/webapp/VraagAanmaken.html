@@ -12,6 +12,18 @@
 		<input type="text" id="foutDrie"> <br>
 		<input type="button" id="post" value="Maak vraag!" onclick="maakVraag()"/>
 	</form>
+	
+	
+	<form id="POSTvraagAanpassenForm">
+		VraagID: <br> <input type="text" id="vraag" value = "Voer een vraagID in">
+		<input type="button" id="getVraag" value="Zoek Vraag" onclick="zoekVraag()"/><br>
+		Vraag: <br> <input type="text" id="vraag" value = "Voer eerst een vraagID in"> <br>
+		Juiste antwoord: <br> <input type="text"id="juisteAntwoord" value = "Voer eerst een vraagID in"> <br>
+		Foute antwoorden: <br><input type="text" id="foutEen" value = "Voer eerst een vraagID in">
+		<input type="text" id="foutTwee" value = "Voer eerst een vraagID in"> 
+		<input type="text" id="foutDrie" value = "Voer eerst een vraagID in"> <br>
+		<input type="button" id="post" value="Pas vraag aan!" onclick="pasVraagAan()"/>
+	</form>
 
 
 	<form action="Startscherm.html">
@@ -41,8 +53,23 @@ function maakVraag(){
 	,"vraagText" : document.getElementById("vraag").value})
 	xhr.send(data);
 }
-	</script>
 
+
+function zoekVraag(){
+	xhr = new XMLHttpRequest();
+	var url = "http://localhost:8080/triviacouch/api/vragen/aanpassen";
+	xhr.open("POST", url, true);
+	xhr.setRequestHeader("Content-type", "application/json");
+	xhr.onreadystatechange = function () { 
+	    if (xhr.readyState == 4 && xhr.status == 200) {
+	        var json = JSON.parse(xhr.responseText);
+	        console.log(json.email + ", " + json.name)
+	    }
+	}
+	var data = JSON.stringify({"vraagID" : document.getElementById("getVraag").value})
+	xhr.send(data);
+}
+	</script>
 </body>
 </html>
 

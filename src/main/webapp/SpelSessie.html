@@ -4,9 +4,27 @@
 
 <h1>Spelsessie</h1>
 
+
+<form>
+	<p id = "sessieID" value = "<<sessieID>>">
+</form>
+<form>
+	<p id = "spelerLijst" value = "Hier een lijst met spelers"> <br>
+	<input type = "submit" value = "start spel!"/>
+</form>
+
 <form action="Startscherm.html">
     <input type="submit" value="Terug" />
 </form>
+
+
+<script>
+    fetch("api/spelen", { method: 'GET' })
+    .then(response => response.json())
+    .then(function (myJson) { 
+		      document.getElementById("sessieID").innerHTML = myJson;
+          });
+</script>
 
 </body>
 </html>

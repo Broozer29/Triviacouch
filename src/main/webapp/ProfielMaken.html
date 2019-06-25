@@ -6,9 +6,9 @@
 
 	<form id="ProfielMaken">
 		Profielnaam: <br> <input type="text" id=profielNaam> <br>
-		Wachtwoord: <br> <input type="text"id="wachtwoord"> <br>
-		Sessie: <br> <input type="text" id="sessieID"> <br>
-		<input type="button" id="post" value="Maak vraag!" onclick="maakVraag()"/>
+		Wachtwoord: <br> <input type="text" id="wachtwoord"> <br>
+		<input type="button" id="post" value="Maak Profiel!"
+			onclick="maakVraag()" />
 	</form>
 
 
@@ -19,26 +19,24 @@
 
 
 	<script>
-	
-function maakVraag(){
-	xhr = new XMLHttpRequest();
-	var url = "http://localhost:8080/triviacouch/api/vragen/maak";
-	xhr.open("POST", url, true);
-	xhr.setRequestHeader("Content-type", "application/json");
-	xhr.onreadystatechange = function () { 
-	    if (xhr.readyState == 4 && xhr.status == 200) {
-	        var json = JSON.parse(xhr.responseText);
-	        console.log(json.email + ", " + json.name)
-	    }
-	}
-	var data = JSON.stringify({"antwoorden" : [ 
-		{"antwoordText" : document.getElementById("juisteAntwoord").value, "correct_jn" : "J"}, 
-		{"antwoordText" : document.getElementById("foutEen").value, "correct_jn" : "N"}, 
-		{"antwoordText" : document.getElementById("foutTwee").value, "correct_jn" : "N"}, 
-		{"antwoordText" : document.getElementById("foutDrie").value, "correct_jn" : "N"} ]
-	,"vraagText" : document.getElementById("vraag").value})
-	xhr.send(data);
-}
+		function maakProfiel() {
+			xhr = new XMLHttpRequest();
+			var url = "http://localhost:8080/triviacouch/api/profielmaken";
+			xhr.open("POST", url, true);
+			xhr.setRequestHeader("Content-type", "application/json");
+			xhr.onreadystatechange = function() {
+				if (xhr.readyState == 4 && xhr.status == 200) {
+					var json = JSON.parse(xhr.responseText);
+					console.log(json.email + ", " + json.name)
+				}
+			}
+			var data = JSON.stringify({
+				"profielnaam" : document.getElementById("profielnaam").value,
+				"wachtwoord" : document.getElementById("wachtwoord").value
+			})
+			xhr.send(data);
+			window.location.replace("Inloggen.html");
+		}
 	</script>
 
 </body>

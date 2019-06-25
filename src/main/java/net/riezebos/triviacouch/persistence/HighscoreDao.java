@@ -1,0 +1,44 @@
+package net.riezebos.triviacouch.persistence;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import net.riezebos.triviacouch.domain.Highscore;
+import net.riezebos.triviacouch.domain.Speler;
+import net.riezebos.triviacouch.resource.IDUtil;
+
+public class HighscoreDao {
+	public void createHighscore(Connection connection, Speler speler) throws SQLException {
+		PreparedStatement stmt = connection
+				.prepareStatement("insert into highscores (id, spelerid, score) values (?,?,?)");
+		Long randomLong = IDUtil.getNextId();
+		stmt.setLong(1, randomLong);
+		stmt.setLong(2, speler.getId());
+		stmt.setLong(3, speler.getScore());
+		stmt.execute();
+		stmt.close();
+	}
+
+	public List<Highscore> getHighScores(Connection connection) throws SQLException {
+		PreparedStatement stmt = connection
+				.prepareStatement("select id, spelerid, score from highscores order by score");
+		ResultSet rs = stmt.executeQuery();
+		List<Highscore> scores = new ArrayList<Highscore>();
+
+		while (rs.next()) {
+			Highscore result = new Highscore();
+			result.setId(rs.getLong(1));
+			result.setSpelerID(rs.getLong(2));
+			result.setScore(rs.getLong(3));
+			scores.add(result);
+		}
+
+		rs.close();
+		return scores;
+	}
+
+}
