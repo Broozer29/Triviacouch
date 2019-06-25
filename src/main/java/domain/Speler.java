@@ -4,10 +4,10 @@ import java.text.MessageFormat;
 
 public class Speler {
 	private long id;
-	private String spelernaam;
+	private String profielnaam;
+	private String wachtwoord;
 	private long winPercentage;
 	private long correctPercentage;
-	private String wachtwoord;
 	private long score;
 	private String spelerAntwoord;
 
@@ -20,11 +20,11 @@ public class Speler {
 	}
 
 	public String getSpelernaam() {
-		return spelernaam;
+		return profielnaam;
 	}
 
 	public void setSpelernaam(String spelernaam) {
-		this.spelernaam = spelernaam;
+		this.profielnaam = spelernaam;
 	}
 	
 	public void setWinPercentage(long percentage) {
@@ -65,14 +65,36 @@ public class Speler {
 
 	@Override
 	public String toString() {
-		return MessageFormat.format("Speler {0,number,#} {1} {2}", id, spelernaam);
+		return MessageFormat.format("Speler {0,number,#} {1} {2}", id, profielnaam);
 	}
 	
-	public Boolean equalsSpeler(Speler speler) {
-		if (id == speler.getId() && spelernaam.equals(speler.getSpelernaam())) {
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (int) (id ^ (id >>> 32));
+		result = prime * result + ((profielnaam == null) ? 0 : profielnaam.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
 			return true;
-		}
-		return false;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Speler other = (Speler) obj;
+		if (id != other.id)
+			return false;
+		if (profielnaam == null) {
+			if (other.profielnaam != null)
+				return false;
+		} else if (!profielnaam.equals(other.profielnaam))
+			return false;
+		return true;
 	}
 
 	public String getSpelerAntwoord() {

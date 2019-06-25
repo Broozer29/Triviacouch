@@ -17,8 +17,8 @@
     .then(function (myJson) { 
 		      document.getElementById("eersteScore").innerHTML = myJson[0].score;
 		      document.getElementById("eersteNaam").innerHTML = myJson[0].spelerID;
-		      document.getElementById("tweedePlaats").innerHTML = "Haihar";
-		      document.getElementById("derdePlaats").innerHTML = "HardieHar";
+		      document.getElementById("tweedePlaats").innerHTML = myJson[1].score;
+		      document.getElementById("derdePlaats").innerHTML = myJson[1].spelerID;
           });
 </script>
 

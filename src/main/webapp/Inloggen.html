@@ -2,18 +2,40 @@
 <html>
 <body>
 
-<h1>Inloggen</h1>
+	<h1>Inloggen</h1>
 
 
 
 
-<form action="/SpelSessie.html">
-    Profielnaam: <br> <input type="text" name="profielnaam"><br>
-    Wachtwoord: <br> <input type="text" name="wachtwoord"><br>
-    sessie ID:  <br> <input type="text" name="sessieID"><br>
-    <input type="submit" value="Submit">
-</form>
+	<form id = "ProfielInloggen">
+		Profielnaam: <br> <input type="text" id="profielnaam"><br>
+		Wachtwoord: <br> <input type="text" id="wachtwoord"><br>
+		sessie ID: <br> <input type="text" id="sessieID"><br>
+		<input type="button" id="post" value="Log in!" onclick="logIn()"/>
+	</form>
 
+
+	<script>
+		function logIn() {
+			xhr = new XMLHttpRequest();
+			var url = "http://localhost:8080/triviacouch/api/inloggen/login";
+			xhr.open("POST", url, true);
+			xhr.setRequestHeader("Content-type", "application/json");
+			xhr.onreadystatechange = function() {
+				if (xhr.readyState == 4 && xhr.status == 200) {
+					var json = JSON.parse(xhr.responseText);
+					console.log(json.email + ", " + json.name)
+				}
+			}
+			var data = JSON.stringify({"speler" :  
+				{"profielnaam" : document.getElementById("profielnaam").value, 
+				"wachtwoord" : document.getElementById("wachtwoord").value}
+			})
+			console.log(typeof data);
+			console.log(data);
+			xhr.send(data);
+		}
+	</script>
 </body>
 </html>
 

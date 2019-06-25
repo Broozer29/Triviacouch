@@ -6,13 +6,13 @@ import persistence.SpelerDao;
 
 public class GateKeeper extends DataBaseDao {
 
-	public Boolean logIn(String username, String wachtwoord) throws SQLException {
+	public Boolean logIn(Speler speler) throws SQLException {
 		Boolean ingelogd = false;
 		SpelerDao factory = new SpelerDao();
 		if (!ingelogd) {
 			try {
-			Speler speler = logProfielnaam(username, factory);
-			ingelogd = logWachtwoord(speler, wachtwoord);
+			speler = logProfielnaam(speler.getSpelernaam(), factory);
+			ingelogd = logWachtwoord(speler, speler.getWachtwoord());
 			} catch(Exception e) {
 				System.out.println(e.getMessage());
 			}

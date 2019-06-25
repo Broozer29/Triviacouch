@@ -12,7 +12,7 @@ public class Spel {
 	public void voegSpelerToe(Speler speler) {
 		boolean spelerAanwezig = false;
 		for (Speler speler1 : spelerLijst) {
-			if (speler1.equalsSpeler(speler)) {
+			if (speler1.equals(speler)) {
 				spelerAanwezig = true;
 			}
 		}
@@ -25,7 +25,7 @@ public class Spel {
 	public void verwijderSpeler(Speler speler) {
 		boolean spelerAanwezig = false;
 		for (Speler speler1 : spelerLijst) {
-			if (speler1.equalsSpeler(speler)) {
+			if (speler1.equals(speler)) {
 				spelerAanwezig = true;
 			}
 		}

@@ -35,18 +35,15 @@ public class TriviaCouchGame extends DataBaseDao {
 			}
 		}
 	}
-
-	public void editor() throws SQLException {
-		Editor editor = new Editor();
-		editor.maakVraag();
+	
+	public boolean inloggen(Speler speler) throws SQLException {
+		GateKeeper gateKeeper = new GateKeeper();
+		return gateKeeper.logIn(speler);
 	}
 
 	public void vraagMaken(Vraag vraag) throws SQLException {
 		VraagDao vraagDao = new VraagDao();
-		AntwoordDao antwoordDao = new AntwoordDao();
-
 		vraagDao.createVraag(getConnection(), vraag);
-
 	}
 
 	public List<Highscore> getScores() throws SQLException, IOException {
@@ -63,6 +60,12 @@ public class TriviaCouchGame extends DataBaseDao {
 	public List<Vraag> getVragen() throws SQLException {
 		VraagDao vraagDao = new VraagDao();
 		return vraagDao.getVragen(getConnection());
+	}
+	
+	public Vraag getVraag(long vraagId) throws SQLException {
+		VraagDao vraagDao = new VraagDao();
+		Vraag vraag = vraagDao.findVraag(getConnection(), vraagId);
+		return vraag;
 	}
 
 }
