@@ -12,7 +12,6 @@ import net.riezebos.triviacouch.domain.Speler;
 import net.riezebos.triviacouch.domain.TriviaCouchGame;
 import net.riezebos.triviacouch.domain.Vraag;
 import net.riezebos.triviacouch.persistence.AntwoordDao;
-import net.riezebos.triviacouch.persistence.DeelnemerDao;
 import net.riezebos.triviacouch.persistence.SpelerDao;
 import net.riezebos.triviacouch.util.TestDBConnectionProvider;
 
@@ -21,8 +20,7 @@ public class FullGameTest extends TestDBConnectionProvider {
 	@Test
 	public void test() throws Exception {
 		TriviaCouchGame game = new TriviaCouchGame(new TestDBConnectionProvider());
-		DeelnemerDao deelnemerDao = new DeelnemerDao();
-		SpelSessie sessie = game.genereerSessie();
+		SpelSessie sessie = game.nieuwSpel();
 		SpelerDao spelerDao = new SpelerDao();
 		AntwoordDao antwoordDao = new AntwoordDao();
 

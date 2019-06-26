@@ -20,7 +20,7 @@ public class SpeelsessieResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	public long getSessie(@Context HttpServletRequest httpRequest) throws SQLException {
 		TriviaCouchGame game = SessionHelper.getGame(httpRequest.getSession());
-		SpelSessie sessie = game.genereerSessie();
+		SpelSessie sessie = game.nieuwSpel();
 		return sessie.getID();
 	}
 

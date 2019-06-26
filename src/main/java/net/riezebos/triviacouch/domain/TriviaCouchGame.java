@@ -12,14 +12,12 @@ import net.riezebos.triviacouch.persistence.VraagDao;
 
 public class TriviaCouchGame {
 	private ConnectionProvider connectionProvider;
-	private boolean spelBegonnen;
 
 	public TriviaCouchGame(ConnectionProvider connectionProvider) {
 		this.connectionProvider = connectionProvider;
 	}
 
-	public SpelSessie genereerSessie() throws SQLException {
-		spelBegonnen = false;
+	public SpelSessie nieuwSpel() throws SQLException {
 		return new SpelSessie(connectionProvider);
 	}
 
@@ -35,7 +33,7 @@ public class TriviaCouchGame {
 
 	public Deelnemer inloggen(String profielnaam, String wachtwoord, SpelSessie sessie) throws SQLException {
 		Deelnemer result = null;
-		if (!spelBegonnen) {
+		if (sessie.isOpen()) {
 			SpelerDao spelerDao = new SpelerDao();
 			Speler speler = spelerDao.findSpeler(getConnection(), profielnaam);
 
@@ -69,7 +67,6 @@ public class TriviaCouchGame {
 	}
 
 	public Vraag getVraag(long vraagId) throws SQLException {
-		spelBegonnen = true;
 		VraagDao vraagDao = new VraagDao();
 		Vraag vraag = vraagDao.getVraag(getConnection(), vraagId);
 		return vraag;

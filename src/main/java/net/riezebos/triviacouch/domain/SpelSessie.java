@@ -18,6 +18,7 @@ import net.riezebos.triviacouch.persistence.VraagDao;
 public class SpelSessie {
 
 	private long sessieID;
+	private String status = "open";
 
 	private ConnectionProvider connectionProvider;
 	private List<Long> vraagIDLijst;
@@ -26,11 +27,11 @@ public class SpelSessie {
 	private SpelerAntwoordDao spelerAntwoordDao = new SpelerAntwoordDao();
 	private SpelVraagDao spelVraagDao = new SpelVraagDao();
 	private DeelnemerDao deelnemerDao = new DeelnemerDao();
+	private SpelSessieDao spelSessieDao = new SpelSessieDao();
 
 	public SpelSessie(ConnectionProvider connectionProvider) throws SQLException {
 		this.connectionProvider = connectionProvider;
-		SpelSessieDao dao = new SpelSessieDao();
-		dao.createSpelSessie(getConnection(), this);
+		spelSessieDao.createSpelSessie(getConnection(), this);
 
 		maakVraagSet();
 	}
@@ -126,6 +127,24 @@ public class SpelSessie {
 
 	public void setSessieID(long sessieID) {
 		this.sessieID = sessieID;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public boolean isOpen() throws SQLException {
+		spelSessieDao.refreshSessieStatus(getConnection(), this);
+		return "open".equalsIgnoreCase(status);
+	}
+
+	public void closeSession() throws SQLException {
+		setStatus("closed");
+		spelSessieDao.setSessieStatus(getConnection(), this);
 	}
 
 //	public void sluitSpelSessie() throws SQLException {
