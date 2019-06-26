@@ -41,6 +41,7 @@ public class Spel {
 		List<Speler> spelerIDLijst = deelnemerDao.getSpelersVanSessie(connection, spelSessie);
 		List<Speler> volledigeSpelerLijst = new ArrayList<Speler>();
 
+		
 		for (Speler spelerID : spelerIDLijst) {
 			Speler speler = new Speler();
 			speler = spelerDao.findSpelerBijID(connection, spelerID);

@@ -29,9 +29,9 @@ public class GatekeeperResource {
 		speler.setWachtwoord(spelerToken.getWachtwoord());
 
 		System.out.println("Wachtwoord en profielnaam: " + spelerToken.getWachtwoord() + spelerToken.getProfielnaam());
-		game.inloggen(speler);
+//		game.inloggen(speler);
 		long sessieID = Long.parseLong(spelerToken.getSessieID());
-		game.voegSpelerToe(sessieID, speler.getSpelernaam());
+//		game.voegSpelerToe(sessieID, speler.getSpelernaam());
 		System.out.println("Ingelogd!");
 		return true;
 	}

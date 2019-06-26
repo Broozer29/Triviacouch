@@ -3,7 +3,6 @@ package net.riezebos.triviacouch.domain;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import net.riezebos.triviacouch.persistence.ConnectionProvider;
@@ -18,30 +17,31 @@ public class TriviaCouchGame {
 		this.connectionProvider = connectionProvider;
 	}
 
-	private List<SpelSessie> spelsessieLijst = new ArrayList<SpelSessie>();
 
 	public SpelSessie genereerSessie() throws SQLException {
-
 		return new SpelSessie(connectionProvider);
 	}
 
-	public void voegSpelerToe(long spelsessieID, String profielnaam) throws SQLException {
-		for (SpelSessie spel : spelsessieLijst) {
-			if (spelsessieID == spel.getSessieID()) {
-				spel.voegSpelerToe(profielnaam);
-			}
-		}
+	private void voegSpelerToe(SpelSessie sessie, Speler speler, Spel spel) throws SQLException {
+		System.out.println("Voeg speler toe: " + speler.getSpelernaam() + " " + speler.getId() + " " + sessie.getSessieID());
+		spel.voegSpelerToe(getConnection(), speler, sessie);
 	}
 
 	public void maakSpeler(Speler speler) throws SQLException {
 		SpelerDao spelerDao = new SpelerDao();
 		spelerDao.createSpeler(getConnection(), speler);
-
 	}
 
-	public boolean inloggen(Speler speler) throws SQLException {
+	public boolean inloggen(Speler speler, SpelSessie sessie, Spel spel) throws SQLException {
+		SpelerDao spelerDao = new SpelerDao();
+		speler = spelerDao.findSpeler(getConnection(), speler.getSpelernaam());
+		
 		GateKeeper gateKeeper = new GateKeeper();
-		return gateKeeper.logIn(speler);
+		if (gateKeeper.logIn(speler, connectionProvider)) {
+			voegSpelerToe(sessie, speler, spel);
+			return true;
+		}
+		return false;
 	}
 
 	public void vraagMaken(Vraag vraag) throws SQLException {

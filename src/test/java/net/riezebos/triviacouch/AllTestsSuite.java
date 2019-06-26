@@ -9,8 +9,10 @@ import net.riezebos.triviacouch.persistence.SpelerDaoTest;
 import net.riezebos.triviacouch.persistence.VraagDaoTest;
 import net.riezebos.triviacouch.util.InitDBTest;
 
+//Tests staan uit zodat de console niet overspoelt wordt.
+//AntwoordDaoTest.class, SpelerDaoTest.class, VraagDaoTest.class
 @RunWith(Suite.class)
-@SuiteClasses({ InitDBTest.class, FullGameTest.class, AntwoordDaoTest.class, SpelerDaoTest.class, VraagDaoTest.class })
+@SuiteClasses({ InitDBTest.class, FullGameTest.class })
 
 public class AllTestsSuite {
 

@@ -5,11 +5,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
-import java.util.Scanner;
 import java.util.concurrent.ThreadLocalRandom;
 
+import net.riezebos.triviacouch.persistence.AntwoordDao;
 import net.riezebos.triviacouch.persistence.ConnectionProvider;
+import net.riezebos.triviacouch.persistence.DeelnemerDao;
 import net.riezebos.triviacouch.persistence.SpelSessieDao;
 import net.riezebos.triviacouch.persistence.SpelVraagDao;
 import net.riezebos.triviacouch.persistence.SpelerAntwoordDao;
@@ -21,21 +21,24 @@ public class SpelSessie {
 
 	private long sessieID;
 	private Spel spel;
-	private Speler speler;
+	private Vraag vraag;
 
 	private ConnectionProvider connectionProvider;
+	private List<Long> vraagIDLijst;
 
 	private SpelerDao spelerDao = new SpelerDao();
 	private VraagDao vraagDao = new VraagDao();
 	private SpelerAntwoordDao spelerAntwoordDao = new SpelerAntwoordDao();
 	private SpelVraagDao spelVraagDao = new SpelVraagDao();
+	DeelnemerDao deelnemerDao = new DeelnemerDao();
 
 	public SpelSessie(ConnectionProvider connectionProvider) throws SQLException {
 		this.connectionProvider = connectionProvider;
 		this.spel = new Spel();
+		this.spel.setSpelID(IDUtil.getNextId());
 		SpelSessieDao dao = new SpelSessieDao();
 		dao.createSpelSessie(getConnection(), this);
-		
+
 		maakVraagSet();
 	}
 
@@ -44,20 +47,20 @@ public class SpelSessie {
 	}
 
 	// Verwijdert een speler van de Deelnemer tabel
-	public void verwijderSpeler(String username) throws SQLException {
-		speler = spelerDao.findSpeler(getConnection(), username);
+	public void verwijderSpeler(Speler speler) throws SQLException {
+		speler = spelerDao.findSpeler(getConnection(), speler.getSpelernaam());
 		spel.verwijderSpeler(getConnection(), speler, this);
 	}
 
 	// Voegt speler toe aan Deelnemer tabel
-	public void voegSpelerToe(String username) throws SQLException {
-		speler = spelerDao.findSpeler(getConnection(), username);
+	public void voegSpelerToe(Speler speler) throws SQLException {
+		speler = spelerDao.findSpeler(getConnection(), speler.getSpelernaam());
 		spel.voegSpelerToe(getConnection(), speler, this);
 	}
 
 	// Zet vragen voor de sessie in de SpelVraag tabel
 	private void maakVraagSet() throws SQLException {
-		List<Long> vraagIDLijst = maakVraagIDLijst();
+		vraagIDLijst = maakVraagIDLijst();
 
 		for (int i = 0; i < vraagIDLijst.size(); i++) {
 			Vraag vraag = vraagDao.getVraag(getConnection(), vraagIDLijst.get(i));
@@ -88,33 +91,39 @@ public class SpelSessie {
 	}
 
 	public void stelVraag() throws SQLException {
-		Vraag huidigeVraag = spel.getVraag(getConnection(), this);
-		System.out.println(huidigeVraag.getVraagText());
+		vraag = spel.getVraag(getConnection(), this);
+		System.out.println(vraag.getVraagText());
+		spelVraagDao.deleteSpelVragen(getConnection(), vraag);
+	}
+
+	public void controleerAntwoorden() throws SQLException {
 		List<Speler> spelerLijst = spel.getSpelers(getConnection(), this);
 
 		for (Speler speler : spelerLijst) {
-			speler.setSpelerAntwoord(geefAntwoord());
+			controleerAntwoord(speler.getSpelerAntwoord(), vraag, speler);
+		}
+	}
+
+	public Long geefAntwoord(Speler speler, Vraag vraag, String spelerAntwoord) throws SQLException {
+		AntwoordDao antwoordDao = new AntwoordDao();
+		List<Antwoord> antwoordenLijst = antwoordDao.findAntwoordenViaVraag(getConnection(), vraag);
+
+		long spelerAntwoordID = 0;
+
+		for (Antwoord antwoord : antwoordenLijst) {
+			if (antwoord.getAntwoordText().equals(spelerAntwoord)) {
+				spelerAntwoordID = antwoord.getID();
+			}
 		}
 
-		for (Speler speler : spelerLijst) {
-			controleerAntwoord(speler.getSpelerAntwoord(), huidigeVraag, speler);
-		}
+		speler.setSpelerAntwoord(spelerAntwoordID);
 
-		spelVraagDao.deleteSpelVragen(getConnection(), huidigeVraag);
+		spelerAntwoordDao.addAntwoord(getConnection(), speler, speler.getSpelerAntwoord());
+		return speler.getSpelerAntwoord();
 
 	}
 
-	public String geefAntwoord() throws SQLException {
-		Scanner reader = new Scanner(System.in);
-		String spelerAntwoord = reader.nextLine();
-
-		spelerAntwoordDao.addAntwoord(getConnection(), speler, spelerAntwoord);
-		reader.close();
-		return spelerAntwoord;
-
-	}
-
-	private void controleerAntwoord(String spelerAntwoord, Vraag vraag, Speler speler) throws SQLException {
+	private void controleerAntwoord(long antwoordID, Vraag vraag, Speler speler) throws SQLException {
 		List<Antwoord> antwoordLijst = spel.getAntwoordenLijst(getConnection(), vraag);
 		Antwoord correcteAntwoord = null;
 
@@ -123,14 +132,31 @@ public class SpelSessie {
 				correcteAntwoord = antwoord;
 			}
 		}
-		spelerAntwoord = spelerAntwoord.toUpperCase();
 
-		if (spelerAntwoord.equals(correcteAntwoord.getAntwoordText())) {
+		if (antwoordID == correcteAntwoord.getID()) {
 			speler.addScore(100);
+			deelnemerDao.zetScoreVanDeelnemer(getConnection(), this, speler);
 			System.out.println(speler.getSpelernaam() + " Heeft het juiste antwoord gegeven! :)");
 		} else {
 			System.out.println(speler.getSpelernaam() + " Heeft een onjuist antwoord gegeven! :(");
 		}
+	}
+
+	public List<Speler> selecteerWinnaar() throws SQLException {
+		List<Speler> deelnemerLijst = spel.getSpelers(getConnection(), this);
+		List<Speler> eersteTweedeDerde = new ArrayList<Speler>();
+
+		// Zet de drie spelers met de hoogste score in de scorelijst
+		int lijstGrootte = deelnemerLijst.size();
+
+		if (lijstGrootte > 3) {
+			lijstGrootte = 3;
+		}
+
+		for (int i = 0; i < lijstGrootte; i++) {
+			eersteTweedeDerde.add(deelnemerLijst.get(i));
+		}
+		return eersteTweedeDerde;
 	}
 
 	public long getSessieID() {
@@ -139,6 +165,23 @@ public class SpelSessie {
 
 	public void setSessieID(long sessieID) {
 		this.sessieID = sessieID;
+	}
+
+	public Spel getSpel() {
+		return spel;
+	}
+
+	public void sluitSpelSessie() throws SQLException {
+		List<Speler> spelerLijst = new ArrayList<Speler>();
+		spelerLijst = deelnemerDao.getSpelersVanSessie(getConnection(), this);
+		deelnemerDao.deleteSessie(getConnection(), this);
+		
+		for (Speler speler : spelerLijst) {
+			spelerAntwoordDao.deleteAntwoord(getConnection(), speler);
+			deelnemerDao.deleteSpelerVanSessie(getConnection(), speler, this);
+		}
+		
+
 	}
 
 }

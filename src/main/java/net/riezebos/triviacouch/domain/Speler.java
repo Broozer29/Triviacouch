@@ -9,7 +9,7 @@ public class Speler {
 	private long winPercentage;
 	private long correctPercentage;
 	private long score;
-	private String spelerAntwoord;
+	private long spelerAntwoord;
 
 	public long getId() {
 		return id;
@@ -51,8 +51,8 @@ public class Speler {
 		return this.wachtwoord;
 	}
 
-	public void setScore(Integer score) {
-		this.score = score;
+	public void setScore(long l) {
+		this.score = l;
 	}
 
 	public Long getScore() {
@@ -96,11 +96,11 @@ public class Speler {
 		return true;
 	}
 
-	public String getSpelerAntwoord() {
+	public long getSpelerAntwoord() {
 		return spelerAntwoord;
 	}
 
-	public void setSpelerAntwoord(String spelerAntwoord) {
+	public void setSpelerAntwoord(long spelerAntwoord) {
 		this.spelerAntwoord = spelerAntwoord;
 	}
 

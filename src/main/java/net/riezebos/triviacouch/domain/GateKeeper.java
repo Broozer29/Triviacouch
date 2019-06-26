@@ -2,12 +2,15 @@ package net.riezebos.triviacouch.domain;
 
 import java.sql.SQLException;
 
-import net.riezebos.triviacouch.persistence.BasicConnectionProvider;
+import net.riezebos.triviacouch.persistence.ConnectionProvider;
 import net.riezebos.triviacouch.persistence.SpelerDao;
 
-public class GateKeeper extends BasicConnectionProvider {
+public class GateKeeper {
 
-	public Boolean logIn(Speler speler) throws SQLException {
+	private ConnectionProvider connectionProvider;
+	
+	public Boolean logIn(Speler speler, ConnectionProvider connection) throws SQLException {
+		connectionProvider = connection;
 		Boolean ingelogd = false;
 		SpelerDao factory = new SpelerDao();
 		if (!ingelogd) {
@@ -28,7 +31,7 @@ public class GateKeeper extends BasicConnectionProvider {
 	private Speler logProfielnaam(String username, SpelerDao factory) throws SQLException {
 		Speler speler = null;
 		while (speler == null) {
-			speler = factory.findSpeler(getConnection(), username);
+			speler = factory.findSpeler(connectionProvider.getConnection(), username);
 			if (speler == null) {
 				System.out.println("Er bestaat geen profiel met die naam. Controleer de spelling of maak er een aan.");
 				break;
