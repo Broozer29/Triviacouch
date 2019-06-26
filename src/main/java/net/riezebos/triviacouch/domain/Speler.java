@@ -7,7 +7,6 @@ public class Speler {
 	private long winPercentage;
 	private long correctPercentage;
 
-
 	public long getID() {
 		return id;
 	}
@@ -47,7 +46,6 @@ public class Speler {
 	public String getWachtwoord() {
 		return this.wachtwoord;
 	}
-
 
 	@Override
 	public String toString() {

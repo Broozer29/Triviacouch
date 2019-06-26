@@ -8,7 +8,7 @@ import net.riezebos.triviacouch.persistence.SpelerDao;
 public class GateKeeper {
 
 	private ConnectionProvider connectionProvider;
-	
+
 	public Boolean logIn(Speler speler, ConnectionProvider connection) throws SQLException {
 		connectionProvider = connection;
 		Boolean ingelogd = false;

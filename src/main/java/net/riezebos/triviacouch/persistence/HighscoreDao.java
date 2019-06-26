@@ -9,7 +9,6 @@ import java.util.List;
 
 import net.riezebos.triviacouch.domain.Deelnemer;
 import net.riezebos.triviacouch.domain.Highscore;
-import net.riezebos.triviacouch.domain.Speler;
 import net.riezebos.triviacouch.resource.IDUtil;
 
 public class HighscoreDao {

@@ -15,8 +15,8 @@ public class SpelVraagDao {
 		PreparedStatement stmt = connection
 				.prepareStatement("insert into spelvraag (id, sessieID, vraagID) values (?,?,?)");
 		Long randomLong = IDUtil.getNextId();
-		System.out.println("ID= "+randomLong + " sessieID= " + sessie.getID() + " vraagID= " + vraag.getID());
-		
+		System.out.println("ID= " + randomLong + " sessieID= " + sessie.getID() + " vraagID= " + vraag.getID());
+
 		stmt.setLong(1, randomLong);
 		stmt.setLong(2, sessie.getID());
 		stmt.setLong(3, vraag.getID());
@@ -44,9 +44,10 @@ public class SpelVraagDao {
 		stmt.close();
 
 	}
-	
+
 	public void deleteSessieVragen(Connection connection, Vraag vraag, SpelSessie sessie) throws SQLException {
-		PreparedStatement stmt = connection.prepareStatement("delete from spelvraag where vraagID = ? and sessieID = ?");
+		PreparedStatement stmt = connection
+				.prepareStatement("delete from spelvraag where vraagID = ? and sessieID = ?");
 		stmt.setLong(1, vraag.getID());
 		stmt.setLong(2, sessie.getID());
 		stmt.execute();

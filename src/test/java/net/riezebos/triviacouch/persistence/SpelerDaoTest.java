@@ -7,7 +7,6 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import net.riezebos.triviacouch.domain.Speler;
-import net.riezebos.triviacouch.persistence.SpelerDao;
 import net.riezebos.triviacouch.util.TestDBConnectionProvider;
 
 public class SpelerDaoTest extends TestDBConnectionProvider {
@@ -57,7 +56,6 @@ public class SpelerDaoTest extends TestDBConnectionProvider {
 		nieuweSpeler.setProfielnaam("tijdelijk");
 		dao.createSpeler(connection, nieuweSpeler);
 
-		
 		Speler speler = dao.findSpeler(connection, "tijdelijk");
 		dao.deleteSpeler(connection, speler);
 

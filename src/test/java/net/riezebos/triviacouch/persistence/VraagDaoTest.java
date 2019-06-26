@@ -7,7 +7,6 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import net.riezebos.triviacouch.domain.Vraag;
-import net.riezebos.triviacouch.persistence.VraagDao;
 import net.riezebos.triviacouch.resource.IDUtil;
 import net.riezebos.triviacouch.util.TestDBConnectionProvider;
 

@@ -61,10 +61,10 @@ public class VraagDao {
 
 		AntwoordDao antwoordDao = new AntwoordDao();
 		antwoordDao.deleteAntwoordenVanVraag(connection, vraag);
-		
+
 		SpelVraagDao spelVraagDao = new SpelVraagDao();
 		spelVraagDao.deleteSpelVragen(connection, vraag);
-		
+
 		PreparedStatement stmt = connection.prepareStatement("delete from vraag where id = ?");
 		stmt.setLong(1, vraag.getID());
 		stmt.execute();
