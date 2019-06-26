@@ -1,79 +1,66 @@
 package net.riezebos.triviacouch;
 
-import java.sql.SQLException;
 import java.util.List;
+import java.util.Scanner;
 
 import org.junit.Test;
 
-import net.riezebos.triviacouch.domain.Spel;
+import net.riezebos.triviacouch.domain.Antwoord;
+import net.riezebos.triviacouch.domain.Deelnemer;
 import net.riezebos.triviacouch.domain.SpelSessie;
 import net.riezebos.triviacouch.domain.Speler;
 import net.riezebos.triviacouch.domain.TriviaCouchGame;
+import net.riezebos.triviacouch.domain.Vraag;
+import net.riezebos.triviacouch.persistence.AntwoordDao;
+import net.riezebos.triviacouch.persistence.DeelnemerDao;
+import net.riezebos.triviacouch.persistence.SpelerDao;
 import net.riezebos.triviacouch.util.TestDBConnectionProvider;
 
 public class FullGameTest extends TestDBConnectionProvider {
 
 	@Test
-	public void test() throws SQLException {
+	public void test() throws Exception {
 		TriviaCouchGame game = new TriviaCouchGame(new TestDBConnectionProvider());
+		DeelnemerDao deelnemerDao = new DeelnemerDao();
 		SpelSessie sessie = game.genereerSessie();
-		Spel spel = sessie.getSpel();
-		
+		SpelerDao spelerDao = new SpelerDao();
+		AntwoordDao antwoordDao = new AntwoordDao();
 
-		
-		Speler broozer = new Speler();
-
-		broozer.setSpelernaam("Broozer");
-		broozer.setWachtwoord("letter");
-
-		if (game.inloggen(broozer, sessie, spel)) {
-			System.out.println("Ingelogd: " + broozer.getSpelernaam());
+		Deelnemer deelnemerEen = game.inloggen("Broozer", "letter", sessie);
+		if (deelnemerEen != null) {
+			System.out.println("Ingelogd: " + deelnemerEen.getID());
 		}
-		
-		SpelSessie sessieTwee = game.genereerSessie();
-		Spel spelTwee = sessie.getSpel();
 
-		Speler piepje = new Speler();
-		piepje.setSpelernaam("Piepje");
-		piepje.setWachtwoord("letter");
-
-		if (game.inloggen(piepje, sessieTwee, spelTwee)) {
-			System.out.println("Ingelogd: " + piepje.getSpelernaam());
+		Deelnemer deelnemerTwee = game.inloggen("Piepje", "letter", sessie);
+		if (deelnemerTwee != null) {
+			System.out.println("Ingelogd: " + deelnemerTwee.getID());
 		}
+
+		Scanner in = new Scanner(System.in);
 
 		for (int i = 0; i < 10; i++) {
-			sessie.stelVraag();
-			broozer.setSpelerAntwoord(10);
+			Vraag huidigeVraag = sessie.getHuidigeVraag();
+			Antwoord antwoord = null;
+			do {
+				String spelerInput = in.nextLine();
+				antwoord = sessie.geefAntwoord(deelnemerEen, huidigeVraag, spelerInput);
+				if (antwoord == null)
+					System.out.println("Antwoord niet gevonden in de lijst");
+			} while (antwoord == null);
 
-			sessie.controleerAntwoorden();
+			System.out.println("Antwoorden: " + antwoordDao.getAntwoorden(getConnection(), sessie, huidigeVraag));
 		}
-		
-		
-		for (int i = 0; i < 10; i++) {
-			sessieTwee.stelVraag();
-			piepje.setSpelerAntwoord(10);
 
-			sessieTwee.controleerAntwoorden();
-		}
-		
-		
-		List<Speler> winnaarLijst = sessie.selecteerWinnaar();
+		in.close();
+		List<Deelnemer> winnaarLijst = sessie.selecteerWinnaar();
 		System.out.println(winnaarLijst.size());
-		for (Speler speler : winnaarLijst) {
-			System.out.println("Sessie een: Speler: " + speler.getSpelernaam() + " met een score van: " + speler.getScore());
-		}
-		
-		sessie.sluitSpelSessie();
-		
-		List<Speler> winnaarLijstTwee = sessieTwee.selecteerWinnaar();
-		for (Speler speler : winnaarLijstTwee) {
-			System.out.println("Sessie twee: Speler: " + speler.getSpelernaam() + " met een score van: " + speler.getScore());
-		}
-		
-		sessieTwee.sluitSpelSessie();
-		
-		
-		
+		for (Deelnemer deelnemer : winnaarLijst) {
+			Speler winnaar = spelerDao.getSpeler(getConnection(), deelnemer.getSpelerID());
 
+			System.out.println(
+					"Sessie een: Speler: " + winnaar.getProfielnaam() + " met een score van: " + deelnemer.getScore());
+		}
+
+//		sessie.sluitSpelSessie();
 	}
 }

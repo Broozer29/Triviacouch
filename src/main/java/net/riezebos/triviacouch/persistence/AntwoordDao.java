@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.riezebos.triviacouch.domain.Antwoord;
+import net.riezebos.triviacouch.domain.SpelSessie;
 import net.riezebos.triviacouch.domain.Vraag;
 import net.riezebos.triviacouch.resource.IDUtil;
 
@@ -96,4 +97,47 @@ public class AntwoordDao {
 		stmt.close();
 
 	}
+
+	public List<Antwoord> getAntwoorden(Connection connection, SpelSessie sessie, Vraag vraag) throws SQLException {
+		PreparedStatement stmt = connection.prepareStatement(//
+				"select antw.id, antw.antwoord, antw.correct_jn, antw.vraagID "//
+						+ "from antwoord antw, "//
+						+ "     deelnemerantwoord dant, "//
+						+ "		deelnemer dln "//
+						+ "where dln.sessieID = ? "//
+						+ "and   dln.id = dant.deelnemerID "//
+						+ "and   dant.antwoordID = antw.id "//
+						+ "and	 antw.vraagID = ?");//
+
+		stmt.setLong(1, sessie.getID());
+		stmt.setLong(2, vraag.getID());
+		ResultSet rs = stmt.executeQuery();
+		List<Antwoord> antwoorden = new ArrayList<Antwoord>();
+
+		while (rs.next()) {
+			Antwoord result = new Antwoord();
+			result = new Antwoord();
+			result.setID(rs.getLong(1));
+			result.setAntwoordText(rs.getString(2));
+			result.setCorrect_jn(rs.getString(3));
+			result.setVraagID(rs.getLong(4));
+			antwoorden.add(result);
+		}
+		rs.close();
+		return antwoorden;
+
+	}
+
+	public Antwoord matchAntwoord(Connection connection, Vraag vraag, String text) throws SQLException {
+		Antwoord result = null;
+
+		for (Antwoord antwoord : findAntwoordenViaVraag(connection, vraag)) {
+			if (antwoord.getAntwoordText().toLowerCase().contains(text)) {
+				result = antwoord;
+				break;
+			}
+		}
+		return result;
+	}
+
 }

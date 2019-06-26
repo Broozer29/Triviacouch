@@ -17,11 +17,11 @@ public class SpelerDaoTest extends TestDBConnectionProvider {
 		Connection connection = getConnection();
 		SpelerDao dao = new SpelerDao();
 		Speler nieuweSpeler = new Speler();
-		nieuweSpeler.setSpelernaam("Repelsteeltje");
+		nieuweSpeler.setProfielnaam("Repelsteeltje");
 		dao.createSpeler(connection, nieuweSpeler);
 
 		Speler speler = dao.findSpeler(connection, "Repelsteeltje");
-		System.out.println(speler.getSpelernaam() + " gevonden!");
+		System.out.println(speler.getProfielnaam() + " gevonden!");
 		Assert.assertNotNull(speler);
 	}
 
@@ -42,11 +42,11 @@ public class SpelerDaoTest extends TestDBConnectionProvider {
 		SpelerDao dao = new SpelerDao();
 		Speler speler = dao.findSpeler(connection, "Broozer");
 		Assert.assertNotNull(speler);
-		speler.setSpelernaam("abc");
+		speler.setProfielnaam("abc");
 		dao.updateSpeler(connection, speler);
 
 		Speler check = dao.findSpeler(connection, "abc");
-		Assert.assertEquals("abc", check.getSpelernaam());
+		Assert.assertEquals("abc", check.getProfielnaam());
 	}
 
 	@Test
@@ -54,7 +54,7 @@ public class SpelerDaoTest extends TestDBConnectionProvider {
 		Connection connection = getConnection();
 		SpelerDao dao = new SpelerDao();
 		Speler nieuweSpeler = new Speler();
-		nieuweSpeler.setSpelernaam("tijdelijk");
+		nieuweSpeler.setProfielnaam("tijdelijk");
 		dao.createSpeler(connection, nieuweSpeler);
 
 		

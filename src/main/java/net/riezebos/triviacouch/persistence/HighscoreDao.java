@@ -7,18 +7,19 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.riezebos.triviacouch.domain.Deelnemer;
 import net.riezebos.triviacouch.domain.Highscore;
 import net.riezebos.triviacouch.domain.Speler;
 import net.riezebos.triviacouch.resource.IDUtil;
 
 public class HighscoreDao {
-	public void createHighscore(Connection connection, Speler speler) throws SQLException {
+	public void createHighscore(Connection connection, Deelnemer deelnemer) throws SQLException {
 		PreparedStatement stmt = connection
 				.prepareStatement("insert into highscores (id, spelerid, score) values (?,?,?)");
 		Long randomLong = IDUtil.getNextId();
 		stmt.setLong(1, randomLong);
-		stmt.setLong(2, speler.getId());
-		stmt.setLong(3, speler.getScore());
+		stmt.setLong(2, deelnemer.getSpelerID());
+		stmt.setLong(3, deelnemer.getScore());
 		stmt.execute();
 		stmt.close();
 	}

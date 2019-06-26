@@ -12,19 +12,20 @@ import net.riezebos.triviacouch.persistence.VraagDao;
 
 public class TriviaCouchGame {
 	private ConnectionProvider connectionProvider;
+	private boolean spelBegonnen;
 
 	public TriviaCouchGame(ConnectionProvider connectionProvider) {
 		this.connectionProvider = connectionProvider;
 	}
 
-
 	public SpelSessie genereerSessie() throws SQLException {
+		spelBegonnen = false;
 		return new SpelSessie(connectionProvider);
 	}
 
-	private void voegSpelerToe(SpelSessie sessie, Speler speler, Spel spel) throws SQLException {
-		System.out.println("Voeg speler toe: " + speler.getSpelernaam() + " " + speler.getId() + " " + sessie.getSessieID());
-		spel.voegSpelerToe(getConnection(), speler, sessie);
+	private Deelnemer voegSpelerToe(SpelSessie sessie, Speler speler) throws SQLException {
+		System.out.println("Voeg speler toe: " + speler.getID() + " " + sessie.getID());
+		return sessie.voegSpelerToe(speler);
 	}
 
 	public void maakSpeler(Speler speler) throws SQLException {
@@ -32,16 +33,18 @@ public class TriviaCouchGame {
 		spelerDao.createSpeler(getConnection(), speler);
 	}
 
-	public boolean inloggen(Speler speler, SpelSessie sessie, Spel spel) throws SQLException {
-		SpelerDao spelerDao = new SpelerDao();
-		speler = spelerDao.findSpeler(getConnection(), speler.getSpelernaam());
-		
-		GateKeeper gateKeeper = new GateKeeper();
-		if (gateKeeper.logIn(speler, connectionProvider)) {
-			voegSpelerToe(sessie, speler, spel);
-			return true;
+	public Deelnemer inloggen(String profielnaam, String wachtwoord, SpelSessie sessie) throws SQLException {
+		Deelnemer result = null;
+		if (!spelBegonnen) {
+			SpelerDao spelerDao = new SpelerDao();
+			Speler speler = spelerDao.findSpeler(getConnection(), profielnaam);
+
+			GateKeeper gateKeeper = new GateKeeper();
+			if (gateKeeper.logIn(speler, connectionProvider)) {
+				result = voegSpelerToe(sessie, speler);
+			}
 		}
-		return false;
+		return result;
 	}
 
 	public void vraagMaken(Vraag vraag) throws SQLException {
@@ -66,6 +69,7 @@ public class TriviaCouchGame {
 	}
 
 	public Vraag getVraag(long vraagId) throws SQLException {
+		spelBegonnen = true;
 		VraagDao vraagDao = new VraagDao();
 		Vraag vraag = vraagDao.getVraag(getConnection(), vraagId);
 		return vraag;

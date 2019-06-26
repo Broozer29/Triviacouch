@@ -13,29 +13,22 @@ import net.riezebos.triviacouch.persistence.DeelnemerDao;
 import net.riezebos.triviacouch.persistence.SpelSessieDao;
 import net.riezebos.triviacouch.persistence.SpelVraagDao;
 import net.riezebos.triviacouch.persistence.SpelerAntwoordDao;
-import net.riezebos.triviacouch.persistence.SpelerDao;
 import net.riezebos.triviacouch.persistence.VraagDao;
-import net.riezebos.triviacouch.resource.IDUtil;
 
 public class SpelSessie {
 
 	private long sessieID;
-	private Spel spel;
-	private Vraag vraag;
 
 	private ConnectionProvider connectionProvider;
 	private List<Long> vraagIDLijst;
 
-	private SpelerDao spelerDao = new SpelerDao();
 	private VraagDao vraagDao = new VraagDao();
 	private SpelerAntwoordDao spelerAntwoordDao = new SpelerAntwoordDao();
 	private SpelVraagDao spelVraagDao = new SpelVraagDao();
-	DeelnemerDao deelnemerDao = new DeelnemerDao();
+	private DeelnemerDao deelnemerDao = new DeelnemerDao();
 
 	public SpelSessie(ConnectionProvider connectionProvider) throws SQLException {
 		this.connectionProvider = connectionProvider;
-		this.spel = new Spel();
-		this.spel.setSpelID(IDUtil.getNextId());
 		SpelSessieDao dao = new SpelSessieDao();
 		dao.createSpelSessie(getConnection(), this);
 
@@ -46,16 +39,9 @@ public class SpelSessie {
 		return connectionProvider.getConnection();
 	}
 
-	// Verwijdert een speler van de Deelnemer tabel
-	public void verwijderSpeler(Speler speler) throws SQLException {
-		speler = spelerDao.findSpeler(getConnection(), speler.getSpelernaam());
-		spel.verwijderSpeler(getConnection(), speler, this);
-	}
-
 	// Voegt speler toe aan Deelnemer tabel
-	public void voegSpelerToe(Speler speler) throws SQLException {
-		speler = spelerDao.findSpeler(getConnection(), speler.getSpelernaam());
-		spel.voegSpelerToe(getConnection(), speler, this);
+	public Deelnemer voegSpelerToe(Speler speler) throws SQLException {
+		return deelnemerDao.maakDeelnemer(getConnection(), speler, this);
 	}
 
 	// Zet vragen voor de sessie in de SpelVraag tabel
@@ -90,61 +76,36 @@ public class SpelSessie {
 
 	}
 
-	public void stelVraag() throws SQLException {
-		vraag = spel.getVraag(getConnection(), this);
+	public Vraag getHuidigeVraag() throws SQLException, InterruptedException {
+		long vraagID = spelVraagDao.getVraagIDVanSessie(getConnection(), this);
+		Vraag vraag = vraagDao.getVraag(getConnection(), vraagID);
 		System.out.println(vraag.getVraagText());
-		spelVraagDao.deleteSessieVragen(getConnection(), vraag, this);
+		return vraag;
 	}
 
-	public void controleerAntwoorden() throws SQLException {
-		List<Speler> spelerLijst = spel.getSpelers(getConnection(), this);
+	public int getAantalAntwoorden(Vraag vraag) {
 
-		for (Speler speler : spelerLijst) {
-			controleerAntwoord(speler.getSpelerAntwoord(), vraag, speler);
-		}
+		return 0;
 	}
 
-	public Long geefAntwoord(Speler speler, Vraag vraag, String spelerAntwoord) throws SQLException {
+	public Antwoord geefAntwoord(Deelnemer deelnemer, Vraag vraag, String text) throws Exception {
+
 		AntwoordDao antwoordDao = new AntwoordDao();
-		List<Antwoord> antwoordenLijst = antwoordDao.findAntwoordenViaVraag(getConnection(), vraag);
+		Antwoord spelerAntwoord = antwoordDao.matchAntwoord(getConnection(), vraag, text);
+		if (spelerAntwoord != null) {
 
-		long spelerAntwoordID = 0;
-
-		for (Antwoord antwoord : antwoordenLijst) {
-			if (antwoord.getAntwoordText().equals(spelerAntwoord)) {
-				spelerAntwoordID = antwoord.getID();
+			spelerAntwoordDao.addAntwoord(getConnection(), deelnemer, spelerAntwoord);
+			if ("j".equalsIgnoreCase(spelerAntwoord.getCorrect_jn())) {
+				deelnemer.addScore(100);
+				deelnemerDao.zetScoreVanDeelnemer(getConnection(), deelnemer);
 			}
 		}
-
-		speler.setSpelerAntwoord(spelerAntwoordID);
-
-		spelerAntwoordDao.addAntwoord(getConnection(), speler, speler.getSpelerAntwoord());
-		return speler.getSpelerAntwoord();
-
+		return spelerAntwoord;
 	}
 
-	private void controleerAntwoord(long antwoordID, Vraag vraag, Speler speler) throws SQLException {
-		List<Antwoord> antwoordLijst = spel.getAntwoordenLijst(getConnection(), vraag);
-		Antwoord correcteAntwoord = null;
-
-		for (Antwoord antwoord : antwoordLijst) {
-			if (antwoord.getCorrect_jn().equalsIgnoreCase("J")) {
-				correcteAntwoord = antwoord;
-			}
-		}
-
-		if (antwoordID == correcteAntwoord.getID()) {
-			speler.addScore(100);
-			deelnemerDao.zetScoreVanDeelnemer(getConnection(), this, speler);
-			System.out.println(speler.getSpelernaam() + " Heeft het juiste antwoord gegeven! :)");
-		} else {
-			System.out.println(speler.getSpelernaam() + " Heeft een onjuist antwoord gegeven! :(");
-		}
-	}
-
-	public List<Speler> selecteerWinnaar() throws SQLException {
-		List<Speler> deelnemerLijst = spel.getSpelers(getConnection(), this);
-		List<Speler> eersteTweedeDerde = new ArrayList<Speler>();
+	public List<Deelnemer> selecteerWinnaar() throws SQLException {
+		List<Deelnemer> deelnemerLijst = deelnemerDao.getDeelnemersVanSessie(getConnection(), this);
+		List<Deelnemer> eersteTweedeDerde = new ArrayList<Deelnemer>();
 
 		// Zet de drie spelers met de hoogste score in de scorelijst
 		int lijstGrootte = deelnemerLijst.size();
@@ -159,7 +120,7 @@ public class SpelSessie {
 		return eersteTweedeDerde;
 	}
 
-	public long getSessieID() {
+	public long getID() {
 		return sessieID;
 	}
 
@@ -167,21 +128,16 @@ public class SpelSessie {
 		this.sessieID = sessieID;
 	}
 
-	public Spel getSpel() {
-		return spel;
-	}
-
-	public void sluitSpelSessie() throws SQLException {
-		List<Speler> spelerLijst = new ArrayList<Speler>();
-		spelerLijst = deelnemerDao.getSpelersVanSessie(getConnection(), this);
-		deelnemerDao.deleteSessie(getConnection(), this);
-		
-		for (Speler speler : spelerLijst) {
-			spelerAntwoordDao.deleteAntwoord(getConnection(), speler);
-			deelnemerDao.deleteSpelerVanSessie(getConnection(), speler, this);
-		}
-		
-
-	}
+//	public void sluitSpelSessie() throws SQLException {
+//		List<Deelnemer> deelnemerLijst = new ArrayList<Deelnemer>();
+//		deelnemerLijst = deelnemerDao.getDeelnemersVanSessie(getConnection(), this);
+//		deelnemerDao.deleteSessie(getConnection(), this);
+//
+//		for (Deelnemer deelnemer : deelnemerLijst) {
+//			spelerAntwoordDao.deleteAntwoord(getConnection(), deelnemer);
+//			deelnemerDao.deleteDeelnemerVanSessie(getConnection(), deelnemer, this);
+//		}
+//
+//	}
 
 }

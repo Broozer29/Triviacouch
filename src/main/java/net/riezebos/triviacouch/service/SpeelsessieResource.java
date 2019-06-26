@@ -21,7 +21,7 @@ public class SpeelsessieResource {
 	public long getSessie(@Context HttpServletRequest httpRequest) throws SQLException {
 		TriviaCouchGame game = SessionHelper.getGame(httpRequest.getSession());
 		SpelSessie sessie = game.genereerSessie();
-		return sessie.getSessieID();
+		return sessie.getID();
 	}
 
 }

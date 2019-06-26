@@ -23,7 +23,7 @@ public class ProfielResource {
 	public boolean profielMaken(SpelerToken spelerToken, @Context HttpServletRequest httpRequest) throws SQLException {
 		TriviaCouchGame game = SessionHelper.getGame(httpRequest.getSession());
 		Speler speler = new Speler();
-		speler.setSpelernaam(spelerToken.getProfielnaam());
+		speler.setProfielnaam(spelerToken.getProfielnaam());
 		speler.setWachtwoord(spelerToken.getWachtwoord());
 
 		game.maakSpeler(speler);

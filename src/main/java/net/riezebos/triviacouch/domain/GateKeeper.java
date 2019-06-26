@@ -15,7 +15,7 @@ public class GateKeeper {
 		SpelerDao factory = new SpelerDao();
 		if (!ingelogd) {
 			try {
-				speler = logProfielnaam(speler.getSpelernaam(), factory);
+				speler = logProfielnaam(speler.getProfielnaam(), factory);
 				ingelogd = logWachtwoord(speler, speler.getWachtwoord());
 			} catch (Exception e) {
 				System.out.println(e.getMessage());
@@ -42,7 +42,7 @@ public class GateKeeper {
 
 	private Boolean logWachtwoord(Speler speler, String wachtwoord) {
 		try {
-			if (speler.getSpelernaam() != null) {
+			if (speler.getProfielnaam() != null) {
 				if (wachtwoord.equals(speler.getWachtwoord())) {
 					return true;
 				}

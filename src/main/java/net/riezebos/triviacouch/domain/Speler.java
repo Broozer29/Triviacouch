@@ -1,17 +1,14 @@
 package net.riezebos.triviacouch.domain;
 
-import java.text.MessageFormat;
-
 public class Speler {
 	private long id;
 	private String profielnaam;
 	private String wachtwoord;
 	private long winPercentage;
 	private long correctPercentage;
-	private long score;
-	private long spelerAntwoord;
 
-	public long getId() {
+
+	public long getID() {
 		return id;
 	}
 
@@ -19,11 +16,11 @@ public class Speler {
 		this.id = id;
 	}
 
-	public String getSpelernaam() {
+	public String getProfielnaam() {
 		return profielnaam;
 	}
 
-	public void setSpelernaam(String spelernaam) {
+	public void setProfielnaam(String spelernaam) {
 		this.profielnaam = spelernaam;
 	}
 
@@ -51,21 +48,11 @@ public class Speler {
 		return this.wachtwoord;
 	}
 
-	public void setScore(long l) {
-		this.score = l;
-	}
-
-	public Long getScore() {
-		return this.score;
-	}
-
-	public void addScore(Integer score) {
-		this.score += score;
-	}
 
 	@Override
 	public String toString() {
-		return MessageFormat.format("Speler {0,number,#} {1} {2}", id, profielnaam);
+		return "Speler [id=" + id + ", profielnaam=" + profielnaam + ", wachtwoord=" + wachtwoord + ", winPercentage="
+				+ winPercentage + ", correctPercentage=" + correctPercentage + "]";
 	}
 
 	@Override
@@ -94,14 +81,6 @@ public class Speler {
 		} else if (!profielnaam.equals(other.profielnaam))
 			return false;
 		return true;
-	}
-
-	public long getSpelerAntwoord() {
-		return spelerAntwoord;
-	}
-
-	public void setSpelerAntwoord(long spelerAntwoord) {
-		this.spelerAntwoord = spelerAntwoord;
 	}
 
 }
