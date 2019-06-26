@@ -18,7 +18,9 @@ public class FullGameTest extends TestDBConnectionProvider {
 		TriviaCouchGame game = new TriviaCouchGame(new TestDBConnectionProvider());
 		SpelSessie sessie = game.genereerSessie();
 		Spel spel = sessie.getSpel();
+		
 
+		
 		Speler broozer = new Speler();
 
 		broozer.setSpelernaam("Broozer");
@@ -27,30 +29,47 @@ public class FullGameTest extends TestDBConnectionProvider {
 		if (game.inloggen(broozer, sessie, spel)) {
 			System.out.println("Ingelogd: " + broozer.getSpelernaam());
 		}
+		
+		SpelSessie sessieTwee = game.genereerSessie();
+		Spel spelTwee = sessie.getSpel();
 
 		Speler piepje = new Speler();
 		piepje.setSpelernaam("Piepje");
 		piepje.setWachtwoord("letter");
 
-		if (game.inloggen(piepje, sessie, spel)) {
+		if (game.inloggen(piepje, sessieTwee, spelTwee)) {
 			System.out.println("Ingelogd: " + piepje.getSpelernaam());
 		}
 
 		for (int i = 0; i < 10; i++) {
 			sessie.stelVraag();
 			broozer.setSpelerAntwoord(10);
-			piepje.setSpelerAntwoord(100);
 
 			sessie.controleerAntwoorden();
 		}
 		
+		for (int i = 0; i < 10; i++) {
+			sessieTwee.stelVraag();
+			piepje.setSpelerAntwoord(10);
+
+			sessieTwee.controleerAntwoorden();
+		}
+		
+		
 		List<Speler> winnaarLijst = sessie.selecteerWinnaar();
 		System.out.println(winnaarLijst.size());
 		for (Speler speler : winnaarLijst) {
-			System.out.println("Speler: " + speler.getSpelernaam() + " met een score van: " + speler.getScore());
+			System.out.println("Sessie een: Speler: " + speler.getSpelernaam() + " met een score van: " + speler.getScore());
 		}
 		
 		sessie.sluitSpelSessie();
+		
+		List<Speler> winnaarLijstTwee = sessieTwee.selecteerWinnaar();
+		for (Speler speler : winnaarLijstTwee) {
+			System.out.println("Sessie twee: Speler: " + speler.getSpelernaam() + " met een score van: " + speler.getScore());
+		}
+		
+		sessieTwee.sluitSpelSessie();
 		
 		
 		
