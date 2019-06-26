@@ -93,7 +93,7 @@ public class SpelSessie {
 	public void stelVraag() throws SQLException {
 		vraag = spel.getVraag(getConnection(), this);
 		System.out.println(vraag.getVraagText());
-		spelVraagDao.deleteSpelVragen(getConnection(), vraag);
+		spelVraagDao.deleteSessieVragen(getConnection(), vraag, this);
 	}
 
 	public void controleerAntwoorden() throws SQLException {

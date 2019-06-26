@@ -48,6 +48,7 @@ public class FullGameTest extends TestDBConnectionProvider {
 			sessie.controleerAntwoorden();
 		}
 		
+		
 		for (int i = 0; i < 10; i++) {
 			sessieTwee.stelVraag();
 			piepje.setSpelerAntwoord(10);

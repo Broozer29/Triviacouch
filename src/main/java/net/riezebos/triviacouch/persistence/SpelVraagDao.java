@@ -30,7 +30,6 @@ public class SpelVraagDao {
 		stmt.setLong(1, sessie.getSessieID());
 		ResultSet rs = stmt.executeQuery();
 		Long result = null;
-
 		if (rs.next()) {
 			result = rs.getLong(1);
 		}
@@ -41,6 +40,15 @@ public class SpelVraagDao {
 	public void deleteSpelVragen(Connection connection, Vraag vraag) throws SQLException {
 		PreparedStatement stmt = connection.prepareStatement("delete from spelvraag where vraagID = ?");
 		stmt.setLong(1, vraag.getID());
+		stmt.execute();
+		stmt.close();
+
+	}
+	
+	public void deleteSessieVragen(Connection connection, Vraag vraag, SpelSessie sessie) throws SQLException {
+		PreparedStatement stmt = connection.prepareStatement("delete from spelvraag where vraagID = ? and sessieID = ?");
+		stmt.setLong(1, vraag.getID());
+		stmt.setLong(2, sessie.getSessieID());
 		stmt.execute();
 		stmt.close();
 
