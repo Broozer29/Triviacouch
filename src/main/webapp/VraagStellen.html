@@ -37,17 +37,24 @@
     .then(response => response.json())
     .then(function (myJson) {
 		  	  console.log(myJson);
-		      document.getElementById("vraag").innerHTML = myJson.vraagText;
-		      document.getElementById("vraagCode").innerHTML = "Vraag ID: "+myJson.iD;
-		      document.getElementById("antwoordA").innerHTML = "Antwoord A: "+myJson.antwoorden[0].antwoordText;
-		      document.getElementById("antwoordB").innerHTML = "Antwoord B: "+myJson.antwoorden[1].antwoordText;
-		      document.getElementById("antwoordC").innerHTML = "Antwoord C: "+myJson.antwoorden[2].antwoordText;
-		      document.getElementById("antwoordD").innerHTML = "Antwoord D: "+myJson.antwoorden[3].antwoordText;
+		  	  if(myJson.length != 0) {
+			  	  var vraag = myJson[0];
+			      document.getElementById("vraag").innerHTML = vraag.vraagText;
+			      document.getElementById("vraagCode").innerHTML = "Vraag ID: "  +vraag.iD;
+			      document.getElementById("antwoordA").innerHTML = "Antwoord A: "+vraag.antwoorden[0].antwoordText;
+			      document.getElementById("antwoordB").innerHTML = "Antwoord B: "+vraag.antwoorden[1].antwoordText;
+			      document.getElementById("antwoordC").innerHTML = "Antwoord C: "+vraag.antwoorden[2].antwoordText;
+			      document.getElementById("antwoordD").innerHTML = "Antwoord D: "+vraag.antwoorden[3].antwoordText;
+		  	  } else {
+    		  		document.location = "ScoreScherm.html";		  		  
+		  	  }
           });
 	
 	
-
-	
+/* 	setTimeout(function(){
+		   window.location.reload(1);
+		}, 1000);
+ */	
 </script>
 
 

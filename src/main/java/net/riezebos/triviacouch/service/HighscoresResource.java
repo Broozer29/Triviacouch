@@ -1,7 +1,6 @@
 package net.riezebos.triviacouch.service;
 
-import java.io.IOException;
-import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,10 +19,16 @@ public class HighscoresResource {
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Highscore> getHighscores(@Context HttpServletRequest httpRequest) throws SQLException, IOException {
-		TriviaCouchGame game = SessionHelper.getGame(httpRequest.getSession());
-		List<Highscore> scores = game.getScores();
+	public List<Highscore> getHighscores(@Context HttpServletRequest httpRequest) {
+		List<Highscore> scores = new ArrayList<Highscore>();
+		try {
+			TriviaCouchGame game = SessionHelper.getGame(httpRequest.getSession());
+			scores = game.getScores();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return scores;
+
 	}
 
 }

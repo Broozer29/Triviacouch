@@ -1,6 +1,5 @@
 package net.riezebos.triviacouch.service;
 
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,31 +25,35 @@ public class GatekeeperResource {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/login")
-	public Map<String, String> logIn(SpelerToken spelerToken, @Context HttpServletRequest httpRequest)
-			throws SQLException {
-		TriviaCouchGame game = SessionHelper.getGame(httpRequest.getSession());
-
-		Speler speler = new Speler();
-		speler.setProfielnaam(spelerToken.getProfielnaam());
-		speler.setWachtwoord(spelerToken.getWachtwoord());
-
+	public Map<String, String> logIn(SpelerToken spelerToken, @Context HttpServletRequest httpRequest) {
 		Map<String, String> result = new HashMap<>();
 		result.put("success", "false");
+		try {
+			TriviaCouchGame game = SessionHelper.getGame(httpRequest.getSession());
 
-		SpelSessie sessie = game.startSessie();
-		if (spelerToken.getSessieID() != null) {
-			try {
-				long sessionId = Long.parseLong(spelerToken.getSessieID());
-				sessie.setSessieID(sessionId);
+			Speler speler = new Speler();
+			speler.setProfielnaam(spelerToken.getProfielnaam());
+			speler.setWachtwoord(spelerToken.getWachtwoord());
 
-				Deelnemer deelnemer = game.inloggen(spelerToken.getProfielnaam(), spelerToken.getWachtwoord(), sessie);
-				if (deelnemer != null) {
-					SessionHelper.setDeelnemerID(httpRequest.getSession(), deelnemer.getID());
-					SessionHelper.setSessieID(httpRequest.getSession(), sessie.getID());
-					result.put("success", "true");
+			SpelSessie sessie = game.startSessie();
+			if (spelerToken.getSessieID() != null) {
+				try {
+					long sessionId = Long.parseLong(spelerToken.getSessieID());
+					sessie.setSessieID(sessionId);
+
+					Deelnemer deelnemer = game.inloggen(spelerToken.getProfielnaam(), spelerToken.getWachtwoord(),
+							sessie);
+					if (deelnemer != null) {
+						SessionHelper.setDeelnemerID(httpRequest.getSession(), deelnemer.getID());
+						SessionHelper.setSessieID(httpRequest.getSession(), sessie.getID());
+						result.put("success", "true");
+					}
+				} catch (java.lang.NumberFormatException e) { // ongeldig sessieid
 				}
-			} catch (java.lang.NumberFormatException e) { // ongeldig sessieid
 			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.put("error", e.getMessage());
 		}
 		return result;
 	}

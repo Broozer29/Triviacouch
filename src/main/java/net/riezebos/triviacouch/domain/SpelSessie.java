@@ -23,7 +23,6 @@ public class SpelSessie {
 
 	private ConnectionProvider connectionProvider;
 
-
 	private VraagDao vraagDao = new VraagDao();
 	private SpelerAntwoordDao spelerAntwoordDao = new SpelerAntwoordDao();
 	private SpelVraagDao spelVraagDao = new SpelVraagDao();
@@ -105,9 +104,11 @@ public class SpelSessie {
 
 	public Vraag getHuidigeVraag() throws SQLException, InterruptedException {
 		try (Connection connection = getConnection()) {
-			long vraagID = spelVraagDao.getVraagIDVanSessie(connection, this);
-			Vraag vraag = vraagDao.getVraag(connection, vraagID);
-			return vraag;
+			Long vraagID = spelVraagDao.getVraagIDVanSessie(connection, this);
+			if (vraagID != null)
+				return vraagDao.getVraag(connection, vraagID);
+			else
+				return null;
 		}
 	}
 
@@ -123,6 +124,13 @@ public class SpelSessie {
 					System.out.println("Deelnemer: " + deelnemer.getSpelerID() + "gaf het goede antwoord! :)");
 				}
 			}
+			connection.commit();
+			List<Antwoord> gegevenAntwoordenLijst = getGegevenAntwoordenBijHuidigeVraag();
+			List<Deelnemer> deelnemerLijst = deelnemerDao.getDeelnemersVanSessie(connection, this);
+			if (gegevenAntwoordenLijst.size() == deelnemerLijst.size()) {
+				spelVraagDao.deleteSpelVraag(connection, vraag, this);
+			}
+
 			connection.commit();
 			return spelerAntwoord;
 		}
@@ -148,8 +156,8 @@ public class SpelSessie {
 			return eersteTweedeDerde;
 		}
 	}
-	
-	public List<Deelnemer> getDeelnemersVanSessie() throws SQLException{
+
+	public List<Deelnemer> getDeelnemersVanSessie() throws SQLException {
 		try (Connection connection = getConnection()) {
 			return deelnemerDao.getDeelnemersVanSessie(connection, this);
 		}
@@ -198,28 +206,36 @@ public class SpelSessie {
 			connection.commit();
 		}
 	}
-	
-	public List<Antwoord> getGegevenAntwoorden() throws SQLException, InterruptedException {
-		return antwoordDao.getGegevenAntwoorden(getConnection(), this, getHuidigeVraag());
-	}
-	
-	public List<Antwoord> getAnwoordenBijVraag() throws SQLException, InterruptedException{
-		return antwoordDao.findAntwoordenViaVraag(getConnection(), getHuidigeVraag());
-	}
-	
-	public Deelnemer getDeelnemer(long deelnemerID) throws SQLException {
-		Deelnemer deelnemer = deelnemerDao.getDeelnemer(getConnection(), deelnemerID);
-		return deelnemer;
-		
-	}
-	
-	public boolean antwoordGegevenVoorVraag(Deelnemer deelnemer, Vraag vraag) throws SQLException, InterruptedException {
-		Antwoord spelerAntwoord = spelerAntwoordDao.getAntwoordVoorVraag(getConnection(), deelnemer, vraag);
-		if (spelerAntwoord != null) {
-			return true;
+
+	public List<Antwoord> getGegevenAntwoordenBijHuidigeVraag() throws SQLException, InterruptedException {
+		try (Connection connection = getConnection()) {
+			return antwoordDao.getGegevenAntwoorden(connection, this, getHuidigeVraag());
 		}
-		return false;
 	}
-	
+
+	public List<Antwoord> getAnwoordenBijVraag() throws SQLException, InterruptedException {
+		try (Connection connection = getConnection()) {
+			return antwoordDao.findAntwoordenViaVraag(connection, getHuidigeVraag());
+		}
+	}
+
+	public Deelnemer getDeelnemer(long deelnemerID) throws SQLException {
+		try (Connection connection = getConnection()) {
+			Deelnemer deelnemer = deelnemerDao.getDeelnemer(connection, deelnemerID);
+			return deelnemer;
+		}
+
+	}
+
+	public boolean antwoordGegevenVoorVraag(Deelnemer deelnemer, Vraag vraag)
+			throws SQLException, InterruptedException {
+		try (Connection connection = getConnection()) {
+			Antwoord spelerAntwoord = spelerAntwoordDao.getAntwoordVoorVraag(connection, deelnemer, vraag);
+			if (spelerAntwoord != null) {
+				return true;
+			}
+			return false;
+		}
+	}
 
 }

@@ -44,6 +44,15 @@ public class SpelVraagDao {
 
 	}
 
+	public void deleteSpelVraag(Connection connection, Vraag vraag, SpelSessie sessie) throws SQLException {
+		PreparedStatement stmt = connection.prepareStatement("delete from spelvraag where vraagID = ? and sessieID = ?");
+		stmt.setLong(1, vraag.getID());
+		stmt.setLong(2, sessie.getID());
+		stmt.execute();
+		stmt.close();
+
+	}
+	
 	public void deleteSessieVragen(Connection connection, Vraag vraag, SpelSessie sessie) throws SQLException {
 		PreparedStatement stmt = connection
 				.prepareStatement("delete from spelvraag where vraagID = ? and sessieID = ?");

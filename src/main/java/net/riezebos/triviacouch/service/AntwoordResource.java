@@ -26,36 +26,39 @@ public class AntwoordResource {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Map<String, String> geefAntwoord(AntwoordToken antwoordToken, @Context HttpServletRequest httpRequest)
-			throws Exception {
-		TriviaCouchGame game = SessionHelper.getGame(httpRequest.getSession());
-		Long sessieID = SessionHelper.getSessieID(httpRequest.getSession());
-
-		SpelSessie sessie = game.getBestaandeSessie(sessieID);
-		Deelnemer deelnemer = new Deelnemer();
-		deelnemer = sessie.getDeelnemer(SessionHelper.getDeelnemerID(httpRequest.getSession()));
-
+	public Map<String, String> geefAntwoord(AntwoordToken antwoordToken, @Context HttpServletRequest httpRequest) {
 		Map<String, String> result = new HashMap<>();
 		result.put("success", "false");
-		Vraag huidigeVraag = sessie.getHuidigeVraag();
-		
-		if (!sessie.antwoordGegevenVoorVraag(deelnemer, huidigeVraag)) {
-			List<Antwoord> antwoordenLijst = sessie.getAnwoordenBijVraag();
-			Antwoord antwoord = null;
+		try {
+			TriviaCouchGame game = SessionHelper.getGame(httpRequest.getSession());
+			Long sessieID = SessionHelper.getSessieID(httpRequest.getSession());
 
+			SpelSessie sessie = game.getBestaandeSessie(sessieID);
+			Deelnemer deelnemer = new Deelnemer();
+			deelnemer = sessie.getDeelnemer(SessionHelper.getDeelnemerID(httpRequest.getSession()));
 
+			Vraag huidigeVraag = sessie.getHuidigeVraag();
 
-			if (antwoordToken.getAntwoord().equals("Antwoord A")) {
-				antwoord = antwoordenLijst.get(0);
-			} else if (antwoordToken.getAntwoord().equals("Antwoord B")) {
-				antwoord = antwoordenLijst.get(1);
-			} else if (antwoordToken.getAntwoord().equals("Antwoord C")) {
-				antwoord = antwoordenLijst.get(2);
-			} else if (antwoordToken.getAntwoord().equals("Antwoord D")) {
-				antwoord = antwoordenLijst.get(3);
+			if (huidigeVraag != null && !sessie.antwoordGegevenVoorVraag(deelnemer, huidigeVraag)) {
+				List<Antwoord> antwoordenLijst = sessie.getAnwoordenBijVraag();
+				Antwoord antwoord = null;
+
+				if (antwoordToken.getAntwoord().equals("Antwoord A")) {
+					antwoord = antwoordenLijst.get(0);
+				} else if (antwoordToken.getAntwoord().equals("Antwoord B")) {
+					antwoord = antwoordenLijst.get(1);
+				} else if (antwoordToken.getAntwoord().equals("Antwoord C")) {
+					antwoord = antwoordenLijst.get(2);
+				} else if (antwoordToken.getAntwoord().equals("Antwoord D")) {
+					antwoord = antwoordenLijst.get(3);
+				}
+				sessie.geefAntwoord(deelnemer, huidigeVraag, antwoord.getAntwoordText());
+				result.put("success", "true");
+
 			}
-			sessie.geefAntwoord(deelnemer, huidigeVraag, antwoord.getAntwoordText());
-			result.put("success", "true");
+		} catch (Exception e) {
+			result.put("error", e.getMessage());
+			e.printStackTrace();
 		}
 		return result;
 	}

@@ -21,16 +21,19 @@ public class ProfielResource {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public boolean profielMaken(SpelerToken spelerToken, @Context HttpServletRequest httpRequest) throws SQLException {
-		TriviaCouchGame game = SessionHelper.getGame(httpRequest.getSession());
-		Speler speler = new Speler();
-		speler.setProfielnaam(spelerToken.getProfielnaam());
-		speler.setWachtwoord(spelerToken.getWachtwoord());
-		
+	public boolean profielMaken(SpelerToken spelerToken, @Context HttpServletRequest httpRequest) {
+		try {
+			TriviaCouchGame game = SessionHelper.getGame(httpRequest.getSession());
+			Speler speler = new Speler();
+			speler.setProfielnaam(spelerToken.getProfielnaam());
+			speler.setWachtwoord(spelerToken.getWachtwoord());
+			game.maakSpeler(speler);
 
-		game.maakSpeler(speler);
-		
-		return true;
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 
 }

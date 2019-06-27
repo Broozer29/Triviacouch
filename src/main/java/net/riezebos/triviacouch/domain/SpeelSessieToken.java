@@ -1,13 +1,13 @@
 package net.riezebos.triviacouch.domain;
 
 public class SpeelSessieToken {
-	private long sessieID;
+	private String sessieID;
 
-	public long getSessieID() {
+	public String getSessieID() {
 		return sessieID;
 	}
 
-	public void setSessieID(long sessieID) {
+	public void setSessieID(String sessieID) {
 		this.sessieID = sessieID;
 	}
 }

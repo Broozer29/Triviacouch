@@ -1,6 +1,6 @@
 package net.riezebos.triviacouch.service;
 
-import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,7 +12,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
-import net.riezebos.triviacouch.domain.SpelSessie;
 import net.riezebos.triviacouch.domain.TriviaCouchGame;
 import net.riezebos.triviacouch.domain.Vraag;
 import net.riezebos.triviacouch.domain.VraagToken;
@@ -23,32 +22,51 @@ public class VraagResource {
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Vraag> getVragen(@Context HttpServletRequest httpRequest) throws SQLException {
-		TriviaCouchGame game = SessionHelper.getGame(httpRequest.getSession());
-		return game.getVragen();
+	public List<Vraag> getVragen(@Context HttpServletRequest httpRequest) {
+		List<Vraag> result = new ArrayList<Vraag>();
+		try {
+			TriviaCouchGame game = SessionHelper.getGame(httpRequest.getSession());
+			result = game.getVragen();
+			return result;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
 	}
 
 	@POST
 	@Path("/aanpassen")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Vraag getVraag(VraagToken vraagToken, @Context HttpServletRequest httpRequest) throws SQLException {
-		TriviaCouchGame game = SessionHelper.getGame(httpRequest.getSession());
-		Vraag vraag = new Vraag();
-		long vraagID = Long.parseLong(vraagToken.getVraagID());
-		vraag.setID(vraagID);
-		vraag = game.getVraag(vraag.getID());
-		return vraag;
+	public Vraag getVraag(VraagToken vraagToken, @Context HttpServletRequest httpRequest) {
+		try {
+			TriviaCouchGame game = SessionHelper.getGame(httpRequest.getSession());
+			Vraag vraag = new Vraag();
+			long vraagID = Long.parseLong(vraagToken.getVraagID());
+			vraag.setID(vraagID);
+			vraag = game.getVraag(vraag.getID());
+			return vraag;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+
 	}
 
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/maak")
-	public boolean maakVraag(Vraag vraag, @Context HttpServletRequest httpRequest) throws Exception {
-		TriviaCouchGame game = SessionHelper.getGame(httpRequest.getSession());
-		game.vraagMaken(vraag);
-		return true;
+	public boolean maakVraag(Vraag vraag, @Context HttpServletRequest httpRequest) {
+		try {
+			TriviaCouchGame game = SessionHelper.getGame(httpRequest.getSession());
+			game.vraagMaken(vraag);
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+
 	}
 
 }
