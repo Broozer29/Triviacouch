@@ -12,7 +12,7 @@ import net.riezebos.triviacouch.domain.Vraag;
 import net.riezebos.triviacouch.resource.IDUtil;
 
 public class VraagDao {
-	public void createVraag(Connection connection, Vraag vraag) throws SQLException {
+	public void createVraag(Connection connection, Vraag vraag) throws Exception {
 		vraag.setID(IDUtil.getNextId());
 
 		PreparedStatement stmt = connection.prepareStatement("insert into vraag (id, vraag) values (?,?)");

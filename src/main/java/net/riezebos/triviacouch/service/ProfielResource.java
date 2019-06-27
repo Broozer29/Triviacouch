@@ -27,10 +27,8 @@ public class ProfielResource {
 		speler.setProfielnaam(spelerToken.getProfielnaam());
 		speler.setWachtwoord(spelerToken.getWachtwoord());
 		
-		System.out.println(speler.toString());
 
 		game.maakSpeler(speler);
-		System.out.println("Speler Gemaakt!");
 		
 		return true;
 	}

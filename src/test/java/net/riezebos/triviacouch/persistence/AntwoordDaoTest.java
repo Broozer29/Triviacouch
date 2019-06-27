@@ -14,7 +14,7 @@ import net.riezebos.triviacouch.util.TestDBConnectionProvider;
 
 public class AntwoordDaoTest extends TestDBConnectionProvider {
 	@Test
-	public void testCreate() throws SQLException {
+	public void testCreate() throws Exception {
 
 		Connection connection = getConnection();
 		Vraag nieuweVraag = maakVraag();
@@ -58,7 +58,7 @@ public class AntwoordDaoTest extends TestDBConnectionProvider {
 	}
 
 	@Test
-	public void testUpdate() throws SQLException {
+	public void testUpdate() throws Exception {
 		Connection connection = getConnection();
 		AntwoordDao dao = new AntwoordDao();
 		Antwoord antwoord = dao.findAntwoordID(connection, 1001);
@@ -81,7 +81,7 @@ public class AntwoordDaoTest extends TestDBConnectionProvider {
 		Assert.assertNull(check);
 	}
 
-	private Vraag maakVraag() throws SQLException {
+	private Vraag maakVraag() throws Exception {
 		Connection connection = getConnection();
 		VraagDao vraagDao = new VraagDao();
 		Vraag nieuweVraag = new Vraag();

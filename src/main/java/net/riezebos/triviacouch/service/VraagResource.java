@@ -45,10 +45,9 @@ public class VraagResource {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/maak")
-	public boolean maakVraag(Vraag vraag, @Context HttpServletRequest httpRequest) throws SQLException {
+	public boolean maakVraag(Vraag vraag, @Context HttpServletRequest httpRequest) throws Exception {
 		TriviaCouchGame game = SessionHelper.getGame(httpRequest.getSession());
 		game.vraagMaken(vraag);
-		System.out.println("Vraag aangemaakt!");
 		return true;
 	}
 

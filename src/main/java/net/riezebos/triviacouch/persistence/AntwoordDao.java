@@ -13,7 +13,7 @@ import net.riezebos.triviacouch.domain.Vraag;
 import net.riezebos.triviacouch.resource.IDUtil;
 
 public class AntwoordDao {
-	public void createAntwoord(Connection connection, Antwoord antwoord, Vraag vraag) throws SQLException {
+	public void createAntwoord(Connection connection, Antwoord antwoord, Vraag vraag) throws Exception {
 
 		antwoord.setID(IDUtil.getNextId());
 
@@ -28,7 +28,7 @@ public class AntwoordDao {
 			stmt.execute();
 			stmt.close();
 		} else
-			System.out.println("Te lang!");
+			throw new Exception("Antwoord is te lang: " + antwoord.getAntwoordText());
 	}
 
 	public Antwoord findAntwoordID(Connection connection, long id) throws SQLException {
@@ -50,7 +50,7 @@ public class AntwoordDao {
 
 	public List<Antwoord> findAntwoordenViaVraag(Connection connection, Vraag vraag) throws SQLException {
 		PreparedStatement stmt = connection.prepareStatement(
-				"select antwoord, correct_jn, id from antwoord where vraagID = ? order by correct_jn");
+				"select antwoord, correct_jn, id from antwoord where vraagID = ? order by correct_jn, id");
 		stmt.setLong(1, vraag.getID());
 		ResultSet rs = stmt.executeQuery();
 		List<Antwoord> antwoorden = new ArrayList<Antwoord>();
@@ -68,7 +68,7 @@ public class AntwoordDao {
 
 	}
 
-	public void updateAntwoord(Connection connection, Antwoord antwoord) throws SQLException {
+	public void updateAntwoord(Connection connection, Antwoord antwoord) throws Exception {
 		PreparedStatement stmt = connection
 				.prepareStatement("update antwoord set antwoord = ?, correct_jn = ? where id = ?");
 		if (antwoord.getAntwoordText().length() < 255) {
@@ -78,7 +78,7 @@ public class AntwoordDao {
 			stmt.execute();
 			stmt.close();
 		} else
-			System.out.println("Te lang!");
+			throw new Exception("Antwoord is te lang: " + antwoord.getAntwoordText());
 
 	}
 
@@ -98,6 +98,9 @@ public class AntwoordDao {
 
 	}
 
+	/*
+	 * Geeft een lijst van antwoorden die gegeven zijn voor de vraag.
+	 */
 	public List<Antwoord> getAntwoorden(Connection connection, SpelSessie sessie, Vraag vraag) throws SQLException {
 		PreparedStatement stmt = connection.prepareStatement(//
 				"select antw.id, antw.antwoord, antw.correct_jn, antw.vraagID "//
@@ -107,7 +110,7 @@ public class AntwoordDao {
 						+ "where dln.sessieID = ? "//
 						+ "and   dln.id = dant.deelnemerID "//
 						+ "and   dant.antwoordID = antw.id "//
-						+ "and	 antw.vraagID = ?");//
+						+ "and	 antw.vraagID = ? order by antw.id");//
 
 		stmt.setLong(1, sessie.getID());
 		stmt.setLong(2, vraag.getID());
@@ -132,7 +135,7 @@ public class AntwoordDao {
 		Antwoord result = null;
 
 		for (Antwoord antwoord : findAntwoordenViaVraag(connection, vraag)) {
-			if (antwoord.getAntwoordText().toLowerCase().contains(text)) {
+			if (antwoord.getAntwoordText().toLowerCase().contains(text.toLowerCase())) {
 				result = antwoord;
 				break;
 			}

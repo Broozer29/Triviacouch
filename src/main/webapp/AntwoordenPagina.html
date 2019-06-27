@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Antwoorden:</title>
+</head>
+<body>
+<h1>Kies een antwoord:</h1>
+	<div>
+		<input id="antwoordA" type = "submit" value = "Antwoord A">
+		<input id="antwoordB" type = "submit" value = "Antwoord B">
+	</div>
+
+	<div>
+		<input id="antwoordC" type = "submit" value = "Antwoord C">
+		<input id="antwoordD" type = "submit" value = "Antwoord D">
+	</div>
+
+<script>
+
+document.querySelector("#antwoordA").addEventListener("click", function () {
+	var data = {
+			"antwoord" : document.getElementById("antwoordA").value
+			}
+	stuurAntwoord(data);	
+})
+document.querySelector("#antwoordB").addEventListener("click", function () {
+	var data = {
+			"antwoord" : document.getElementById("antwoordB").value
+			}
+	stuurAntwoord(data);	
+})
+document.querySelector("#antwoordB").addEventListener("click", function () {
+	var data = {
+			"antwoord" : document.getElementById("antwoordC").value
+			}
+	stuurAntwoord(data);	
+})
+document.querySelector("#antwoordB").addEventListener("click", function () {
+	var data = {
+			"antwoord" : document.getElementById("antwoordD").value
+			}
+	stuurAntwoord(data);	
+})
+	
+	
+	function stuurAntwoord(data){
+	var url = "api/antwoorden";
+	fetch(url, {
+		  method: 'POST', // or 'PUT'
+		  body: JSON.stringify(data), // data can be `string` or {object}!
+		  headers:{
+		    'Content-Type': 'application/json'
+		  }
+		})
+	}
+
+
+
+
+</script>
+
+
+</body>
+</html>

@@ -25,12 +25,15 @@ public class TriviaCouchGame {
 	}
 
 	public SpelSessie getBestaandeSessie(Long sessieID) throws SQLException {
-		SpelSessieDao spelSessieDao = new SpelSessieDao();
-		return spelSessieDao.getSpelSessie(connectionProvider, sessieID);
+		if (sessieID == null)
+			return null;
+		else {
+			SpelSessieDao spelSessieDao = new SpelSessieDao();
+			return spelSessieDao.getSpelSessie(connectionProvider, sessieID);
+		}
 	}
 
 	private Deelnemer voegSpelerToe(SpelSessie sessie, Speler speler) throws SQLException {
-		System.out.println("Voeg speler toe: " + speler.getID() + " " + sessie.getID());
 
 		return sessie.voegSpelerToe(speler);
 	}
@@ -48,17 +51,18 @@ public class TriviaCouchGame {
 			try (Connection connection = getConnection()) {
 				SpelerDao spelerDao = new SpelerDao();
 				Speler speler = spelerDao.findSpeler(connection, profielnaam);
-
-				GateKeeper gateKeeper = new GateKeeper();
-				if (gateKeeper.logIn(speler, connectionProvider)) {
-					result = voegSpelerToe(sessie, speler);
+				if (speler != null) {
+					GateKeeper gateKeeper = new GateKeeper();
+					if (gateKeeper.logIn(speler, wachtwoord, connectionProvider)) {
+						result = voegSpelerToe(sessie, speler);
+					}
 				}
 			}
 		}
 		return result;
 	}
 
-	public void vraagMaken(Vraag vraag) throws SQLException {
+	public void vraagMaken(Vraag vraag) throws Exception {
 		VraagDao vraagDao = new VraagDao();
 		try (Connection connection = getConnection()) {
 			vraagDao.createVraag(connection, vraag);

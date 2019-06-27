@@ -13,16 +13,20 @@
 	<input type="button" id="haalspelers" value="Toon Spelers" />
 
 	<form>
-		<input type="button" id="startspel" value="Start Spel" />
+		<input type="button" id="genereerspel" value="Genereer een sessie ID!" />
 	</form>
 
 	<form action="Startscherm.html">
 		<input type="submit" value="Terug" />
 	</form>
 
+	<form action="VraagStellen.html">
+		<input type="submit" id = "startsessie" value="Start het spel!" />
+	</form>
+
 	<script>
 
-document.querySelector("#startspel").addEventListener("click", function () {
+document.querySelector("#genereerspel").addEventListener("click", function () {
 	
     fetch("api/spelen", { method: 'GET' })
     .then(response => response.json())
@@ -49,18 +53,15 @@ document.querySelector("#haalspelers").addEventListener("click", function () {
 	    'Content-Type': 'application/json'
 	  }
 	}).then(res => res.json())
-	.then(response => { var obj = JSON.stringify(response);
-	                    var i;
+	.then(response => { var i;
 	                    var text='';
 	                    
-	                    console.log('Success:', obj);
 	                    for (i = 0; i < response.length; i++) { 
 	                    	  text += "ID="+response[i].spelerID + "<br>";
 	                    	}
 	                    document.getElementById("spelers").innerHTML = text;}) 
 	.catch(error => console.error('Error:', error));
 });
-
 </script>
 
 </body>

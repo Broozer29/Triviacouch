@@ -12,7 +12,7 @@ import net.riezebos.triviacouch.util.TestDBConnectionProvider;
 
 public class VraagDaoTest extends TestDBConnectionProvider {
 	@Test
-	public void testCreate() throws SQLException {
+	public void testCreate() throws Exception {
 		Connection connection = getConnection();
 		VraagDao dao = new VraagDao();
 		Vraag nieuweVraag = new Vraag();

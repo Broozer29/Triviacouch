@@ -7,8 +7,7 @@
 	<form id="ProfielMaken">
 		Profielnaam: <br> <input type="text" id=profielNaam> <br>
 		Wachtwoord: <br> <input type="text" id="wachtwoord"> <br>
-		<input type="button" id="post" value="Maak Profiel!"
-			onclick="maakVraag()" />
+		<input type="button" id="post" value="Maak Profiel!"/>
 	</form>
 
 
@@ -19,24 +18,21 @@
 
 
 	<script>
-		function maakProfiel() {
-			xhr = new XMLHttpRequest();
-			var url = "http://localhost:8080/triviacouch/api/profielmaken";
-			xhr.open("POST", url, true);
-			xhr.setRequestHeader("Content-type", "application/json");
-			xhr.onreadystatechange = function() {
-				if (xhr.readyState == 4 && xhr.status == 200) {
-					var json = JSON.parse(xhr.responseText);
-					console.log(json.email + ", " + json.name)
-				}
-			}
-			var data = JSON.stringify({
-				"profielnaam" : document.getElementById("profielnaam").value,
+	document.querySelector("#post").addEventListener("click", function () {
+		var url = "api/profielmaken";
+		var data = {
+				"profielnaam": document.getElementById("profielnaam").value, 
 				"wachtwoord" : document.getElementById("wachtwoord").value
-			})
-			xhr.send(data);
-			window.location.replace("Inloggen.html");
-		}
+				};
+			
+			fetch(url, {
+				  method: 'POST', // or 'PUT'
+				  body: JSON.stringify(data), // data can be `string` or {object}!
+				  headers:{
+				    'Content-Type': 'application/json'
+				  }
+				})
+		})
 	</script>
 
 </body>

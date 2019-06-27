@@ -30,6 +30,7 @@ public class SpelSessie {
 	private DeelnemerDao deelnemerDao = new DeelnemerDao();
 	private SpelSessieDao spelSessieDao = new SpelSessieDao();
 	private HighscoreDao highscoreDao = new HighscoreDao();
+	private AntwoordDao antwoordDao = new AntwoordDao();
 
 	public SpelSessie(ConnectionProvider connectionProvider) throws SQLException {
 		this.connectionProvider = connectionProvider;
@@ -106,18 +107,11 @@ public class SpelSessie {
 		try (Connection connection = getConnection()) {
 			long vraagID = spelVraagDao.getVraagIDVanSessie(connection, this);
 			Vraag vraag = vraagDao.getVraag(connection, vraagID);
-			System.out.println(vraag.getVraagText());
 			return vraag;
 		}
 	}
 
-	public int getAantalAntwoorden(Vraag vraag) {
-		return 0;
-	}
-
 	public Antwoord geefAntwoord(Deelnemer deelnemer, Vraag vraag, String text) throws Exception {
-
-		AntwoordDao antwoordDao = new AntwoordDao();
 		try (Connection connection = getConnection()) {
 			Antwoord spelerAntwoord = antwoordDao.matchAntwoord(connection, vraag, text);
 			if (spelerAntwoord != null) {
@@ -126,6 +120,7 @@ public class SpelSessie {
 				if ("j".equalsIgnoreCase(spelerAntwoord.getCorrect_jn())) {
 					deelnemer.addScore(100);
 					deelnemerDao.zetScoreVanDeelnemer(connection, deelnemer);
+					System.out.println("Deelnemer: " + deelnemer.getSpelerID() + "gaf het goede antwoord! :)");
 				}
 			}
 			return spelerAntwoord;
@@ -200,5 +195,20 @@ public class SpelSessie {
 			}
 		}
 	}
+	
+	public List<Antwoord> getAntwoorden() throws SQLException, InterruptedException {
+		return antwoordDao.getAntwoorden(getConnection(), this, getHuidigeVraag());
+	}
+	
+	public List<Antwoord> getAnwoordenBijVraag() throws SQLException, InterruptedException{
+		return antwoordDao.findAntwoordenViaVraag(getConnection(), getHuidigeVraag());
+	}
+	
+	public Deelnemer getDeelnemer(long deelnemerID) throws SQLException {
+		Deelnemer deelnemer = deelnemerDao.getDeelnemer(getConnection(), deelnemerID);
+		return deelnemer;
+		
+	}
+	
 
 }

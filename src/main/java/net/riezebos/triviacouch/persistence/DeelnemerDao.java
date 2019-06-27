@@ -63,12 +63,26 @@ public class DeelnemerDao {
 			deelnemer.setSessieID(rs.getLong(2));
 			deelnemer.setSpelerID(rs.getLong(3));
 			deelnemer.setScore(rs.getLong(4));
-			System.out.println("speler score=" + deelnemer.getScore() + ", ID=" + deelnemer.getID());
 			deelnemerLijst.add(deelnemer);
 		}
 		stmt.close();
 		return deelnemerLijst;
 
+	}
+	
+	public Deelnemer getDeelnemer(Connection connection, long deelnemerID) throws SQLException {
+		PreparedStatement stmt = connection.prepareStatement(
+				"select id, sessieID, spelerID, spelerscore from deelnemer where id = ?");
+		stmt.setLong(1, deelnemerID);
+		ResultSet rs = stmt.executeQuery();
+		Deelnemer nieuweDeelnemer = new Deelnemer();
+		if(rs.next()) {
+			nieuweDeelnemer.setId(rs.getLong(1));
+			nieuweDeelnemer.setSessieID(rs.getLong(2));
+			nieuweDeelnemer.setSpelerID(rs.getLong(3));
+			nieuweDeelnemer.setScore(rs.getLong(4));
+		}
+		return nieuweDeelnemer;
 	}
 
 	public void zetScoreVanDeelnemer(Connection connection, Deelnemer deelnemer) throws SQLException {

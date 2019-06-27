@@ -16,4 +16,20 @@ public class SessionHelper {
 		}
 		return result;
 	}
+
+	public static void setSessieID(HttpSession session, Long sessieID) {
+		session.setAttribute("TriviaCouchSession", sessieID);
+	}
+
+	public static Long getSessieID(HttpSession session) {
+		return (Long) session.getAttribute("TriviaCouchSession");
+	}
+	
+	public static void setDeelnemerID(HttpSession session, Long deelnemerID) {
+		session.setAttribute("TriviaCouchDeelnemer", deelnemerID);
+	}
+	
+	public static Long getDeelnemerID(HttpSession session) {
+		return (Long) session.getAttribute("TriviaCouchDeelnemer");
+	}
 }

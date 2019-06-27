@@ -15,7 +15,6 @@ public class SpelVraagDao {
 		PreparedStatement stmt = connection
 				.prepareStatement("insert into spelvraag (id, sessieID, vraagID) values (?,?,?)");
 		Long randomLong = IDUtil.getNextId();
-		System.out.println("ID= " + randomLong + " sessieID= " + sessie.getID() + " vraagID= " + vraag.getID());
 
 		stmt.setLong(1, randomLong);
 		stmt.setLong(2, sessie.getID());

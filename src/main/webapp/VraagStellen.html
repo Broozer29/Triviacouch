@@ -24,6 +24,32 @@
 		<p id="antwoordD" value="">Antwoord D</p>
 	</div>
 
-	<p id="tijd" value="">tijd</p>
+
+	<script>
+	fetch("api/spelen/getsessieid", { method: 'GET' })
+	.then(response => response.json())
+	.then(function (myJson) { 
+	      	document.getElementById("sessieID").innerHTML = "Sessie ID: "+myJson;
+      	});
+	
+	
+	fetch("api/spelen/getvraag", { method: 'GET' })
+    .then(response => response.json())
+    .then(function (myJson) {
+		  	  console.log(myJson);
+		      document.getElementById("vraag").innerHTML = myJson.vraagText;
+		      document.getElementById("vraagCode").innerHTML = "Vraag ID: "+myJson.iD;
+		      document.getElementById("antwoordA").innerHTML = "Antwoord A: "+myJson.antwoorden[0].antwoordText;
+		      document.getElementById("antwoordB").innerHTML = "Antwoord B: "+myJson.antwoorden[1].antwoordText;
+		      document.getElementById("antwoordC").innerHTML = "Antwoord C: "+myJson.antwoorden[2].antwoordText;
+		      document.getElementById("antwoordD").innerHTML = "Antwoord D: "+myJson.antwoorden[3].antwoordText;
+          });
+	
+	
+
+	
+</script>
+
+
 </body>
 </html>

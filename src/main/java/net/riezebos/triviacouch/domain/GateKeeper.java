@@ -10,49 +10,29 @@ public class GateKeeper {
 
 	private ConnectionProvider connectionProvider;
 
-	public Boolean logIn(Speler speler, ConnectionProvider connection) throws SQLException {
+	public boolean logIn(Speler speler, String wachtwoord, ConnectionProvider connection) throws SQLException {
 		connectionProvider = connection;
-		Boolean ingelogd = false;
 		SpelerDao factory = new SpelerDao();
-		if (!ingelogd) {
-			try {
-				speler = logProfielnaam(speler.getProfielnaam(), factory);
-				ingelogd = logWachtwoord(speler, speler.getWachtwoord());
-			} catch (Exception e) {
-				System.out.println(e.getMessage());
-			}
-		}
-
-		if (ingelogd) {
-			return true;
-		}
-		return false;
+		speler = controleerProfielnaam(speler.getProfielnaam(), factory);
+		return controleerWachtwoord(speler, wachtwoord);
 	}
 
-	private Speler logProfielnaam(String username, SpelerDao factory) throws SQLException {
+	private Speler controleerProfielnaam(String username, SpelerDao factory) throws SQLException {
 		Speler speler = null;
-		while (speler == null) {
-			try (Connection connection = connectionProvider.getConnection()) {
-				speler = factory.findSpeler(connection, username);
-				if (speler == null) {
-					System.out.println(
-							"Er bestaat geen profiel met die naam. Controleer de spelling of maak er een aan.");
-					break;
-				}
+		try (Connection connection = connectionProvider.getConnection()) {
+			speler = factory.findSpeler(connection, username);
+			if (speler == null) {
+				System.out.println("Er bestaat geen profiel met die naam. Controleer de spelling of maak er een aan.");
 			}
 		}
 		return speler;
 	}
 
-	private Boolean logWachtwoord(Speler speler, String wachtwoord) {
-		try {
-			if (speler.getProfielnaam() != null) {
-				if (wachtwoord.equals(speler.getWachtwoord())) {
-					return true;
-				}
+	private boolean controleerWachtwoord(Speler speler, String wachtwoord) {
+		if (speler != null) {
+			if (wachtwoord.equals(speler.getWachtwoord())) {
+				return true;
 			}
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
 		}
 
 		return false;

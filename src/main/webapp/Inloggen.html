@@ -7,31 +7,32 @@
 		Profielnaam: <br> <input type="text" id="profielnaam"><br>
 		Wachtwoord: <br> <input type="text" id="wachtwoord"><br>
 		sessie ID: <br> <input type="text" id="sessieID"><br>
-		<input type="button" id="post" value="Log in!" onclick="logIn()" />
+		<input type="button" id="post" value="Log in!"/>
+		<div id="melding"></div>
 	</form>
 
 
 	<script>
-		function logIn() {
-			xhr = new XMLHttpRequest();
-			var url = "http://localhost:8080/triviacouch/api/inloggen/login";
-			xhr.open("POST", url, true);
-			xhr.setRequestHeader("Content-type", "application/json");
-			xhr.onreadystatechange = function() {
-				if (xhr.readyState == 4 && xhr.status == 200) {
-					var json = JSON.parse(xhr.responseText);
-					console.log(json.email + ", " + json.name)
-				}
-			}
-			var data = JSON.stringify({
-				"profielnaam" : document.getElementById("profielnaam").value,
+	document.querySelector("#post").addEventListener("click", function () {
+		var url = "api/inloggen/login";
+		var data = {
+				"profielnaam": document.getElementById("profielnaam").value, 
 				"wachtwoord" : document.getElementById("wachtwoord").value,
 				"sessieID" : document.getElementById("sessieID").value
-			})
-			console.log(typeof data);
-			console.log(data);
-			xhr.send(data);
-		}
+				};
+			
+			fetch(url, {
+				  method: 'POST', // or 'PUT'
+				  body: JSON.stringify(data), // data can be `string` or {object}!
+				  headers:{
+				    'Content-Type': 'application/json'
+				  }
+				}).then(res => res.json())
+			      .then(jsonobj => { if(jsonobj.success == "true") document.location = "AntwoordenPagina.html" 
+			                         else document.getElementById("melding").innerHTML = "Foute login";
+			      })
+				  .catch(error => console.error('Error:', error));
+		})
 	</script>
 </body>
 </html>
