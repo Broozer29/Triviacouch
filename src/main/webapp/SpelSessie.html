@@ -41,7 +41,7 @@ document.querySelector("#startspel").addEventListener("click", function () {
 document.querySelector("#haalspelers").addEventListener("click", function () {
 	var url = "api/spelen/haalspelers";
 	var data = {"sessieID": document.getElementById("sessieID").innerHTML};
-	alert(JSON.stringify(data));
+	
 	fetch(url, {
 	  method: 'POST', // or 'PUT'
 	  body: JSON.stringify(data), // data can be `string` or {object}!
@@ -49,7 +49,15 @@ document.querySelector("#haalspelers").addEventListener("click", function () {
 	    'Content-Type': 'application/json'
 	  }
 	}).then(res => res.json())
-	.then(response => console.log('Success:', JSON.stringify(response)))
+	.then(response => { var obj = JSON.stringify(response);
+	                    var i;
+	                    var text='';
+	                    
+	                    console.log('Success:', obj);
+	                    for (i = 0; i < response.length; i++) { 
+	                    	  text += "ID="+response[i].spelerID + "<br>";
+	                    	}
+	                    document.getElementById("spelers").innerHTML = text;}) 
 	.catch(error => console.error('Error:', error));
 });
 
