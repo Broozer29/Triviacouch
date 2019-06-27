@@ -22,7 +22,7 @@ public class SpelSessie {
 	private String status = "open";
 
 	private ConnectionProvider connectionProvider;
-	private List<Long> vraagIDLijst;
+
 
 	private VraagDao vraagDao = new VraagDao();
 	private SpelerAntwoordDao spelerAntwoordDao = new SpelerAntwoordDao();
@@ -33,10 +33,12 @@ public class SpelSessie {
 
 	public SpelSessie(ConnectionProvider connectionProvider) throws SQLException {
 		this.connectionProvider = connectionProvider;
+	}
+
+	public void createNew() throws SQLException {
 		try (Connection connection = getConnection()) {
-
 			spelSessieDao.createSpelSessie(connection, this);
-
+			connection.commit();
 			maakVraagSet();
 		}
 	}
@@ -60,12 +62,18 @@ public class SpelSessie {
 
 	// Zet vragen voor de sessie in de SpelVraag tabel
 	private void maakVraagSet() throws SQLException {
-		vraagIDLijst = maakVraagIDLijst();
+		List<Long> vraagIDLijst = maakVraagIDLijst();
 
 		for (int i = 0; i < vraagIDLijst.size(); i++) {
 			try (Connection connection = getConnection()) {
 				Vraag vraag = vraagDao.getVraag(connection, vraagIDLijst.get(i));
-				spelVraagDao.addVraagAanSessie(connection, vraag, this);
+				if (vraag != null) {
+					spelVraagDao.addVraagAanSessie(connection, vraag, this);
+					connection.commit();
+				} else {
+					connection.rollback();
+				}
+
 			}
 		}
 	}
@@ -141,6 +149,12 @@ public class SpelSessie {
 				highscoreDao.createHighscore(connection, deelnemerLijst.get(i));
 			}
 			return eersteTweedeDerde;
+		}
+	}
+	
+	public List<Deelnemer> getDeelnemersVanSessie() throws SQLException{
+		try (Connection connection = getConnection()) {
+			return deelnemerDao.getDeelnemersVanSessie(connection, this);
 		}
 	}
 

@@ -2,39 +2,57 @@
 <html>
 <body>
 
-<h1>Spelsessie</h1>
+	<h1>Spelsessie</h1>
 
 
-<form>
-	<p id = "sessieID" value = "sajdgk">
-</form>
-<form>
-	<p id = "spelerLijst" value = "Hier een lijst met spelers"> <br>
-	<input type="button" id="startspel" value="Start Spel"/>
-</form>
+	<form>
+		<p id="sessieID" value="sajdgk">
+	</form>
 
-<form action="Startscherm.html">
-    <input type="submit" value="Terug" />
-</form>
+	<div id="spelers"></div>
+	<input type="button" id="haalspelers" value="Toon Spelers" />
 
+	<form>
+		<input type="button" id="startspel" value="Start Spel" />
+	</form>
 
-<script>
+	<form action="Startscherm.html">
+		<input type="submit" value="Terug" />
+	</form>
+
+	<script>
+
+document.querySelector("#startspel").addEventListener("click", function () {
+	
     fetch("api/spelen", { method: 'GET' })
     .then(response => response.json())
     .then(function (myJson) { 
 		      document.getElementById("sessieID").innerHTML = myJson;
           });
-    
-    
-    
-</script>
-<script>
-document.querySelector("#startspel").addEventListener("click", function () {
-
+	
     fetch("api/vragen", { method: 'GET' })
         .then(response => response.json())
         .then(function (myJson) { console.log(myJson); });
 });
+</script>
+
+	<script>
+
+document.querySelector("#haalspelers").addEventListener("click", function () {
+	var url = "api/spelen/haalspelers";
+	var data = {"sessieID": document.getElementById("sessieID").innerHTML};
+	alert(JSON.stringify(data));
+	fetch(url, {
+	  method: 'POST', // or 'PUT'
+	  body: JSON.stringify(data), // data can be `string` or {object}!
+	  headers:{
+	    'Content-Type': 'application/json'
+	  }
+	}).then(res => res.json())
+	.then(response => console.log('Success:', JSON.stringify(response)))
+	.catch(error => console.error('Error:', error));
+});
+
 </script>
 
 </body>

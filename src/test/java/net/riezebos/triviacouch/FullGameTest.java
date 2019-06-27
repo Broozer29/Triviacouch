@@ -20,7 +20,7 @@ public class FullGameTest extends TestDBConnectionProvider {
 	@Test
 	public void test() throws Exception {
 		TriviaCouchGame game = new TriviaCouchGame(new TestDBConnectionProvider());
-		SpelSessie sessie = game.nieuwSpel();
+		SpelSessie sessie = game.startSessie();
 		SpelerDao spelerDao = new SpelerDao();
 		AntwoordDao antwoordDao = new AntwoordDao();
 

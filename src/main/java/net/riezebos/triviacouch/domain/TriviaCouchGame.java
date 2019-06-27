@@ -7,6 +7,7 @@ import java.util.List;
 
 import net.riezebos.triviacouch.persistence.ConnectionProvider;
 import net.riezebos.triviacouch.persistence.HighscoreDao;
+import net.riezebos.triviacouch.persistence.SpelSessieDao;
 import net.riezebos.triviacouch.persistence.SpelerDao;
 import net.riezebos.triviacouch.persistence.VraagDao;
 
@@ -17,12 +18,20 @@ public class TriviaCouchGame {
 		this.connectionProvider = connectionProvider;
 	}
 
-	public SpelSessie nieuwSpel() throws SQLException {
-		return new SpelSessie(connectionProvider);
+	public SpelSessie startSessie() throws SQLException {
+		SpelSessie sessie = new SpelSessie(connectionProvider);
+		sessie.createNew();
+		return sessie;
+	}
+
+	public SpelSessie getBestaandeSessie(Long sessieID) throws SQLException {
+		SpelSessieDao spelSessieDao = new SpelSessieDao();
+		return spelSessieDao.getSpelSessie(connectionProvider, sessieID);
 	}
 
 	private Deelnemer voegSpelerToe(SpelSessie sessie, Speler speler) throws SQLException {
 		System.out.println("Voeg speler toe: " + speler.getID() + " " + sessie.getID());
+
 		return sessie.voegSpelerToe(speler);
 	}
 
@@ -30,7 +39,6 @@ public class TriviaCouchGame {
 		SpelerDao spelerDao = new SpelerDao();
 		try (Connection connection = getConnection()) {
 			spelerDao.createSpeler(connection, speler);
-			System.out.println(speler.getProfielnaam());
 		}
 	}
 
@@ -40,7 +48,7 @@ public class TriviaCouchGame {
 			try (Connection connection = getConnection()) {
 				SpelerDao spelerDao = new SpelerDao();
 				Speler speler = spelerDao.findSpeler(connection, profielnaam);
-				
+
 				GateKeeper gateKeeper = new GateKeeper();
 				if (gateKeeper.logIn(speler, connectionProvider)) {
 					result = voegSpelerToe(sessie, speler);
@@ -87,9 +95,5 @@ public class TriviaCouchGame {
 
 	private Connection getConnection() {
 		return connectionProvider.getConnection();
-	}
-	
-	public SpelSessie maakSessie() throws SQLException {
-		return new SpelSessie(connectionProvider);
 	}
 }

@@ -20,20 +20,21 @@ public class SpelSessieDao {
 		stmt.close();
 	}
 
-	public SpelSessie getSpelSessie(ConnectionProvider connectionProvider, Connection connection, long sessieid)
-			throws SQLException {
+	public SpelSessie getSpelSessie(ConnectionProvider connectionProvider, long sessieID) throws SQLException {
 
-		PreparedStatement stmt = connection
-				.prepareStatement("select vraagCode, spelerdID_winnaar from spelsessie where id = ?");
-		stmt.setLong(1, sessieid);
-		ResultSet rs = stmt.executeQuery();
-		SpelSessie result = null;
+		try (Connection connection = connectionProvider.getConnection()) {
+			PreparedStatement stmt = connection.prepareStatement("select id from spelsessie where id = ?");
+			stmt.setLong(1, sessieID);
+			ResultSet rs = stmt.executeQuery();
+			SpelSessie result = null;
 
-		if (rs.next()) {
-			result = new SpelSessie(connectionProvider);
+			if (rs.next()) {
+				result = new SpelSessie(connectionProvider);
+				result.setSessieID(sessieID);
+			}
+			rs.close();
+			return result;
 		}
-		rs.close();
-		return result;
 	}
 
 	public void setSessieStatus(Connection connection, SpelSessie sessie) throws SQLException {

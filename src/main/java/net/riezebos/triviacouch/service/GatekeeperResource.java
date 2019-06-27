@@ -14,7 +14,6 @@ import net.riezebos.triviacouch.domain.SpelSessie;
 import net.riezebos.triviacouch.domain.Speler;
 import net.riezebos.triviacouch.domain.SpelerToken;
 import net.riezebos.triviacouch.domain.TriviaCouchGame;
-import net.riezebos.triviacouch.persistence.ConnectionProvider;
 import net.riezebos.triviacouch.service.util.SessionHelper;
 
 @Path("/inloggen")
@@ -29,12 +28,12 @@ public class GatekeeperResource {
 		Speler speler = new Speler();
 		speler.setProfielnaam(spelerToken.getProfielnaam());
 		speler.setWachtwoord(spelerToken.getWachtwoord());
-		
-		SpelSessie sessie = game.maakSessie();
-		sessie.setSessieID(Long.parseLong(spelerToken.getSessieID()));
-		
 
-		System.out.println("Wachtwoord en profielnaam: " + spelerToken.getWachtwoord() + " " + spelerToken.getProfielnaam());
+		SpelSessie sessie = game.startSessie();
+		sessie.setSessieID(Long.parseLong(spelerToken.getSessieID()));
+
+		System.out.println(
+				"Wachtwoord en profielnaam: " + spelerToken.getWachtwoord() + " " + spelerToken.getProfielnaam());
 		System.out.println("Ingelogd!");
 		game.inloggen(spelerToken.getProfielnaam(), spelerToken.getWachtwoord(), sessie);
 		return true;
