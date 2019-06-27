@@ -1,5 +1,6 @@
 package net.riezebos.triviacouch.domain;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 
 import net.riezebos.triviacouch.persistence.ConnectionProvider;
@@ -31,10 +32,13 @@ public class GateKeeper {
 	private Speler logProfielnaam(String username, SpelerDao factory) throws SQLException {
 		Speler speler = null;
 		while (speler == null) {
-			speler = factory.findSpeler(connectionProvider.getConnection(), username);
-			if (speler == null) {
-				System.out.println("Er bestaat geen profiel met die naam. Controleer de spelling of maak er een aan.");
-				break;
+			try (Connection connection = connectionProvider.getConnection()) {
+				speler = factory.findSpeler(connection, username);
+				if (speler == null) {
+					System.out.println(
+							"Er bestaat geen profiel met die naam. Controleer de spelling of maak er een aan.");
+					break;
+				}
 			}
 		}
 		return speler;

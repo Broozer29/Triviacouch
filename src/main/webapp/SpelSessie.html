@@ -6,11 +6,11 @@
 
 
 <form>
-	<p id = "sessieID" value = "<<sessieID>>">
+	<p id = "sessieID" value = "sajdgk">
 </form>
 <form>
 	<p id = "spelerLijst" value = "Hier een lijst met spelers"> <br>
-	<input type = "submit" value = "start spel!"/>
+	<input type="button" id="startspel" value="Start Spel"/>
 </form>
 
 <form action="Startscherm.html">
@@ -24,6 +24,17 @@
     .then(function (myJson) { 
 		      document.getElementById("sessieID").innerHTML = myJson;
           });
+    
+    
+    
+</script>
+<script>
+document.querySelector("#startspel").addEventListener("click", function () {
+
+    fetch("api/vragen", { method: 'GET' })
+        .then(response => response.json())
+        .then(function (myJson) { console.log(myJson); });
+});
 </script>
 
 </body>

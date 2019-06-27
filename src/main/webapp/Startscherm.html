@@ -2,21 +2,26 @@
 <html>
 <body>
 
-<h1>Startscherm</h1>
+	<h1>Startscherm</h1>
 
-<form id="startspelform" action="SpelSessie.html">
-    <input type="button" id="startspel" value="Start Spel" />
-</form>
+	<form id="startspelform" action="SpelSessie.html">
+		<input type="button" id="startspel" value="Start Spel"/>
+	</form>
 
-<form id="maakvraagform" action="VraagAanmaken.html">
-    <input type="submit" value="Vraag Aanmaken" />
-</form>
+	<form id="maakvraagform" action="VraagAanmaken.html">
+		<input type="submit" value="Vraag Aanmaken" />
+	</form>
 
-<form id="highscoresform" action="Highscores.html">
-    <input type="submit" value="Highscores" />
-</form>
+	<form id="highscoresform" action="Highscores.html">
+		<input type="submit" value="Highscores" />
+	</form>
 
-	<script src="javascript/handlers.js"></script>
+<script>
+document.getElementById("startspel").onclick = function () {
+    location.href = "SpelSessie.html";
+};
+
+</script>
 
 </body>
 </html>

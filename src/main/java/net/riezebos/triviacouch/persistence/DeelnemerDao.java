@@ -73,7 +73,6 @@ public class DeelnemerDao {
 
 	public void zetScoreVanDeelnemer(Connection connection, Deelnemer deelnemer) throws SQLException {
 		PreparedStatement stmt = connection.prepareStatement("update deelnemer set spelerscore = ? where id = ?");
-		System.out.println("deelnemerDao " + deelnemer.getScore() + "ID: " + deelnemer.getID());
 		stmt.setLong(1, deelnemer.getScore());
 		stmt.setLong(2, deelnemer.getID());
 		stmt.execute();

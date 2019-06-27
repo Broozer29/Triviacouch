@@ -13,6 +13,7 @@ import javax.ws.rs.core.MediaType;
 import net.riezebos.triviacouch.domain.Speler;
 import net.riezebos.triviacouch.domain.SpelerToken;
 import net.riezebos.triviacouch.domain.TriviaCouchGame;
+import net.riezebos.triviacouch.persistence.SpelerDao;
 import net.riezebos.triviacouch.service.util.SessionHelper;
 
 @Path("/profielmaken")
@@ -25,9 +26,12 @@ public class ProfielResource {
 		Speler speler = new Speler();
 		speler.setProfielnaam(spelerToken.getProfielnaam());
 		speler.setWachtwoord(spelerToken.getWachtwoord());
+		
+		System.out.println(speler.toString());
 
 		game.maakSpeler(speler);
 		System.out.println("Speler Gemaakt!");
+		
 		return true;
 	}
 

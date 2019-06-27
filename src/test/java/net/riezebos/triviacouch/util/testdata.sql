@@ -1,59 +1,59 @@
-insert into speler (id, profielNaam, wachtwoord, winPercentage, correctPercentage) values (105515, 'Broozer', 'letter', 100, 100)
-insert into speler (id, profielNaam, wachtwoord, winPercentage, correctPercentage) values (758341, 'Piepje', 'letter', 0, 50)
-insert into vraag (id, vraag) values (1000, 'Een kiwi is een...: Vogel, Groente, Zoogdier of Plant?')
-insert into antwoord (id, correct_jn, antwoord, vraagID) values (1001, 'N', 'Groente', 1000)
-insert into antwoord (id, correct_jn, antwoord, vraagID) values (1002, 'J', 'Vogel', 1000)
-insert into antwoord (id, correct_jn, antwoord, vraagID) values (1003, 'N', 'Zoogdier', 1000)
-insert into antwoord (id, correct_jn, antwoord, vraagID) values (1004, 'N', 'Plant', 1000)
-insert into vraag (id, vraag) values (1001, 'Hoeveel maanden hebben 30 dagen in een jaar? 4, 6, 9, 10')
-insert into antwoord (id, correct_jn, antwoord, vraagID) values (1005, 'J', '4', 1001)
-insert into antwoord (id, correct_jn, antwoord, vraagID) values (1006, 'N', '6', 1001)
-insert into antwoord (id, correct_jn, antwoord, vraagID) values (1007, 'N', '9', 1001)
-insert into antwoord (id, correct_jn, antwoord, vraagID) values (1008, 'N', '10', 1001)
-insert into vraag (id, vraag) values (1002, 'Welke hond was heilig in China? Pekinees, Labrador, Golden Retriever, Chihuaha')
-insert into antwoord (id, correct_jn, antwoord, vraagID) values (1009, 'J', 'Pekinees', 1002)
-insert into antwoord (id, correct_jn, antwoord, vraagID) values (1010, 'N', 'Labrador', 1002)
-insert into antwoord (id, correct_jn, antwoord, vraagID) values (1011, 'N', 'Golden Retriever', 1002)
-insert into antwoord (id, correct_jn, antwoord, vraagID) values (1012, 'N', 'Chihuaha', 1002)
-insert into vraag (id, vraag) values (1003, 'Death Note was oorspronkelijk een...: Anime, Manga, Film, Boek')
-insert into antwoord (id, correct_jn, antwoord, vraagID) values (1013, 'J', 'Manga', 1003)
-insert into antwoord (id, correct_jn, antwoord, vraagID) values (1014, 'N', 'Anime', 1003)
-insert into antwoord (id, correct_jn, antwoord, vraagID) values (1015, 'N', 'Film', 1003)
-insert into antwoord (id, correct_jn, antwoord, vraagID) values (1016, 'N', 'Boek', 1003)
-insert into vraag (id, vraag) values (1004, 'Wat maakt pestosaus groen? Peterselie, Basilicum, Kruiden, Sla')
-insert into antwoord (id, correct_jn, antwoord, vraagID) values (1017, 'N', 'Peterselie', 1004)
-insert into antwoord (id, correct_jn, antwoord, vraagID) values (1018, 'J', 'Basilicum', 1004)
-insert into antwoord (id, correct_jn, antwoord, vraagID) values (1019, 'N', 'Kruiden', 1004)
-insert into antwoord (id, correct_jn, antwoord, vraagID) values (1020, 'N', 'Sla', 1004)
-insert into vraag (id, vraag) values (1005, 'Hoeveel zintuigen heeft een mens? 3,4,5,6')
-insert into antwoord (id, correct_jn, antwoord, vraagID) values (1021, 'N', '3', 1005)
-insert into antwoord (id, correct_jn, antwoord, vraagID) values (1022, 'N', '4', 1005)
-insert into antwoord (id, correct_jn, antwoord, vraagID) values (1023, 'J', '5', 1005)
-insert into antwoord (id, correct_jn, antwoord, vraagID) values (1024, 'N', '6', 1005)
-insert into vraag (id, vraag) values (1006, 'Wat is de gewichtseenheid voor diamanten? Gram, Kilogram, Karaat, Milligram')
-insert into antwoord (id, correct_jn, antwoord, vraagID) values (1025, 'N', 'Gram', 1006)
-insert into antwoord (id, correct_jn, antwoord, vraagID) values (1026, 'N', 'Kilogram', 1006)
-insert into antwoord (id, correct_jn, antwoord, vraagID) values (1027, 'J', 'Karaat', 1006)
-insert into antwoord (id, correct_jn, antwoord, vraagID) values (1028, 'N', 'Milligram', 1006)
-insert into vraag (id, vraag) values (1007, 'Uit hoeveel tekens kan een textbericht maximaal bestaan? 160, 150, 100, 175')
-insert into antwoord (id, correct_jn, antwoord, vraagID) values (1029, 'J', '160', 1007)
-insert into antwoord (id, correct_jn, antwoord, vraagID) values (1030, 'N', '150', 1007)
-insert into antwoord (id, correct_jn, antwoord, vraagID) values (1031, 'N', '100', 1007)
-insert into antwoord (id, correct_jn, antwoord, vraagID) values (1032, 'N', '175', 1007)
-insert into vraag (id, vraag) values (1008, 'Wat is een ander woordt voor alpinist? Alpino, Bergbeklimmer, Wandelaar, Bergwandelaar')
-insert into antwoord (id, correct_jn, antwoord, vraagID) values (1033, 'N', 'Alpino', 1008)
-insert into antwoord (id, correct_jn, antwoord, vraagID) values (1034, 'J', 'Bergbeklimmer', 1008)
-insert into antwoord (id, correct_jn, antwoord, vraagID) values (1035, 'N', 'Wandelaar', 1008)
-insert into antwoord (id, correct_jn, antwoord, vraagID) values (1036, 'N', 'Bergwandelaar', 1008)
-insert into vraag (id, vraag) values (1009, 'Wat is de engelse benaming voor niet eetbare producten? Non-edible, Non-digestive, Non-food, Non-taste')
-insert into antwoord (id, correct_jn, antwoord, vraagID) values (1037, 'N', 'Non-edible', 1009)
-insert into antwoord (id, correct_jn, antwoord, vraagID) values (1038, 'N', 'Non-digestive', 1009)
-insert into antwoord (id, correct_jn, antwoord, vraagID) values (1039, 'J', 'Non-food', 1009)
-insert into antwoord (id, correct_jn, antwoord, vraagID) values (1040, 'N', 'Non-taste', 1009)
-insert into vraag (id, vraag) values (1010, 'Wat is een ander woord voor goochelaar? Magier, Illusionist, Tovenaar, Kunstjesman')
-insert into antwoord (id, correct_jn, antwoord, vraagID) values (1041, 'N', 'Magier', 1010)
-insert into antwoord (id, correct_jn, antwoord, vraagID) values (1042, 'J', 'Illusionist', 1010)
-insert into antwoord (id, correct_jn, antwoord, vraagID) values (1043, 'N', 'Tovenaar', 1010)
-insert into antwoord (id, correct_jn, antwoord, vraagID) values (1044, 'N', 'Kunstjesman', 1010)
-insert into highscores (id, spelerid, score) values (1, 105515, 1000)
-insert into highscores (id, spelerid, score) values (2, 758341, 500)
+insert into speler (id, profielNaam, wachtwoord, winPercentage, correctPercentage) values (105515, 'Broozer', 'letter', 100, 100);
+insert into speler (id, profielNaam, wachtwoord, winPercentage, correctPercentage) values (758341, 'Piepje', 'letter', 0, 50);
+insert into vraag (id, vraag) values (1000, 'Een kiwi is een...: Vogel, Groente, Zoogdier of Plant?');
+insert into antwoord (id, correct_jn, antwoord, vraagID) values (1001, 'N', 'Groente', 1000);
+insert into antwoord (id, correct_jn, antwoord, vraagID) values (1002, 'J', 'Vogel', 1000);
+insert into antwoord (id, correct_jn, antwoord, vraagID) values (1003, 'N', 'Zoogdier', 1000);
+insert into antwoord (id, correct_jn, antwoord, vraagID) values (1004, 'N', 'Plant', 1000);
+insert into vraag (id, vraag) values (1001, 'Hoeveel maanden hebben 30 dagen in een jaar? 4, 6, 9, 10');
+insert into antwoord (id, correct_jn, antwoord, vraagID) values (1005, 'J', '4', 1001);
+insert into antwoord (id, correct_jn, antwoord, vraagID) values (1006, 'N', '6', 1001);
+insert into antwoord (id, correct_jn, antwoord, vraagID) values (1007, 'N', '9', 1001);
+insert into antwoord (id, correct_jn, antwoord, vraagID) values (1008, 'N', '10', 1001);
+insert into vraag (id, vraag) values (1002, 'Welke hond was heilig in China? Pekinees, Labrador, Golden Retriever, Chihuaha');
+insert into antwoord (id, correct_jn, antwoord, vraagID) values (1009, 'J', 'Pekinees', 1002);
+insert into antwoord (id, correct_jn, antwoord, vraagID) values (1010, 'N', 'Labrador', 1002);
+insert into antwoord (id, correct_jn, antwoord, vraagID) values (1011, 'N', 'Golden Retriever', 1002);
+insert into antwoord (id, correct_jn, antwoord, vraagID) values (1012, 'N', 'Chihuaha', 1002);
+insert into vraag (id, vraag) values (1003, 'Death Note was oorspronkelijk een...: Anime, Manga, Film, Boek');
+insert into antwoord (id, correct_jn, antwoord, vraagID) values (1013, 'J', 'Manga', 1003);
+insert into antwoord (id, correct_jn, antwoord, vraagID) values (1014, 'N', 'Anime', 1003);
+insert into antwoord (id, correct_jn, antwoord, vraagID) values (1015, 'N', 'Film', 1003);
+insert into antwoord (id, correct_jn, antwoord, vraagID) values (1016, 'N', 'Boek', 1003);
+insert into vraag (id, vraag) values (1004, 'Wat maakt pestosaus groen? Peterselie, Basilicum, Kruiden, Sla');
+insert into antwoord (id, correct_jn, antwoord, vraagID) values (1017, 'N', 'Peterselie', 1004);
+insert into antwoord (id, correct_jn, antwoord, vraagID) values (1018, 'J', 'Basilicum', 1004);
+insert into antwoord (id, correct_jn, antwoord, vraagID) values (1019, 'N', 'Kruiden', 1004);
+insert into antwoord (id, correct_jn, antwoord, vraagID) values (1020, 'N', 'Sla', 1004);
+insert into vraag (id, vraag) values (1005, 'Hoeveel zintuigen heeft een mens? 3,4,5,6');
+insert into antwoord (id, correct_jn, antwoord, vraagID) values (1021, 'N', '3', 1005);
+insert into antwoord (id, correct_jn, antwoord, vraagID) values (1022, 'N', '4', 1005);
+insert into antwoord (id, correct_jn, antwoord, vraagID) values (1023, 'J', '5', 1005);
+insert into antwoord (id, correct_jn, antwoord, vraagID) values (1024, 'N', '6', 1005);
+insert into vraag (id, vraag) values (1006, 'Wat is de gewichtseenheid voor diamanten? Gram, Kilogram, Karaat, Milligram');
+insert into antwoord (id, correct_jn, antwoord, vraagID) values (1025, 'N', 'Gram', 1006);
+insert into antwoord (id, correct_jn, antwoord, vraagID) values (1026, 'N', 'Kilogram', 1006);
+insert into antwoord (id, correct_jn, antwoord, vraagID) values (1027, 'J', 'Karaat', 1006);
+insert into antwoord (id, correct_jn, antwoord, vraagID) values (1028, 'N', 'Milligram', 1006);
+insert into vraag (id, vraag) values (1007, 'Uit hoeveel tekens kan een textbericht maximaal bestaan? 160, 150, 100, 175');
+insert into antwoord (id, correct_jn, antwoord, vraagID) values (1029, 'J', '160', 1007);
+insert into antwoord (id, correct_jn, antwoord, vraagID) values (1030, 'N', '150', 1007);
+insert into antwoord (id, correct_jn, antwoord, vraagID) values (1031, 'N', '100', 1007);
+insert into antwoord (id, correct_jn, antwoord, vraagID) values (1032, 'N', '175', 1007);
+insert into vraag (id, vraag) values (1008, 'Wat is een ander woordt voor alpinist? Alpino, Bergbeklimmer, Wandelaar, Bergwandelaar');
+insert into antwoord (id, correct_jn, antwoord, vraagID) values (1033, 'N', 'Alpino', 1008);
+insert into antwoord (id, correct_jn, antwoord, vraagID) values (1034, 'J', 'Bergbeklimmer', 1008);
+insert into antwoord (id, correct_jn, antwoord, vraagID) values (1035, 'N', 'Wandelaar', 1008);
+insert into antwoord (id, correct_jn, antwoord, vraagID) values (1036, 'N', 'Bergwandelaar', 1008);
+insert into vraag (id, vraag) values (1009, 'Wat is de engelse benaming voor niet eetbare producten? Non-edible, Non-digestive, Non-food, Non-taste');
+insert into antwoord (id, correct_jn, antwoord, vraagID) values (1037, 'N', 'Non-edible', 1009);
+insert into antwoord (id, correct_jn, antwoord, vraagID) values (1038, 'N', 'Non-digestive', 1009);
+insert into antwoord (id, correct_jn, antwoord, vraagID) values (1039, 'J', 'Non-food', 1009);
+insert into antwoord (id, correct_jn, antwoord, vraagID) values (1040, 'N', 'Non-taste', 1009);
+insert into vraag (id, vraag) values (1010, 'Wat is een ander woord voor goochelaar? Magier, Illusionist, Tovenaar, Kunstjesman');
+insert into antwoord (id, correct_jn, antwoord, vraagID) values (1041, 'N', 'Magier', 1010);
+insert into antwoord (id, correct_jn, antwoord, vraagID) values (1042, 'J', 'Illusionist', 1010);
+insert into antwoord (id, correct_jn, antwoord, vraagID) values (1043, 'N', 'Tovenaar', 1010);
+insert into antwoord (id, correct_jn, antwoord, vraagID) values (1044, 'N', 'Kunstjesman', 1010);
+insert into highscores (id, spelerid, score) values (1, 105515, 1000);
+insert into highscores (id, spelerid, score) values (2, 758341, 500);

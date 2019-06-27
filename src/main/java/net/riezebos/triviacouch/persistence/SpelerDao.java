@@ -78,7 +78,6 @@ public class SpelerDao {
 		stmt.setLong(5, speler.getCorrectPercentage());
 		stmt.execute();
 		stmt.close();
-
 	}
 
 	public void updateSpeler(Connection connection, Speler speler) throws SQLException {

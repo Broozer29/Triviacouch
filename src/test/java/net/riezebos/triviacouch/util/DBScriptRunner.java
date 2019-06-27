@@ -23,6 +23,9 @@ public class DBScriptRunner {
 			line = br.readLine();
 			if (line != null) {
 				System.out.println(line);
+				if (line.endsWith(";")) {
+					line = line.substring(0,line.length() - 1);
+				}
 				statement.execute(line);
 			}
 		} while (line != null);

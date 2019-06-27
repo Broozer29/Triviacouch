@@ -10,6 +10,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import net.riezebos.triviacouch.persistence.AntwoordDao;
 import net.riezebos.triviacouch.persistence.ConnectionProvider;
 import net.riezebos.triviacouch.persistence.DeelnemerDao;
+import net.riezebos.triviacouch.persistence.HighscoreDao;
 import net.riezebos.triviacouch.persistence.SpelSessieDao;
 import net.riezebos.triviacouch.persistence.SpelVraagDao;
 import net.riezebos.triviacouch.persistence.SpelerAntwoordDao;
@@ -28,12 +29,16 @@ public class SpelSessie {
 	private SpelVraagDao spelVraagDao = new SpelVraagDao();
 	private DeelnemerDao deelnemerDao = new DeelnemerDao();
 	private SpelSessieDao spelSessieDao = new SpelSessieDao();
+	private HighscoreDao highscoreDao = new HighscoreDao();
 
 	public SpelSessie(ConnectionProvider connectionProvider) throws SQLException {
 		this.connectionProvider = connectionProvider;
-		spelSessieDao.createSpelSessie(getConnection(), this);
+		try (Connection connection = getConnection()) {
 
-		maakVraagSet();
+			spelSessieDao.createSpelSessie(connection, this);
+
+			maakVraagSet();
+		}
 	}
 
 	private Connection getConnection() {
@@ -42,7 +47,15 @@ public class SpelSessie {
 
 	// Voegt speler toe aan Deelnemer tabel
 	public Deelnemer voegSpelerToe(Speler speler) throws SQLException {
-		return deelnemerDao.maakDeelnemer(getConnection(), speler, this);
+		try (Connection connection = getConnection()) {
+			Deelnemer deelnemer = deelnemerDao.maakDeelnemer(connection, speler, this);
+			if (deelnemer != null) {
+				connection.commit();
+			} else {
+				connection.rollback();
+			}
+			return deelnemer;
+		}
 	}
 
 	// Zet vragen voor de sessie in de SpelVraag tabel
@@ -50,75 +63,85 @@ public class SpelSessie {
 		vraagIDLijst = maakVraagIDLijst();
 
 		for (int i = 0; i < vraagIDLijst.size(); i++) {
-			Vraag vraag = vraagDao.getVraag(getConnection(), vraagIDLijst.get(i));
-			spelVraagDao.addVraagAanSessie(getConnection(), vraag, this);
+			try (Connection connection = getConnection()) {
+				Vraag vraag = vraagDao.getVraag(connection, vraagIDLijst.get(i));
+				spelVraagDao.addVraagAanSessie(connection, vraag, this);
+			}
 		}
 	}
 
 	// Genereer random vraagID's om op te halen uit de tabel.
 	private List<Long> maakVraagIDLijst() throws SQLException {
 		List<Long> vraagIDLijst = new ArrayList<Long>();
-		List<Long> idLijst = vraagDao.getVraagIDLijst(getConnection());
 
-		long minIndex = Collections.min(idLijst);
-		long maxIndex = Collections.max(idLijst);
-		// Het getal hieronder mag NOOIT kleiner zijn dan de hoeveelheid vragen in de
-		// tabel Vragen.
-		// Dit moet nog aangepast worden!
-		while (vraagIDLijst.size() < 10) {
+		try (Connection connection = getConnection()) {
+			List<Long> idLijst = vraagDao.getVraagIDLijst(connection);
 
-			long generatedLong = ThreadLocalRandom.current().nextLong(minIndex, maxIndex + 1);
-			if (!vraagIDLijst.contains(generatedLong)) {
-				vraagIDLijst.add(generatedLong);
+			long minIndex = Collections.min(idLijst);
+			long maxIndex = Collections.max(idLijst);
+			// Het getal hieronder mag NOOIT kleiner zijn dan de hoeveelheid vragen in de
+			// tabel Vragen.
+			// Dit moet nog aangepast worden!
+			while (vraagIDLijst.size() < 10) {
+
+				long generatedLong = ThreadLocalRandom.current().nextLong(minIndex, maxIndex + 1);
+				if (!vraagIDLijst.contains(generatedLong)) {
+					vraagIDLijst.add(generatedLong);
+				}
+
 			}
-
+			return vraagIDLijst;
 		}
-		return vraagIDLijst;
-
 	}
 
 	public Vraag getHuidigeVraag() throws SQLException, InterruptedException {
-		long vraagID = spelVraagDao.getVraagIDVanSessie(getConnection(), this);
-		Vraag vraag = vraagDao.getVraag(getConnection(), vraagID);
-		System.out.println(vraag.getVraagText());
-		return vraag;
+		try (Connection connection = getConnection()) {
+			long vraagID = spelVraagDao.getVraagIDVanSessie(connection, this);
+			Vraag vraag = vraagDao.getVraag(connection, vraagID);
+			System.out.println(vraag.getVraagText());
+			return vraag;
+		}
 	}
 
 	public int getAantalAntwoorden(Vraag vraag) {
-
 		return 0;
 	}
 
 	public Antwoord geefAntwoord(Deelnemer deelnemer, Vraag vraag, String text) throws Exception {
 
 		AntwoordDao antwoordDao = new AntwoordDao();
-		Antwoord spelerAntwoord = antwoordDao.matchAntwoord(getConnection(), vraag, text);
-		if (spelerAntwoord != null) {
+		try (Connection connection = getConnection()) {
+			Antwoord spelerAntwoord = antwoordDao.matchAntwoord(connection, vraag, text);
+			if (spelerAntwoord != null) {
 
-			spelerAntwoordDao.addAntwoord(getConnection(), deelnemer, spelerAntwoord);
-			if ("j".equalsIgnoreCase(spelerAntwoord.getCorrect_jn())) {
-				deelnemer.addScore(100);
-				deelnemerDao.zetScoreVanDeelnemer(getConnection(), deelnemer);
+				spelerAntwoordDao.addAntwoord(connection, deelnemer, spelerAntwoord);
+				if ("j".equalsIgnoreCase(spelerAntwoord.getCorrect_jn())) {
+					deelnemer.addScore(100);
+					deelnemerDao.zetScoreVanDeelnemer(connection, deelnemer);
+				}
 			}
+			return spelerAntwoord;
 		}
-		return spelerAntwoord;
 	}
 
 	public List<Deelnemer> selecteerWinnaar() throws SQLException {
-		List<Deelnemer> deelnemerLijst = deelnemerDao.getDeelnemersVanSessie(getConnection(), this);
-		List<Deelnemer> eersteTweedeDerde = new ArrayList<Deelnemer>();
+		try (Connection connection = getConnection()) {
+			List<Deelnemer> deelnemerLijst = deelnemerDao.getDeelnemersVanSessie(connection, this);
+			List<Deelnemer> eersteTweedeDerde = new ArrayList<Deelnemer>();
 
-		// Zet de drie spelers met de hoogste score in de scorelijst
-		int lijstGrootte = deelnemerLijst.size();
+			// Zet de drie spelers met de hoogste score in de scorelijst
+			int lijstGrootte = deelnemerLijst.size();
 
-		if (lijstGrootte > 3) {
-			lijstGrootte = 3;
+			if (lijstGrootte > 3) {
+				lijstGrootte = 3;
+			}
+
+			for (int i = 0; i < lijstGrootte; i++) {
+				eersteTweedeDerde.add(deelnemerLijst.get(i));
+				highscoreDao.createHighscore(connection, deelnemerLijst.get(i));
+			}
+			return eersteTweedeDerde;
 		}
-
-		for (int i = 0; i < lijstGrootte; i++) {
-			eersteTweedeDerde.add(deelnemerLijst.get(i));
-		}
-		return eersteTweedeDerde;
 	}
 
 	public long getID() {
@@ -138,25 +161,30 @@ public class SpelSessie {
 	}
 
 	public boolean isOpen() throws SQLException {
-		spelSessieDao.refreshSessieStatus(getConnection(), this);
-		return "open".equalsIgnoreCase(status);
+		try (Connection connection = getConnection()) {
+			spelSessieDao.refreshSessieStatus(connection, this);
+			return "open".equalsIgnoreCase(status);
+		}
 	}
 
 	public void closeSession() throws SQLException {
 		setStatus("closed");
-		spelSessieDao.setSessieStatus(getConnection(), this);
+		try (Connection connection = getConnection()) {
+			spelSessieDao.setSessieStatus(connection, this);
+		}
 	}
 
-//	public void sluitSpelSessie() throws SQLException {
-//		List<Deelnemer> deelnemerLijst = new ArrayList<Deelnemer>();
-//		deelnemerLijst = deelnemerDao.getDeelnemersVanSessie(getConnection(), this);
-//		deelnemerDao.deleteSessie(getConnection(), this);
-//
-//		for (Deelnemer deelnemer : deelnemerLijst) {
-//			spelerAntwoordDao.deleteAntwoord(getConnection(), deelnemer);
-//			deelnemerDao.deleteDeelnemerVanSessie(getConnection(), deelnemer, this);
-//		}
-//
-//	}
+	public void sluitSpelSessie() throws SQLException {
+		List<Deelnemer> deelnemerLijst = new ArrayList<Deelnemer>();
+		try (Connection connection = getConnection()) {
+			deelnemerLijst = deelnemerDao.getDeelnemersVanSessie(connection, this);
+			deelnemerDao.deleteSessie(connection, this);
+
+			for (Deelnemer deelnemer : deelnemerLijst) {
+				spelerAntwoordDao.deleteAntwoord(connection, deelnemer);
+				deelnemerDao.deleteDeelnemerVanSessie(connection, deelnemer, this);
+			}
+		}
+	}
 
 }

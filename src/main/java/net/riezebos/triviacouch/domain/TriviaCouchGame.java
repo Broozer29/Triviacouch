@@ -28,18 +28,23 @@ public class TriviaCouchGame {
 
 	public void maakSpeler(Speler speler) throws SQLException {
 		SpelerDao spelerDao = new SpelerDao();
-		spelerDao.createSpeler(getConnection(), speler);
+		try (Connection connection = getConnection()) {
+			spelerDao.createSpeler(connection, speler);
+			System.out.println(speler.getProfielnaam());
+		}
 	}
 
 	public Deelnemer inloggen(String profielnaam, String wachtwoord, SpelSessie sessie) throws SQLException {
 		Deelnemer result = null;
 		if (sessie.isOpen()) {
-			SpelerDao spelerDao = new SpelerDao();
-			Speler speler = spelerDao.findSpeler(getConnection(), profielnaam);
-
-			GateKeeper gateKeeper = new GateKeeper();
-			if (gateKeeper.logIn(speler, connectionProvider)) {
-				result = voegSpelerToe(sessie, speler);
+			try (Connection connection = getConnection()) {
+				SpelerDao spelerDao = new SpelerDao();
+				Speler speler = spelerDao.findSpeler(connection, profielnaam);
+				
+				GateKeeper gateKeeper = new GateKeeper();
+				if (gateKeeper.logIn(speler, connectionProvider)) {
+					result = voegSpelerToe(sessie, speler);
+				}
 			}
 		}
 		return result;
@@ -47,14 +52,18 @@ public class TriviaCouchGame {
 
 	public void vraagMaken(Vraag vraag) throws SQLException {
 		VraagDao vraagDao = new VraagDao();
-		vraagDao.createVraag(getConnection(), vraag);
+		try (Connection connection = getConnection()) {
+			vraagDao.createVraag(connection, vraag);
+		}
 	}
 
 	public List<Highscore> getScores() throws SQLException, IOException {
 
 		HighscoreDao highscoreDao = new HighscoreDao();
-		List<Highscore> scoreLijst = highscoreDao.getHighScores(getConnection());
-		return scoreLijst;
+		try (Connection connection = getConnection()) {
+			List<Highscore> scoreLijst = highscoreDao.getHighScores(connection);
+			return scoreLijst;
+		}
 	}
 
 	/*
@@ -63,16 +72,24 @@ public class TriviaCouchGame {
 	 */
 	public List<Vraag> getVragen() throws SQLException {
 		VraagDao vraagDao = new VraagDao();
-		return vraagDao.getVragen(getConnection());
+		try (Connection connection = getConnection()) {
+			return vraagDao.getVragen(connection);
+		}
 	}
 
 	public Vraag getVraag(long vraagId) throws SQLException {
 		VraagDao vraagDao = new VraagDao();
-		Vraag vraag = vraagDao.getVraag(getConnection(), vraagId);
-		return vraag;
+		try (Connection connection = getConnection()) {
+			Vraag vraag = vraagDao.getVraag(connection, vraagId);
+			return vraag;
+		}
 	}
 
 	private Connection getConnection() {
 		return connectionProvider.getConnection();
+	}
+	
+	public SpelSessie maakSessie() throws SQLException {
+		return new SpelSessie(connectionProvider);
 	}
 }

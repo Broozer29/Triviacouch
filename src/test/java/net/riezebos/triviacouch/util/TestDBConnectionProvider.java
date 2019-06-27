@@ -19,6 +19,7 @@ public class TestDBConnectionProvider implements ConnectionProvider {
 				EmbeddedDriver driver = new EmbeddedDriver();
 				result = driver.connect("jdbc:derby:memory:MyDatabase;create=true", new Properties());
 				result.setAutoCommit(false);
+				result = new ConnectionWrapper(result);
 				connection = result;
 			}
 			return result;
@@ -28,5 +29,4 @@ public class TestDBConnectionProvider implements ConnectionProvider {
 
 		}
 	}
-
 }

@@ -12,6 +12,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
+import net.riezebos.triviacouch.domain.SpelSessie;
 import net.riezebos.triviacouch.domain.TriviaCouchGame;
 import net.riezebos.triviacouch.domain.Vraag;
 import net.riezebos.triviacouch.domain.VraagToken;

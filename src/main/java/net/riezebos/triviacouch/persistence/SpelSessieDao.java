@@ -11,7 +11,7 @@ import net.riezebos.triviacouch.resource.IDUtil;
 public class SpelSessieDao {
 
 	public void createSpelSessie(Connection connection, SpelSessie sessie) throws SQLException {
-		PreparedStatement stmt = connection.prepareStatement("insert into spelsessie (id, status) values (?, ?)");
+		PreparedStatement stmt = connection.prepareStatement("insert into spelsessie (id, status) values (?,?)");
 		Long sessieID = IDUtil.getNextId();
 		sessie.setSessieID(sessieID);
 		stmt.setLong(1, sessieID);
