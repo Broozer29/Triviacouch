@@ -101,7 +101,7 @@ public class AntwoordDao {
 	/*
 	 * Geeft een lijst van antwoorden die gegeven zijn voor de vraag.
 	 */
-	public List<Antwoord> getAntwoorden(Connection connection, SpelSessie sessie, Vraag vraag) throws SQLException {
+	public List<Antwoord> getGegevenAntwoorden(Connection connection, SpelSessie sessie, Vraag vraag) throws SQLException {
 		PreparedStatement stmt = connection.prepareStatement(//
 				"select antw.id, antw.antwoord, antw.correct_jn, antw.vraagID "//
 						+ "from antwoord antw, "//

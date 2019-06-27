@@ -1,7 +1,8 @@
 package net.riezebos.triviacouch.service;
 
-import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
@@ -25,28 +26,38 @@ public class AntwoordResource {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public void geefAntwoord(AntwoordToken antwoordToken, @Context HttpServletRequest httpRequest) throws Exception {
+	public Map<String, String> geefAntwoord(AntwoordToken antwoordToken, @Context HttpServletRequest httpRequest)
+			throws Exception {
 		TriviaCouchGame game = SessionHelper.getGame(httpRequest.getSession());
 		Long sessieID = SessionHelper.getSessieID(httpRequest.getSession());
-		SpelSessie sessie = game.getBestaandeSessie(sessieID);
-		List<Antwoord> antwoordenLijst = sessie.getAnwoordenBijVraag();
 
-		Antwoord antwoord = null;
+		SpelSessie sessie = game.getBestaandeSessie(sessieID);
 		Deelnemer deelnemer = new Deelnemer();
 		deelnemer = sessie.getDeelnemer(SessionHelper.getDeelnemerID(httpRequest.getSession()));
-		
+
+		Map<String, String> result = new HashMap<>();
+		result.put("success", "false");
 		Vraag huidigeVraag = sessie.getHuidigeVraag();
 		
-		if (antwoordToken.getAntwoord().equals("Antwoord A")) {
-			antwoord = antwoordenLijst.get(0);
-		} else if (antwoordToken.getAntwoord().equals("Antwoord B")) {
-			antwoord = antwoordenLijst.get(1);
-		} else if (antwoordToken.getAntwoord().equals("Antwoord C")) {
-			antwoord = antwoordenLijst.get(2);
-		} else if (antwoordToken.getAntwoord().equals("Antwoord D")) {
-			antwoord = antwoordenLijst.get(3);
+		if (!sessie.antwoordGegevenVoorVraag(deelnemer, huidigeVraag)) {
+			List<Antwoord> antwoordenLijst = sessie.getAnwoordenBijVraag();
+			Antwoord antwoord = null;
+
+
+
+			if (antwoordToken.getAntwoord().equals("Antwoord A")) {
+				antwoord = antwoordenLijst.get(0);
+			} else if (antwoordToken.getAntwoord().equals("Antwoord B")) {
+				antwoord = antwoordenLijst.get(1);
+			} else if (antwoordToken.getAntwoord().equals("Antwoord C")) {
+				antwoord = antwoordenLijst.get(2);
+			} else if (antwoordToken.getAntwoord().equals("Antwoord D")) {
+				antwoord = antwoordenLijst.get(3);
+			}
+			sessie.geefAntwoord(deelnemer, huidigeVraag, antwoord.getAntwoordText());
+			result.put("success", "true");
 		}
-		sessie.geefAntwoord(deelnemer, huidigeVraag, antwoord.getAntwoordText());
+		return result;
 	}
 
 }

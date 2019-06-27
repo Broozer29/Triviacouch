@@ -5,18 +5,18 @@
 <title>Antwoorden:</title>
 </head>
 <body>
-<h1>Kies een antwoord:</h1>
+	<h1>Kies een antwoord:</h1>
 	<div>
-		<input id="antwoordA" type = "submit" value = "Antwoord A">
-		<input id="antwoordB" type = "submit" value = "Antwoord B">
+		<input id="antwoordA" type="submit" value="Antwoord A"> <input
+			id="antwoordB" type="submit" value="Antwoord B">
 	</div>
 
 	<div>
-		<input id="antwoordC" type = "submit" value = "Antwoord C">
-		<input id="antwoordD" type = "submit" value = "Antwoord D">
+		<input id="antwoordC" type="submit" value="Antwoord C"> <input
+			id="antwoordD" type="submit" value="Antwoord D">
 	</div>
 
-<script>
+	<script>
 
 document.querySelector("#antwoordA").addEventListener("click", function () {
 	var data = {
@@ -52,12 +52,11 @@ document.querySelector("#antwoordB").addEventListener("click", function () {
 		  headers:{
 		    'Content-Type': 'application/json'
 		  }
-		})
-	}
-
-
-
-
+	}).then(res => res.json())
+    .then(jsonobj => { if(jsonobj.success == "false")  alert("Je hebt al antwoord gegeven!");
+    })
+	  .catch(error => console.error('Error:', error));
+}
 </script>
 
 

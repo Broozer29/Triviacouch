@@ -46,7 +46,7 @@ public class FullGameTest extends TestDBConnectionProvider {
 					System.out.println("Antwoord niet gevonden in de lijst");
 			} while (antwoord == null);
 
-			System.out.println("Antwoorden: " + antwoordDao.getAntwoorden(getConnection(), sessie, huidigeVraag));
+			System.out.println("Antwoorden: " + antwoordDao.getGegevenAntwoorden(getConnection(), sessie, huidigeVraag));
 		}
 
 		in.close();

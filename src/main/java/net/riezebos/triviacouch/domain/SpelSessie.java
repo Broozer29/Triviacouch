@@ -123,6 +123,7 @@ public class SpelSessie {
 					System.out.println("Deelnemer: " + deelnemer.getSpelerID() + "gaf het goede antwoord! :)");
 				}
 			}
+			connection.commit();
 			return spelerAntwoord;
 		}
 	}
@@ -143,6 +144,7 @@ public class SpelSessie {
 				eersteTweedeDerde.add(deelnemerLijst.get(i));
 				highscoreDao.createHighscore(connection, deelnemerLijst.get(i));
 			}
+			connection.commit();
 			return eersteTweedeDerde;
 		}
 	}
@@ -193,11 +195,12 @@ public class SpelSessie {
 				spelerAntwoordDao.deleteAntwoord(connection, deelnemer);
 				deelnemerDao.deleteDeelnemerVanSessie(connection, deelnemer, this);
 			}
+			connection.commit();
 		}
 	}
 	
-	public List<Antwoord> getAntwoorden() throws SQLException, InterruptedException {
-		return antwoordDao.getAntwoorden(getConnection(), this, getHuidigeVraag());
+	public List<Antwoord> getGegevenAntwoorden() throws SQLException, InterruptedException {
+		return antwoordDao.getGegevenAntwoorden(getConnection(), this, getHuidigeVraag());
 	}
 	
 	public List<Antwoord> getAnwoordenBijVraag() throws SQLException, InterruptedException{
@@ -208,6 +211,14 @@ public class SpelSessie {
 		Deelnemer deelnemer = deelnemerDao.getDeelnemer(getConnection(), deelnemerID);
 		return deelnemer;
 		
+	}
+	
+	public boolean antwoordGegevenVoorVraag(Deelnemer deelnemer, Vraag vraag) throws SQLException, InterruptedException {
+		Antwoord spelerAntwoord = spelerAntwoordDao.getAntwoordVoorVraag(getConnection(), deelnemer, vraag);
+		if (spelerAntwoord != null) {
+			return true;
+		}
+		return false;
 	}
 	
 
