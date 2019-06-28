@@ -20,7 +20,10 @@ import net.riezebos.triviacouch.service.util.SessionHelper;
 
 @Path("/inloggen")
 public class GatekeeperResource {
-
+	/*
+	 * Deze functie wordt aangeroepen zodra een gebruiker wilt inloggen in zijn profiel.
+	 */
+	
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)

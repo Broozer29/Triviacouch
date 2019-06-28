@@ -6,7 +6,9 @@ import java.util.Properties;
 import org.apache.derby.jdbc.EmbeddedDriver;
 
 import net.riezebos.triviacouch.persistence.ConnectionProvider;
-
+/*
+ * DIT IS EEN TEST KLASSE. DEZE IS ENKEL BEDOELD VOOR TEST DOELEINDEN.
+ */
 public class TestDBConnectionProvider implements ConnectionProvider {
 
 	private static Connection connection = null;

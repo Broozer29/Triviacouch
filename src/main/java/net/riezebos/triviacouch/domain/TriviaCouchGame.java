@@ -116,6 +116,7 @@ public class TriviaCouchGame {
 			return vraag;
 		}
 	}
+	
 
 	private Connection getConnection() {
 		return connectionProvider.getConnection();

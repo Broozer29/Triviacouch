@@ -14,7 +14,9 @@ import net.riezebos.triviacouch.domain.Vraag;
 import net.riezebos.triviacouch.persistence.AntwoordDao;
 import net.riezebos.triviacouch.persistence.SpelerDao;
 import net.riezebos.triviacouch.util.TestDBConnectionProvider;
-
+/*
+ * DIT IS EEN TEST KLASSE. DEZE IS ENKEL BEDOELD VOOR TEST DOELEINDEN.
+ */
 public class FullGameTest extends TestDBConnectionProvider {
 
 	@Test

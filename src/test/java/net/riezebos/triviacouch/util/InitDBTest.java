@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 import org.junit.Test;
-
+/*
+ * DIT IS EEN TEST KLASSE. DEZE IS ENKEL BEDOELD VOOR TEST DOELEINDEN.
+ */
 public class InitDBTest extends TestDBConnectionProvider {
 
 	@Test

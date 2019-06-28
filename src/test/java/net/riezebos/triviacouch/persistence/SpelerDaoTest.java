@@ -8,7 +8,9 @@ import org.junit.Test;
 
 import net.riezebos.triviacouch.domain.Speler;
 import net.riezebos.triviacouch.util.TestDBConnectionProvider;
-
+/*
+ * DIT IS EEN TEST KLASSE. DEZE IS ENKEL BEDOELD VOOR TEST DOELEINDEN.
+ */
 public class SpelerDaoTest extends TestDBConnectionProvider {
 
 	@Test

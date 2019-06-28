@@ -22,6 +22,10 @@ import net.riezebos.triviacouch.service.util.SessionHelper;
 @Path("/spelen")
 public class SpeelsessieResource {
 
+	/*
+	 * Deze functie wordt gebruikt door de browser om de sessie van zijn spel op te halen.
+	 */
+	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public long getSessie(@Context HttpServletRequest httpRequest) {
@@ -34,7 +38,11 @@ public class SpeelsessieResource {
 			return 0;
 		}
 	}
-
+	
+	/*
+	 * Deze functie wordt gebruikt door de browser om de spelers van zijn sessie op te halen.
+	 */
+	
 	@POST
 	@Path("/haalspelers")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -68,6 +76,11 @@ public class SpeelsessieResource {
 		}
 		return sessionID;
 	}
+	
+	
+	/*
+	 * Deze functie wordt gebruikt door de browser om het ID van de sessie op te halen.
+	 */
 
 	@GET
 	@Path("/getsessieid")
@@ -88,6 +101,10 @@ public class SpeelsessieResource {
 			return 0L;
 		}
 	}
+	
+	/*
+	 * Deze functie wordt gebruikt door de browser om de huidige vraag op te halen.
+	 */
 
 	@GET
 	@Path("/getvraag")

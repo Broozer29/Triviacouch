@@ -84,7 +84,6 @@ public class SpelSessie {
 
 		try (Connection connection = getConnection()) {
 			List<Long> idLijst = vraagDao.getVraagIDLijst(connection);
-
 			long minIndex = Collections.min(idLijst);
 			long maxIndex = Collections.max(idLijst);
 			// Het getal hieronder mag NOOIT kleiner zijn dan de hoeveelheid vragen in de

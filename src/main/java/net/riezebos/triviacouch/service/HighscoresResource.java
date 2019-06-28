@@ -20,7 +20,9 @@ import net.riezebos.triviacouch.service.util.SessionHelper;
 
 @Path("/highscores")
 public class HighscoresResource {
-
+	/*
+	 * Deze functie wordt aangeroepen zodra een gebruiker wenst de highscores te zien.
+	 */
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<Highscore> getHighscores(@Context HttpServletRequest httpRequest) {
@@ -34,6 +36,10 @@ public class HighscoresResource {
 		return scores;
 
 	}	
+	
+	/*
+	 * Deze functie wordt aangeroepen zodra een spelronde voorbij is en de scores van de spelronde weergeven moeten worden.
+	 */
 	
 	@POST
 	@Path("/getsessiescores")

@@ -18,6 +18,11 @@ import net.riezebos.triviacouch.service.util.SessionHelper;
 
 @Path("/profielmaken")
 public class ProfielResource {
+	
+	/*
+	 * Deze functie wordt aangeroepen zodra een gebruiker een profiel aanmaakt.
+	 */
+	
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)

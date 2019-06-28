@@ -8,7 +8,9 @@ import net.riezebos.triviacouch.domain.Deelnemer;
 import net.riezebos.triviacouch.domain.SpelSessie;
 import net.riezebos.triviacouch.domain.Speler;
 import net.riezebos.triviacouch.util.TestDBConnectionProvider;
-
+/*
+ * DIT IS EEN TEST KLASSE. DEZE IS ENKEL BEDOELD VOOR TEST DOELEINDEN.
+ */
 public class DeelnemerDaoTest extends TestDBConnectionProvider {
 
 	ConnectionProvider provider;

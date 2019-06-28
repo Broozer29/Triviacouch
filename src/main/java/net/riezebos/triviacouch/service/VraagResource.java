@@ -19,7 +19,10 @@ import net.riezebos.triviacouch.service.util.SessionHelper;
 
 @Path("/vragen")
 public class VraagResource {
-
+	/*
+	 * Deze functie wordt gebruikt door de browser om vragen voor een nieuwe sessie op te halen.
+	 */
+	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<Vraag> getVragen(@Context HttpServletRequest httpRequest) {
@@ -33,6 +36,10 @@ public class VraagResource {
 		}
 		return result;
 	}
+	
+	/*
+	 * Deze functie wordt gebruikt door de browser om een vraag op te halen.
+	 */
 
 	@POST
 	@Path("/getVraag")
@@ -53,6 +60,11 @@ public class VraagResource {
 
 	}
 	
+	
+	/*
+	 * Deze functie wordt gebruikt door de browser om een bestaande vraag aan te passen.
+	 */
+	
 	@POST
 	@Path("/pasvraagaan")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -68,6 +80,10 @@ public class VraagResource {
 		}
 
 	}
+	
+	/*
+	 * Deze functie wordt gebruikt door de browser een nieuwe vraag te maken.
+	 */
 
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)

@@ -5,16 +5,18 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import net.riezebos.triviacouch.domain.Antwoord;
 import net.riezebos.triviacouch.domain.Vraag;
-import net.riezebos.triviacouch.resource.IDUtil;
 
 public class VraagDao {
 	public void createVraag(Connection connection, Vraag vraag) throws Exception {
-		vraag.setID(IDUtil.getNextId());
-
+		List<Long> idLijst = getVraagIDLijst(connection);
+		long maxIndex = Collections.max(idLijst) + 1;
+		
+		vraag.setID(maxIndex);
 		PreparedStatement stmt = connection.prepareStatement("insert into vraag (id, vraag) values (?,?)");
 
 		stmt.setLong(1, vraag.getID());

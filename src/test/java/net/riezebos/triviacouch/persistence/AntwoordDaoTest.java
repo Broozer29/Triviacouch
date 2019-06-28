@@ -12,6 +12,12 @@ import net.riezebos.triviacouch.domain.Vraag;
 import net.riezebos.triviacouch.resource.IDUtil;
 import net.riezebos.triviacouch.util.TestDBConnectionProvider;
 
+
+
+
+/*
+ * DIT IS EEN TEST KLASSE. DEZE IS ENKEL BEDOELD VOOR TEST DOELEINDEN.
+ */
 public class AntwoordDaoTest extends TestDBConnectionProvider {
 	@Test
 	public void testCreate() throws Exception {

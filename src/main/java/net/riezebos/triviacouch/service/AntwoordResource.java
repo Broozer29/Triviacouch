@@ -23,6 +23,11 @@ import net.riezebos.triviacouch.service.util.SessionHelper;
 @Path("/antwoorden")
 public class AntwoordResource {
 
+	
+	/*
+	 * Deze functie wordt aangeroepen zodra een gebruiker een antwoord geeft op haar/zijn browser.
+	 */
+	
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
