@@ -23,7 +23,7 @@ public class DeelnemerDaoTest extends TestDBConnectionProvider {
 		SpelSessie spelSessie = new SpelSessie(provider);
 		spelSessie.createNew();
 
-		Speler broozer = sdao.findSpeler(getConnection(), "Broozer");
+		Speler broozer = sdao.findSpelerBijSpelernaam(getConnection(), "Broozer");
 		Deelnemer maakDeelnemer = dao.maakDeelnemer(getConnection(), broozer, spelSessie);
 		maakDeelnemer.addScore(100000);
 		dao.zetScoreVanDeelnemer(getConnection(), maakDeelnemer);

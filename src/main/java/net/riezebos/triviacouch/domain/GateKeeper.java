@@ -20,7 +20,7 @@ public class GateKeeper {
 	private Speler controleerProfielnaam(String username, SpelerDao factory) throws SQLException {
 		Speler speler = null;
 		try (Connection connection = connectionProvider.getConnection()) {
-			speler = factory.findSpeler(connection, username);
+			speler = factory.findSpelerBijSpelernaam(connection, username);
 			if (speler == null) {
 				System.out.println("Er bestaat geen profiel met die naam. Controleer de spelling of maak er een aan.");
 			}

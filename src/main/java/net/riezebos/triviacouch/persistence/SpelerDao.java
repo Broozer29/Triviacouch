@@ -13,7 +13,7 @@ import net.riezebos.triviacouch.resource.IDUtil;
 
 public class SpelerDao {
 
-	public Speler findSpeler(Connection connection, String profielnaam) throws SQLException {
+	public Speler findSpelerBijSpelernaam(Connection connection, String profielnaam) throws SQLException {
 		PreparedStatement stmt = connection.prepareStatement(
 				"select id, wachtwoord, winPercentage, correctPercentage from speler where profielNaam = ?");
 		stmt.setString(1, profielnaam);
@@ -67,8 +67,6 @@ public class SpelerDao {
 	}
 
 	public void createSpeler(Connection connection, Speler speler) throws SQLException {
-		// Maak een gebruiker aan met een bestaande instance van Speler en stop hem in
-		// de database
 		PreparedStatement stmt = connection.prepareStatement(
 				"insert into speler (id, profielNaam, wachtwoord, winPercentage, correctPercentage) values (?,?,?,?,?)");
 		stmt.setLong(1, IDUtil.getNextId());
@@ -94,9 +92,7 @@ public class SpelerDao {
 	}
 
 	public void deleteSpeler(Connection connection, Speler speler) throws SQLException {
-
 		PreparedStatement stmt = connection.prepareStatement("delete from speler where id = ?");
-
 		stmt.setLong(1, speler.getID());
 		stmt.execute();
 		stmt.close();

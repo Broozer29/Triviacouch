@@ -3,6 +3,9 @@ package net.riezebos.triviacouch.persistence;
 import java.sql.Connection;
 import java.sql.DriverManager;
 
+/*
+ * Deze functie wordt gebruikt om verbinding met de database te leggen.
+ */
 public class BasicConnectionProvider implements ConnectionProvider {
 
 	public Connection getConnection() {

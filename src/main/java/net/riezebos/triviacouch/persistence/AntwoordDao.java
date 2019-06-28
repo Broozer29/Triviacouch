@@ -147,6 +147,10 @@ public class AntwoordDao {
 
 	}
 
+	/*
+	 * Deze functie zorgt ervoor dat een gegeven antwoord kan lijken op een bestaand antwoord en alsnog tellen.
+	 * Dit voorkomt problemen zodra er invalide antwoorden worden gegeven.
+	 */
 	public Antwoord matchAntwoord(Connection connection, Vraag vraag, String text) throws SQLException {
 		Antwoord result = null;
 

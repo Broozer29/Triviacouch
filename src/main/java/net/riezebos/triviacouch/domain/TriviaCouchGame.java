@@ -35,7 +35,6 @@ public class TriviaCouchGame {
 	}
 
 	private Deelnemer voegSpelerToe(SpelSessie sessie, Speler speler) throws SQLException {
-
 		return sessie.voegSpelerToe(speler);
 	}
 
@@ -51,7 +50,7 @@ public class TriviaCouchGame {
 		if (sessie.isOpen()) {
 			try (Connection connection = getConnection()) {
 				SpelerDao spelerDao = new SpelerDao();
-				Speler speler = spelerDao.findSpeler(connection, profielnaam);
+				Speler speler = spelerDao.findSpelerBijSpelernaam(connection, profielnaam);
 				if (speler != null) {
 					GateKeeper gateKeeper = new GateKeeper();
 					if (gateKeeper.logIn(speler, wachtwoord, connectionProvider)) {

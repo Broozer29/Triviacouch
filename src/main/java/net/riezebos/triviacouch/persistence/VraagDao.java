@@ -74,6 +74,10 @@ public class VraagDao {
 
 	}
 
+	/*
+	 * Deze functie haalt een lijst met alle vraagID's op uit de database.
+	 */
+	
 	public List<Long> getVraagIDLijst(Connection connection) throws SQLException {
 		PreparedStatement stmt = connection.prepareStatement("select id from vraag");
 		ResultSet rs = stmt.executeQuery();
@@ -86,6 +90,11 @@ public class VraagDao {
 		return vraagIDLijst;
 	}
 
+	/*
+	 * Deze functie haal alle vragen op uit de database.
+	 * Deze functie wordt alleen gebruikt voor test doeleinden. De functie kan veel vragen teruggeven!!
+	 */
+	
 	public List<Vraag> getVragen(Connection connection) throws SQLException {
 		PreparedStatement stmt = connection.prepareStatement("select vraag, id from vraag order by id");
 		ResultSet rs = stmt.executeQuery();

@@ -47,7 +47,9 @@ public class SpelSessie {
 		return connectionProvider.getConnection();
 	}
 
-	// Voegt speler toe aan Deelnemer tabel
+	/*
+	 *  Voegt speler toe aan Deelnemer tabel
+	 */
 	public Deelnemer voegSpelerToe(Speler speler) throws SQLException {
 		try (Connection connection = getConnection()) {
 			Deelnemer deelnemer = deelnemerDao.maakDeelnemer(connection, speler, this);
@@ -60,7 +62,9 @@ public class SpelSessie {
 		}
 	}
 
-	// Zet vragen voor de sessie in de SpelVraag tabel
+	/*
+	 *  Zet vragen voor de sessie in de SpelVraag tabel
+	 */
 	private void maakVraagSet() throws SQLException {
 		List<Long> vraagIDLijst = maakVraagIDLijst();
 
@@ -78,7 +82,9 @@ public class SpelSessie {
 		}
 	}
 
-	// Genereer random vraagID's om op te halen uit de tabel.
+	/* 
+	 * Genereer random vraagID's om op te halen uit de tabel.
+	 */
 	private List<Long> maakVraagIDLijst() throws SQLException {
 		List<Long> vraagIDLijst = new ArrayList<Long>();
 
@@ -86,9 +92,9 @@ public class SpelSessie {
 			List<Long> idLijst = vraagDao.getVraagIDLijst(connection);
 			long minIndex = Collections.min(idLijst);
 			long maxIndex = Collections.max(idLijst);
-			// Het getal hieronder mag NOOIT kleiner zijn dan de hoeveelheid vragen in de
-			// tabel Vragen.
-			// Dit moet nog aangepast worden!
+			/* 
+			 * Het getal hieronder mag NOOIT kleiner zijn dan de hoeveelheid vragen in de tabel Vragen.
+			*/ 
 			while (vraagIDLijst.size() < 10) {
 
 				long generatedLong = ThreadLocalRandom.current().nextLong(minIndex, maxIndex + 1);
@@ -100,7 +106,9 @@ public class SpelSessie {
 			return vraagIDLijst;
 		}
 	}
-
+	/*
+	 * Deze methode haalt de eerstvolgende vraag voor een spelsessie op.
+	 */
 	public Vraag getHuidigeVraag() throws SQLException, InterruptedException {
 		try (Connection connection = getConnection()) {
 			Long vraagID = spelVraagDao.getVraagIDVanSessie(connection, this);
@@ -140,7 +148,9 @@ public class SpelSessie {
 			List<Deelnemer> deelnemerLijst = deelnemerDao.getDeelnemersVanSessie(connection, this);
 			List<Deelnemer> eersteTweedeDerde = new ArrayList<Deelnemer>();
 
-			// Zet de drie spelers met de hoogste score in de scorelijst
+			/*
+			 *  Zet de drie spelers met de hoogste score in de scorelijst
+			 */
 			int lijstGrootte = deelnemerLijst.size();
 
 			if (lijstGrootte > 3) {
@@ -184,14 +194,20 @@ public class SpelSessie {
 			return "open".equalsIgnoreCase(status);
 		}
 	}
-
-	public void closeSession() throws SQLException {
+/*
+ * Deze methode sluit een sessie voor spelers. Zodra deze methode is aangeroepen kunnen er geen spelers meer aansluiten bij de sessie.
+ */
+	public void sluitSessie() throws SQLException {
 		setStatus("closed");
 		try (Connection connection = getConnection()) {
 			spelSessieDao.setSessieStatus(connection, this);
 		}
 	}
 
+	/*
+	 * Deze methode kan gebruikt worden om alle records van de spelsessie te verwijderen uit de database.
+	 */
+	
 	public void sluitSpelSessie() throws SQLException {
 		List<Deelnemer> deelnemerLijst = new ArrayList<Deelnemer>();
 		try (Connection connection = getConnection()) {
