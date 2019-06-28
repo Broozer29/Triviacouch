@@ -35,7 +35,7 @@ public class VraagResource {
 	}
 
 	@POST
-	@Path("/aanpassen")
+	@Path("/getVraag")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Vraag getVraag(VraagToken vraagToken, @Context HttpServletRequest httpRequest) {
@@ -49,6 +49,22 @@ public class VraagResource {
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
+		}
+
+	}
+	
+	@POST
+	@Path("/pasvraagaan")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Boolean pasVraagAan(Vraag vraag, @Context HttpServletRequest httpRequest) {
+		try {
+			TriviaCouchGame game = SessionHelper.getGame(httpRequest.getSession());
+			game.updateVraag(vraag);
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
 		}
 
 	}

@@ -9,16 +9,18 @@ import java.util.List;
 
 import net.riezebos.triviacouch.domain.Deelnemer;
 import net.riezebos.triviacouch.domain.Highscore;
+import net.riezebos.triviacouch.domain.SpelSessie;
 import net.riezebos.triviacouch.resource.IDUtil;
 
 public class HighscoreDao {
-	public void createHighscore(Connection connection, Deelnemer deelnemer) throws SQLException {
+	public void createHighscore(Connection connection, Deelnemer deelnemer, SpelSessie sessie) throws SQLException {
 		PreparedStatement stmt = connection
 				.prepareStatement("insert into highscores (id, spelerid, score) values (?,?,?)");
 		Long randomLong = IDUtil.getNextId();
 		stmt.setLong(1, randomLong);
 		stmt.setLong(2, deelnemer.getSpelerID());
 		stmt.setLong(3, deelnemer.getScore());
+		stmt.setLong(3, sessie.getID());
 		stmt.execute();
 		stmt.close();
 	}
@@ -40,5 +42,6 @@ public class HighscoreDao {
 		rs.close();
 		return scores;
 	}
+	
 
 }

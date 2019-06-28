@@ -11,16 +11,43 @@
 		<br>
 	</form>
 
-	<div>
-		<p id="eerstePlaats" value=""">Speler A</p>
-		<p id="tweedePlaats" value="">Speler B</p>
-		<p id="derdePlaats" value="">Speler C</p>
-		<p id="vierdePlaats" value="">Speler D</p>
-	</div>
-	
+	<div id="scores"></div>
+
 	<form action="Startscherm.html">
 		<input type="submit" value="Terug" />
 	</form>
+
+	<script>
+
+fetch("api/spelen/getsessieid", { method: 'GET' })
+.then(response => response.json())
+.then(function (myJson) { 
+      	document.getElementById("sessieID").innerHTML = "Sessie ID: "+myJson;
+  	});
+
+	var url = "api/highscores/getsessiescores";
+	var data = {"sessieID": document.getElementById("sessieID").innerHTML};
+	
+	fetch(url, {
+	  method: 'POST', // or 'PUT'
+	  body: JSON.stringify(data), // data can be `string` or {object}!
+	  headers:{
+	    'Content-Type': 'application/json'
+	  }
+	}).then(res => res.json())
+	.then(response => { var i;
+	                    var text='';
+	                    
+	                    for (i = 0; i < response.length; i++) { 
+	                    	  text += "Speler ID = "+response[i].spelerID + "<br>"
+	                    	  text += "Speler Score ="+response[i].score;
+	                    	}
+	                    console.log(response);
+	                    console.log(text);
+	                    document.getElementById("scores").innerHTML = text;}) 
+	.catch(error => console.error('Error:', error));
+</script>
+
 
 </body>
 </html>

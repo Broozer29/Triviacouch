@@ -49,8 +49,8 @@ public class AntwoordDao {
 	}
 
 	public List<Antwoord> findAntwoordenViaVraag(Connection connection, Vraag vraag) throws SQLException {
-		PreparedStatement stmt = connection.prepareStatement(
-				"select antwoord, correct_jn, id from antwoord where vraagID = ? order by correct_jn, id");
+		PreparedStatement stmt = connection
+				.prepareStatement("select antwoord, correct_jn, id from antwoord where vraagID = ?");
 		stmt.setLong(1, vraag.getID());
 		ResultSet rs = stmt.executeQuery();
 		List<Antwoord> antwoorden = new ArrayList<Antwoord>();
@@ -79,6 +79,21 @@ public class AntwoordDao {
 			stmt.close();
 		} else
 			throw new Exception("Antwoord is te lang: " + antwoord.getAntwoordText());
+	}
+
+	public Long getAntwoordIDBijTekst(Connection connection, Antwoord antwoord, Vraag vraag) throws Exception {
+		PreparedStatement stmt = connection
+				.prepareStatement("select id from antwoord where vraagID = ? and antwoord = ?");
+		stmt.setLong(1, vraag.getID());
+		stmt.setString(2, antwoord.getAntwoordText());
+		ResultSet rs = stmt.executeQuery();
+		Long antwoordID = null;
+		if (rs.next()) {
+			antwoordID = rs.getLong(1);
+		}
+		stmt.execute();
+		stmt.close();
+		return antwoordID;
 
 	}
 
@@ -101,7 +116,8 @@ public class AntwoordDao {
 	/*
 	 * Geeft een lijst van antwoorden die gegeven zijn voor de vraag.
 	 */
-	public List<Antwoord> getGegevenAntwoorden(Connection connection, SpelSessie sessie, Vraag vraag) throws SQLException {
+	public List<Antwoord> getGegevenAntwoorden(Connection connection, SpelSessie sessie, Vraag vraag)
+			throws SQLException {
 		PreparedStatement stmt = connection.prepareStatement(//
 				"select antw.id, antw.antwoord, antw.correct_jn, antw.vraagID "//
 						+ "from antwoord antw, "//

@@ -50,7 +50,7 @@ public class FullGameTest extends TestDBConnectionProvider {
 		}
 
 		in.close();
-		List<Deelnemer> winnaarLijst = sessie.selecteerWinnaar();
+		List<Deelnemer> winnaarLijst = sessie.getEindScores();
 		for (Deelnemer deelnemer : winnaarLijst) {
 			Speler winnaar = spelerDao.getSpeler(getConnection(), deelnemer.getSpelerID());
 

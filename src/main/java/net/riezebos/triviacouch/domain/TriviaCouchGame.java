@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
+import net.riezebos.triviacouch.persistence.AntwoordDao;
 import net.riezebos.triviacouch.persistence.ConnectionProvider;
 import net.riezebos.triviacouch.persistence.HighscoreDao;
 import net.riezebos.triviacouch.persistence.SpelSessieDao;
@@ -66,6 +67,25 @@ public class TriviaCouchGame {
 		VraagDao vraagDao = new VraagDao();
 		try (Connection connection = getConnection()) {
 			vraagDao.createVraag(connection, vraag);
+			connection.commit();
+		}
+	}
+	
+	public void updateVraag(Vraag vraag) throws Exception {
+		VraagDao vraagDao = new VraagDao();
+		AntwoordDao antwoordDao = new AntwoordDao();
+		List<Antwoord> nieuweAntwoorden = vraag.getAntwoorden();
+		int itereerInteger = 0;
+		try (Connection connection = getConnection()) {
+			vraagDao.updateVraag(connection, vraag);
+			for (Antwoord antwoord : antwoordDao.findAntwoordenViaVraag(connection, vraag)) {
+				Antwoord nieuweAntwoord = nieuweAntwoorden.get(itereerInteger);
+				antwoord.setID(antwoordDao.getAntwoordIDBijTekst(connection, antwoord, vraag));
+				antwoord.setAntwoordText(nieuweAntwoord.getAntwoordText());
+				antwoordDao.updateAntwoord(connection, antwoord);
+				itereerInteger++;
+			}
+			connection.commit();
 		}
 	}
 

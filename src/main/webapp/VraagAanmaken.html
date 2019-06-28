@@ -5,28 +5,45 @@
 	<h1>Vraag Aanmaken</h1>
 
 	<form id="POSTvraagmakenForm">
-		Vraag: <br> <input type="text" id="vraag"> <br>
-		Juiste antwoord: <br> <input type="text" id="juisteAntwoord">
-		<br> Foute antwoorden: <br>
-		<input type="text" id="foutEen"> <input type="text"
-			id="foutTwee"> <input type="text" id="foutDrie"> <br>
+		Vraag: 
+		<br> 
+		<input type="text" id="vraag"> 
+		<br>
+		Juiste antwoord: 
+		<br> 
+		<input type="text" id="juisteAntwoord">
+		<br> 
+		Foute antwoorden: 
+		<br> 
+		<input type="text" id="foutEen">
+		<input type="text" id="foutTwee"> 
+		<input type="text" id="foutDrie"> 
+		<br> 
 		<input type="button" id="post" value="Maak vraag!"/>
 	</form>
 
 
 	<form id="POSTvraagAanpassenForm">
-		VraagID: <br> <input type="text" id="vraag"
-			value="Voer een vraagID in"> <input type="button"
-			id="getVraag" value="Zoek Vraag"/><br>
-		Vraag: <br> <input type="text" id="vraag"
-			value="Voer eerst een vraagID in"> <br> Juiste antwoord:
-		<br> <input type="text" id="juisteAntwoord"
-			value="Voer eerst een vraagID in"> <br> Foute
-		antwoorden: <br>
-		<input type="text" id="foutEen" value="Voer eerst een vraagID in">
-		<input type="text" id="foutTwee" value="Voer eerst een vraagID in">
-		<input type="text" id="foutDrie" value="Voer eerst een vraagID in">
-		<br> <input type="button" id="post" value="Pas vraag aan!"/>
+		VraagID: 
+		<br> 
+		<input type="text" id="vraagID"value="Voer een vraagID in"> 
+		<input type="button" id="getVraag" value="Zoek Vraag" />
+		<br>
+		 Vraag:
+		<br>
+		<input type="text" id="vraagAanp" value="Voer eerst een vraagID in"> 
+		<br>
+		Juiste antwoord: 
+		<br> 
+		<input type="text" id="juisteAanpAntwoord" value="Voer eerst een vraagID in">
+		<br> 
+		Foute antwoorden: 
+		<br> 
+		<input type="text" id="foutAanpEen" value="Voer eerst een vraagID in"> 
+		<input type="text" id="foutAanpTwee" value="Voer eerst een vraagID in"> 
+		<input type="text" id="foutAanpDrie" value="Voer eerst een vraagID in">
+		<br> 
+		<input type="button" id="pasVraagAan" value="Pas vraag aan!" />
 	</form>
 
 
@@ -75,24 +92,81 @@
 								}
 							})
 						})
-
-		function zoekVraag() {
-			xhr = new XMLHttpRequest();
-			var url = "http://localhost:8080/triviacouch/api/vragen/aanpassen";
-			xhr.open("POST", url, true);
-			xhr.setRequestHeader("Content-type", "application/json");
-			xhr.onreadystatechange = function() {
-				if (xhr.readyState == 4 && xhr.status == 200) {
-					var json = JSON.parse(xhr.responseText);
-					console.log(json.email + ", " + json.name)
-				}
-			}
-			var data = JSON.stringify({
-				"vraagID" : document.getElementById("getVraag").value
-			})
-			xhr.send(data);
-		}
+						
 	</script>
+	<script>				
+document.querySelector("#pasVraagAan").addEventListener("click", function () {
+	var url = "api/vragen/pasvraagaan ";
+	var data = {
+			"antwoorden" : [
+				{
+					"antwoordText" : document
+							.getElementById("juisteAanpAntwoord").value,
+					"correct_jn" : "J"
+				},
+				{
+					"antwoordText" : document
+							.getElementById("foutAanpEen").value,
+					"correct_jn" : "N"
+				},
+				{
+					"antwoordText" : document
+							.getElementById("foutAanpTwee").value,
+					"correct_jn" : "N"
+				},
+				{
+					"antwoordText" : document
+							.getElementById("foutAanpDrie").value,
+					"correct_jn" : "N"
+				} ],
+		"vraagText" : document.getElementById("vraagAanp").value,
+		"iD" : document.getElementById("vraagID").value
+	};
+	
+	fetch(url, {
+	  method: 'POST', // or 'PUT'
+	  body: JSON.stringify(data), // data can be `string` or {object}!
+	  headers:{
+	    'Content-Type': 'application/json'
+	  }
+	}).then(res => res.json())
+	.then(response => {console.log(response)
+});
+});
+</script>
+<script>
+document.querySelector("#getVraag").addEventListener("click", function () {
+	var data = {
+			"vraagID" : document.getElementById("vraagID").value
+			}
+	stuurVraag(data);	
+})
+	
+	
+	function stuurVraag(data){
+	var url = "api/vragen/getVraag";
+	fetch(url, {
+		  method: 'POST', // or 'PUT'
+		  body: JSON.stringify(data), // data can be `string` or {object}!
+		  headers:{
+		    'Content-Type': 'application/json'
+		  }
+	}).then(res => res.json())
+	.then(function (myJson) {
+	  	  console.log(myJson);
+	  	  if(myJson.length != 0) {
+		  	  var vraag = myJson;
+		      document.getElementById("vraagAanp").value = vraag.vraagText;
+		      document.getElementById("juisteAanpAntwoord").value = vraag.antwoorden[0].antwoordText;
+		      document.getElementById("foutAanpEen").value = vraag.antwoorden[1].antwoordText;
+		      document.getElementById("foutAanpTwee").value = vraag.antwoorden[2].antwoordText;
+		      document.getElementById("foutAanpDrie").value = vraag.antwoorden[3].antwoordText;
+	  	  } else {
+		  		alert("Vraag niet gevonden!");	  		  
+	  	  }
+})
+}
+</script>
 </body>
 </html>
 

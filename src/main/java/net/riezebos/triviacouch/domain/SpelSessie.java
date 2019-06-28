@@ -136,7 +136,7 @@ public class SpelSessie {
 		}
 	}
 
-	public List<Deelnemer> selecteerWinnaar() throws SQLException {
+	public List<Deelnemer> getEindScores() throws SQLException {
 		try (Connection connection = getConnection()) {
 			List<Deelnemer> deelnemerLijst = deelnemerDao.getDeelnemersVanSessie(connection, this);
 			List<Deelnemer> eersteTweedeDerde = new ArrayList<Deelnemer>();
@@ -150,10 +150,10 @@ public class SpelSessie {
 
 			for (int i = 0; i < lijstGrootte; i++) {
 				eersteTweedeDerde.add(deelnemerLijst.get(i));
-				highscoreDao.createHighscore(connection, deelnemerLijst.get(i));
+				highscoreDao.createHighscore(connection, deelnemerLijst.get(i), this);
 			}
 			connection.commit();
-			return eersteTweedeDerde;
+			return deelnemerLijst;
 		}
 	}
 
