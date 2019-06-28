@@ -20,7 +20,6 @@ public class HighscoreDao {
 		stmt.setLong(1, randomLong);
 		stmt.setLong(2, deelnemer.getSpelerID());
 		stmt.setLong(3, deelnemer.getScore());
-		stmt.setLong(3, sessie.getID());
 		stmt.execute();
 		stmt.close();
 	}

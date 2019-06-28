@@ -15,6 +15,10 @@ public class DeelnemerDaoTest extends TestDBConnectionProvider {
 
 	ConnectionProvider provider;
 
+	/*
+	 * Test voor het updaten van een deelnemer.
+	 */
+	
 	@Test
 	public void testUpdate() throws SQLException {
 		DeelnemerDao dao = new DeelnemerDao();

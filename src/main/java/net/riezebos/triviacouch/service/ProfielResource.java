@@ -1,7 +1,5 @@
 package net.riezebos.triviacouch.service;
 
-import java.sql.SQLException;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -13,16 +11,17 @@ import javax.ws.rs.core.MediaType;
 import net.riezebos.triviacouch.domain.Speler;
 import net.riezebos.triviacouch.domain.SpelerToken;
 import net.riezebos.triviacouch.domain.TriviaCouchGame;
-import net.riezebos.triviacouch.persistence.SpelerDao;
 import net.riezebos.triviacouch.service.util.SessionHelper;
 
 @Path("/profielmaken")
 public class ProfielResource {
-	
+
 	/*
-	 * Deze functie wordt aangeroepen zodra een gebruiker een profiel aanmaakt.
+	 * Deze functie wordt aangeroepen zodra een gebruiker een profiel aanmaakt. Het
+	 * gebruikt de inhoud van een spelertoken (profielnaam en wachtwoord) om een
+	 * Speler te maken en in de database toe te voegen
 	 */
-	
+
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)

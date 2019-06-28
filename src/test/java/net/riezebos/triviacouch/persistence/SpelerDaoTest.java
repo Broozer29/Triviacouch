@@ -13,6 +13,9 @@ import net.riezebos.triviacouch.util.TestDBConnectionProvider;
  */
 public class SpelerDaoTest extends TestDBConnectionProvider {
 
+	/*
+	 * Test voor het aanmaken van een nieuw speler profiel.
+	 */
 	@Test
 	public void testCreate() throws SQLException {
 		Connection connection = getConnection();
@@ -25,6 +28,9 @@ public class SpelerDaoTest extends TestDBConnectionProvider {
 		System.out.println(speler.getProfielnaam() + " gevonden!");
 		Assert.assertNotNull(speler);
 	}
+	/*
+	 * Test voor het vinden van een speler profiel met een username.
+	 */
 
 	@Test
 	public void testFind() throws SQLException {
@@ -36,6 +42,10 @@ public class SpelerDaoTest extends TestDBConnectionProvider {
 		speler = dao.findSpelerBijSpelernaam(connection, "NULLSPELER@!@!");
 		Assert.assertNull(speler);
 	}
+	
+	/*
+	 * Test voor het updaten van een bestaande profiel met behulp van een profielnaam.
+	 */
 
 	@Test
 	public void testUpdate() throws SQLException {
@@ -49,6 +59,10 @@ public class SpelerDaoTest extends TestDBConnectionProvider {
 		Speler check = dao.findSpelerBijSpelernaam(connection, "abc");
 		Assert.assertEquals("abc", check.getProfielnaam());
 	}
+	
+	/*
+	 * Test voor het verwijderen van een bestaande profiel.
+	 */
 
 	@Test
 	public void testVerwijder() throws SQLException {

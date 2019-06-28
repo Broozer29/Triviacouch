@@ -26,6 +26,7 @@ public class AntwoordResource {
 	
 	/*
 	 * Deze functie wordt aangeroepen zodra een gebruiker een antwoord geeft op haar/zijn browser.
+	 * De functie ontvangt een token voor een Antwoord van een speler en zet hem om in een echt Antwoord.
 	 */
 	
 	@POST

@@ -23,7 +23,7 @@ import net.riezebos.triviacouch.service.util.SessionHelper;
 public class SpeelsessieResource {
 
 	/*
-	 * Deze functie wordt gebruikt door de browser om de sessie van zijn spel op te halen.
+	 * Deze functie wordt gebruikt door de browser om de sessie van zijn sessieID op te halen.
 	 */
 	
 	@GET

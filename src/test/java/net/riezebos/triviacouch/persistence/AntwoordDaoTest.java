@@ -17,8 +17,13 @@ import net.riezebos.triviacouch.util.TestDBConnectionProvider;
 
 /*
  * DIT IS EEN TEST KLASSE. DEZE IS ENKEL BEDOELD VOOR TEST DOELEINDEN.
+ * 
  */
 public class AntwoordDaoTest extends TestDBConnectionProvider {
+	
+	/*
+	 * Test voor het aanmaken van een vraag.
+	 */
 	@Test
 	public void testCreate() throws Exception {
 
@@ -37,6 +42,9 @@ public class AntwoordDaoTest extends TestDBConnectionProvider {
 		Assert.assertNotNull(antwoord);
 	}
 
+	/*
+	 * Test voor het vinden van een bestaande vraag.
+	 */
 	@Test
 	public void testFindID() throws SQLException {
 		Connection connection = getConnection();
@@ -47,6 +55,10 @@ public class AntwoordDaoTest extends TestDBConnectionProvider {
 		antwoord = dao.findAntwoordID(connection, 0);
 		Assert.assertNull(antwoord);
 	}
+	
+	/*
+	 * Test voor het vinden van een bestaande vraag met behulp van een vraagID
+	 */
 
 	@Test
 	public void testFindVraagID() throws SQLException {
@@ -63,6 +75,9 @@ public class AntwoordDaoTest extends TestDBConnectionProvider {
 		Assert.assertTrue(antwoorden.isEmpty());
 	}
 
+	/*
+	 * Test voor het updaten van een vraag.
+	 */
 	@Test
 	public void testUpdate() throws Exception {
 		Connection connection = getConnection();
@@ -75,8 +90,11 @@ public class AntwoordDaoTest extends TestDBConnectionProvider {
 		Antwoord check = dao.findAntwoordID(connection, antwoord.getID());
 		Assert.assertEquals("hey_hoi_test!", check.getAntwoordText());
 	}
+	/*
+	 * Test voor het verwijderen van een vraag.
+	 */
 
-//	@Test
+	@Test
 	public void testVerwijder() throws SQLException {
 		Connection connection = getConnection();
 		AntwoordDao dao = new AntwoordDao();
@@ -86,6 +104,7 @@ public class AntwoordDaoTest extends TestDBConnectionProvider {
 		Antwoord check = dao.findAntwoordID(connection, 1001);
 		Assert.assertNull(check);
 	}
+
 
 	private Vraag maakVraag() throws Exception {
 		Connection connection = getConnection();

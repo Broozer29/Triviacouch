@@ -39,6 +39,7 @@ public class VraagResource {
 	
 	/*
 	 * Deze functie wordt gebruikt door de browser om een vraag op te halen.
+	 * Het gebruikt een vraagtoken waar een vraagID in zit, om een volledige Vraag op te halen.
 	 */
 
 	@POST

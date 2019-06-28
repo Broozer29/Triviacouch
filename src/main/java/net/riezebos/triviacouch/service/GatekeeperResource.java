@@ -22,6 +22,8 @@ import net.riezebos.triviacouch.service.util.SessionHelper;
 public class GatekeeperResource {
 	/*
 	 * Deze functie wordt aangeroepen zodra een gebruiker wilt inloggen in zijn profiel.
+	 * Er wordt een speler token meegegeven die gebruikt wordt om een Speler object te verkrijgen.
+	 * Vervolgens wordt er geprobeerd met de gegevens in de token (profielnaam en wachtwoord) om in te loggen.
 	 */
 	
 	@POST

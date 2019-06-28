@@ -8,6 +8,7 @@ import org.apache.derby.jdbc.EmbeddedDriver;
 import net.riezebos.triviacouch.persistence.ConnectionProvider;
 /*
  * DIT IS EEN TEST KLASSE. DEZE IS ENKEL BEDOELD VOOR TEST DOELEINDEN.
+ * Deze functie maakt een verbinding met de database.
  */
 public class TestDBConnectionProvider implements ConnectionProvider {
 

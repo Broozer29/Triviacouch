@@ -1,12 +1,14 @@
 package net.riezebos.triviacouch.domain;
 
+/*
+ * De spelerToken wordt gebruikt om van een browsertoken een Speler object te maken.
+ */
+
 public class SpelerToken {
 	private String profielnaam;
 	private String wachtwoord;
 	private String sessieID;
-	/*
-	 * De spelerToken wordt gebruikt om van een browsertoken een Speler object te maken.
-	 */
+
 	public String getProfielnaam() {
 		return profielnaam;
 	}

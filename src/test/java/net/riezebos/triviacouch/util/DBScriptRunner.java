@@ -10,6 +10,8 @@ import java.sql.Statement;
 /*
  * DIT IS EEN TEST KLASSE. DEZE IS ENKEL BEDOELD VOOR TEST DOELEINDEN.
  */
+
+
 public class DBScriptRunner {
 
 	public void execute(Connection connection, String resourceName) throws IOException, SQLException {
