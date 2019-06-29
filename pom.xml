@@ -24,7 +24,7 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.8.0</version>
 			</plugin>
-			
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
@@ -32,7 +32,7 @@
 					<webXml>WebContent/WEB-INF/web.xml</webXml>
 				</configuration>
 			</plugin>
-			
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-dependency-plugin</artifactId>
@@ -81,6 +81,11 @@
 			<artifactId>derby</artifactId>
 			<version>10.12.1.1</version>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>42.2.1</version>
 		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
