@@ -12,7 +12,7 @@ public class BasicConnectionProvider implements ConnectionProvider {
 	public Connection getConnection() {
 
 		try {
-			Class.forName("org.postgresql.Driver");
+//			Class.forName("org.postgresql.Driver");
 
 			String databaseUrl = System.getenv("JDBC_DATABASE_URL");
 			System.out.println("JDBC_DATABASE_URL=" + databaseUrl);
