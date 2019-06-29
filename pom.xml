@@ -42,7 +42,6 @@
 						<phase>package</phase>
 						<goals>
 							<goal>copy</goal>
-							<goal>copy-dependencies</goal>
 						</goals>
 						<configuration>
 							<artifactItems>
