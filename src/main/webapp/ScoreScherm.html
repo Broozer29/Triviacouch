@@ -3,6 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <title>Scorescherm</title>
+<link rel="stylesheet" href="CSS/header.css">
+<link rel="stylesheet" href="CSS/scorescherm.css">
+<link rel="stylesheet" href="CSS/submitknop.css">
 </head>
 <body>
 
@@ -11,9 +14,10 @@
 		<br>
 	</form>
 
-	<div id="scores"></div>
+	<div id="scores" class = "scores"></div>
 
-	<form action="Startscherm.html">
+	<form action="Startscherm.html"
+	style="position: absolute; right: 0; bottom: 0; left: 0; padding: 1rem; text-align: right;">
 		<input type="submit" value="Terug" />
 	</form>
 
@@ -39,8 +43,8 @@ fetch("api/spelen/getsessieid", { method: 'GET' })
 	                    var text='';
 	                    
 	                    for (i = 0; i < response.length; i++) { 
-	                    	  text += "Speler ID = "+response[i].spelerID + "<br>"
-	                    	  text += "Speler Score ="+response[i].score;
+	                    	  text += "Speler ID: 		"+response[i].spelerID + "<br>"
+	                    	  text += "Speler Score:    "+response[i].score + "<br> <br>";
 	                    	}
 	                    console.log(response);
 	                    console.log(text);

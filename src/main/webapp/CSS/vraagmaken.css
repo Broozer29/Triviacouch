@@ -21,3 +21,14 @@ input[type=submit] {
 	text-align: center;
 	color: white;
 }
+
+input[type=button] {
+	width: 10em;
+	height: 5em;
+	border: 3px solid #003cb3;
+	background-color: #6699ff; 
+	border-radius: 15px;
+	padding: 10px;
+	text-align: center;
+	color: white;
+}
