@@ -3,7 +3,7 @@ package net.riezebos.triviacouch.util;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 class URITester {
 
