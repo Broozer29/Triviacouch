@@ -1,0 +1,1 @@
+web: java -cp "target/dependency/*" webapp.runner.launch.Main --enable-naming --port $PORT target/*.war
