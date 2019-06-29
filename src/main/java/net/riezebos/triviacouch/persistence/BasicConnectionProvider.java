@@ -21,12 +21,18 @@ public class BasicConnectionProvider implements ConnectionProvider {
 
 			URI dbUri = new URI(databaseUrl);
 
-			String username = dbUri.getUserInfo().split(":")[0];
-			String password = dbUri.getUserInfo().split(":")[1];
-			String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath();
-
-			Connection conn = DriverManager.getConnection(dbUrl, username, password);
-
+			String userInfo = dbUri.getUserInfo();
+			Connection conn;
+			if (userInfo != null) {
+				String username = userInfo.split(":")[0];
+				String password = userInfo.split(":")[1];
+				String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath();
+				conn = DriverManager.getConnection(dbUrl, username, password);
+			} else {
+				// userid en ww onderdeel van path als property?
+				String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath();
+				conn = DriverManager.getConnection(dbUrl);
+			}
 			conn.setAutoCommit(false);
 			return conn;
 		} catch (Exception e) {
