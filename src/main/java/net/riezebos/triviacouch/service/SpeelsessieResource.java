@@ -92,20 +92,21 @@ public class SpeelsessieResource {
 	@Path("/getsessieid")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Long getSessieID(@Context HttpServletRequest httpRequest) {
+	public Map<String, String> getSessieID(@Context HttpServletRequest httpRequest) {
+		Map<String, String> result = new HashMap<>();
 		try {
 			TriviaCouchGame game = SessionHelper.getGame(httpRequest.getSession(true));
 			Long sessieID = SessionHelper.getSessieID(httpRequest.getSession());
 			SpelSessie sessie = game.getBestaandeSessie(sessieID);
 			if (sessie == null) {
 				System.out.println("Sessie met ID=" + sessieID + " niet gevonden");
-				return null;
 			} else
-				return sessie.getID();
+				result.put("sessieID", String.valueOf(sessie.getID()));
 		} catch (Exception e) {
 			e.printStackTrace();
-			return 0L;
+			result.put("error", e.getMessage());
 		}
+		return result;
 	}
 
 	/*
