@@ -4,6 +4,7 @@
 <link rel="stylesheet" href="CSS/header.css">
 <link rel="stylesheet" href="CSS/profielmaken.css">
 <link rel="stylesheet" href="CSS/submitknop.css">
+
 </head>
 <body>
 
@@ -11,8 +12,8 @@
 
 	<div class="profiel">
 		<form id="ProfielMaken">
-			Profielnaam: <br> <input type="text" id=profielNaam> <br>
-			<br> Wachtwoord: <br> <input type="text" id="wachtwoord">
+			Profielnaam: (Maximaal 10 letters.)<br> <input type="text" id=profielNaam> <br>
+			<br> Wachtwoord: (Maximaal 6 letters.)<br> <input type="text" id="wachtwoord">
 			<br>
 		</form>
 	</div>
@@ -21,11 +22,11 @@
 		<input type="submit" id="post" value="Submit!" />
 	</div>
 
+
+
 	<div class="submitknop"
 		style="position: absolute; right: 0; bottom: 0; left: 0; padding: 1rem; text-align: right;">
-		<form action="Startscherm.html">
-			<input type="submit" value="Terug" />
-		</form>
+			<button class="button" onclick = "document.location = 'Startscherm.html'" > Terug </button>
 	</div>
 
 
@@ -33,9 +34,10 @@
 		document.querySelector("#post").addEventListener("click", function() {
 			var url = "api/profielmaken";
 			var data = {
-				"profielnaam" : document.getElementById("profielnaam").value,
+				"profielnaam" : document.getElementById("profielNaam").value,
 				"wachtwoord" : document.getElementById("wachtwoord").value
 			};
+			console.log(data);
 
 			fetch(url, {
 				method : 'POST', // or 'PUT'

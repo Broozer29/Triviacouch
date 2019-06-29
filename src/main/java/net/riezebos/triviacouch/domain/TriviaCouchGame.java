@@ -42,6 +42,8 @@ public class TriviaCouchGame {
 		SpelerDao spelerDao = new SpelerDao();
 		try (Connection connection = getConnection()) {
 			spelerDao.createSpeler(connection, speler);
+			connection.commit();
+			System.out.println("Hey!");
 		}
 	}
 

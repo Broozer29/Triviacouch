@@ -2,7 +2,7 @@ package net.riezebos.triviacouch.util;
 
 import java.util.concurrent.ThreadLocalRandom;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 class RandomTest {
 
