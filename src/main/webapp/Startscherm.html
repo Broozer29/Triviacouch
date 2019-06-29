@@ -1,28 +1,40 @@
 <!DOCTYPE html>
 <html>
+<head>
+<link rel="stylesheet" href="CSS/header.css">
+<link rel="stylesheet" href="CSS/startscherm.css">
+</head>
 <body>
+	<div class="header">
+		<h1>Triviacouch</h1>
+	</div>
 
-	<h1>Startscherm</h1>
+	<div class="knoppen">
+		<form id="startspelform" action="SpelSessie.html">
+			<input type="submit" id="startspel" value="Start Spel" />
+		</form>
 
-	<form id="startspelform" action="SpelSessie.html">
-		<input type="button" id="startspel" value="Start Spel"/>
-	</form>
+		<form id="maakvraagform" action="VraagAanmaken.html">
+			<input type="submit" value="Vraag Aanmaken" />
+		</form>
 
-	<form id="maakvraagform" action="VraagAanmaken.html">
-		<input type="submit" value="Vraag Aanmaken" />
-	</form>
+		<form id="highscoresform" action="Highscores.html">
+			<input type="submit" value="Highscores" />
+		</form>
 
-	<form id="highscoresform" action="Highscores.html">
-		<input type="submit" value="Highscores" />
-	</form>
+		<form id="profielform" action="ProfielMaken.html">
+			<input type="submit" value="Profiel Aanmaken" />
+		</form>
+	</div>
 
-<script>
-document.getElementById("startspel").onclick = function () {
-    location.href = "SpelSessie.html";
-};
 
-</script>
+	<script>
+		document.getElementById("startspel").onclick = function() {
+			location.href = "SpelSessie.html";
+		};
+	</script>
 
 </body>
+
 </html>
 

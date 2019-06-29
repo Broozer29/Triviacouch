@@ -1,9 +1,12 @@
 <!DOCTYPE html>
 <html>
+<head>
+<link rel="stylesheet" href="CSS/header.css">
+<link rel="stylesheet" href="CSS/vraagmaken.css">
+</head>
 <body>
-
 	<h1>Vraag Aanmaken</h1>
-
+<div class = "vraagmaken">
 	<form id="POSTvraagmakenForm">
 		Vraag: 
 		<br> 
@@ -19,15 +22,21 @@
 		<input type="text" id="foutTwee"> 
 		<input type="text" id="foutDrie"> 
 		<br> 
-		<input type="button" id="post" value="Maak vraag!"/>
+		<br>
+		<input type="submit" id="post" value="Maak vraag!"/>
 	</form>
+</div>
 
-
+<div class = "vraagaanpassen">
 	<form id="POSTvraagAanpassenForm">
 		VraagID: 
 		<br> 
 		<input type="text" id="vraagID"value="Voer een vraagID in"> 
-		<input type="button" id="getVraag" value="Zoek Vraag" />
+		<br>
+		<br>
+		<input type="submit" id="getVraag" value="Zoek Vraag" />
+		<br>
+		<br>
 		<br>
 		 Vraag:
 		<br>
@@ -43,11 +52,13 @@
 		<input type="text" id="foutAanpTwee" value="Voer eerst een vraagID in"> 
 		<input type="text" id="foutAanpDrie" value="Voer eerst een vraagID in">
 		<br> 
-		<input type="button" id="pasVraagAan" value="Pas vraag aan!" />
+		<br>
+		<input type="submit" id="pasVraagAan" value="Pas vraag aan!" />
 	</form>
+</div>
 
-
-	<form action="Startscherm.html">
+	<form action="Startscherm.html" 
+	style="position: absolute; right: 0; bottom: 0; left: 0; padding: 1rem; text-align: right;">
 		<input type="submit" value="Terug" />
 	</form>
 

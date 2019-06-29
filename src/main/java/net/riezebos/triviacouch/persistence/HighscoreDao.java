@@ -26,7 +26,7 @@ public class HighscoreDao {
 
 	public List<Highscore> getHighScores(Connection connection) throws SQLException {
 		PreparedStatement stmt = connection
-				.prepareStatement("select id, spelerid, score from highscores order by score");
+				.prepareStatement("select id, spelerid, score from highscores order by score desc");
 		ResultSet rs = stmt.executeQuery();
 		List<Highscore> scores = new ArrayList<Highscore>();
 

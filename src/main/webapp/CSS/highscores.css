@@ -1,0 +1,14 @@
+@charset "UTF-8";
+
+.highscores{
+	width: 15em;
+	height: 18em;
+	border: 3px solid #003cb3;
+	background-color: #6699ff; 
+	border-radius: 15px;
+	padding: 10px;
+	text-align: center;
+	color: white;
+	text-align: left;
+}
+

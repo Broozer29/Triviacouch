@@ -22,7 +22,7 @@ public class AntwoordDao {
 
 		if (antwoord.getAntwoordText().length() < 255) {
 			stmt.setLong(1, antwoord.getID());
-			stmt.setString(2, antwoord.getCorrect_jn());
+			stmt.setString(2, antwoord.getCorrectJn());
 			stmt.setString(3, antwoord.getAntwoordText());
 			stmt.setLong(4, vraag.getID());
 			stmt.execute();
@@ -41,7 +41,7 @@ public class AntwoordDao {
 			result = new Antwoord();
 			result.setID(id);
 			result.setAntwoordText(rs.getString(1));
-			result.setCorrect_jn(rs.getString(2));
+			result.setCorrectJn(rs.getString(2));
 			result.setVraagID(rs.getLong(3));
 		}
 		rs.close();
@@ -58,7 +58,7 @@ public class AntwoordDao {
 		while (rs.next()) {
 			Antwoord result = new Antwoord();
 			result.setAntwoordText(rs.getString(1));
-			result.setCorrect_jn(rs.getString(2));
+			result.setCorrectJn(rs.getString(2));
 			result.setID(rs.getLong(3));
 			result.setVraagID(vraag.getID());
 			antwoorden.add(result);
@@ -73,7 +73,7 @@ public class AntwoordDao {
 				.prepareStatement("update antwoord set antwoord = ?, correct_jn = ? where id = ?");
 		if (antwoord.getAntwoordText().length() < 255) {
 			stmt.setString(1, antwoord.getAntwoordText());
-			stmt.setString(2, antwoord.getCorrect_jn());
+			stmt.setString(2, antwoord.getCorrectJn());
 			stmt.setLong(3, antwoord.getID());
 			stmt.execute();
 			stmt.close();
@@ -138,7 +138,7 @@ public class AntwoordDao {
 			result = new Antwoord();
 			result.setID(rs.getLong(1));
 			result.setAntwoordText(rs.getString(2));
-			result.setCorrect_jn(rs.getString(3));
+			result.setCorrectJn(rs.getString(3));
 			result.setVraagID(rs.getLong(4));
 			antwoorden.add(result);
 		}

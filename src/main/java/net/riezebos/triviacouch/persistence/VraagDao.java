@@ -96,7 +96,7 @@ public class VraagDao {
 	 */
 	
 	public List<Vraag> getVragen(Connection connection) throws SQLException {
-		PreparedStatement stmt = connection.prepareStatement("select vraag, id from vraag order by id");
+		PreparedStatement stmt = connection.prepareStatement("select vraag, id from vraag");
 		ResultSet rs = stmt.executeQuery();
 		List<Vraag> result = new ArrayList<>();
 

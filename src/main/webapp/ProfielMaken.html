@@ -1,37 +1,49 @@
 <!DOCTYPE html>
 <html>
+<head>
+<link rel="stylesheet" href="CSS/header.css">
+<link rel="stylesheet" href="CSS/profielmaken.css">
+<link rel="stylesheet" href="CSS/submitknop.css">
+</head>
 <body>
 
 	<h1>Profiel Aanmaken</h1>
 
-	<form id="ProfielMaken">
-		Profielnaam: <br> <input type="text" id=profielNaam> <br>
-		Wachtwoord: <br> <input type="text" id="wachtwoord"> <br>
-		<input type="button" id="post" value="Maak Profiel!"/>
-	</form>
+	<div class="profiel">
+		<form id="ProfielMaken">
+			Profielnaam: <br> <input type="text" id=profielNaam> <br>
+			<br> Wachtwoord: <br> <input type="text" id="wachtwoord">
+			<br>
+		</form>
+	</div>
 
+	<div class="submitknop" style="padding-left: 20px; padding-top: 20px">
+		<input type="submit" id="post" value="Submit!" />
+	</div>
 
-	<form action="Startscherm.html">
-		<input type="submit" value="Terug" />
-	</form>
-
+	<div class="submitknop"
+		style="position: absolute; right: 0; bottom: 0; left: 0; padding: 1rem; text-align: right;">
+		<form action="Startscherm.html">
+			<input type="submit" value="Terug" />
+		</form>
+	</div>
 
 
 	<script>
-	document.querySelector("#post").addEventListener("click", function () {
-		var url = "api/profielmaken";
-		var data = {
-				"profielnaam": document.getElementById("profielnaam").value, 
+		document.querySelector("#post").addEventListener("click", function() {
+			var url = "api/profielmaken";
+			var data = {
+				"profielnaam" : document.getElementById("profielnaam").value,
 				"wachtwoord" : document.getElementById("wachtwoord").value
-				};
-			
+			};
+
 			fetch(url, {
-				  method: 'POST', // or 'PUT'
-				  body: JSON.stringify(data), // data can be `string` or {object}!
-				  headers:{
-				    'Content-Type': 'application/json'
-				  }
-				})
+				method : 'POST', // or 'PUT'
+				body : JSON.stringify(data), // data can be `string` or {object}!
+				headers : {
+					'Content-Type' : 'application/json'
+				}
+			})
 		})
 	</script>
 

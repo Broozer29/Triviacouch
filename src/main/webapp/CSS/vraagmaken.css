@@ -1,0 +1,23 @@
+@charset "UTF-8";
+
+.vraagaanpassen{
+	float:right;
+	width: 50%;
+}
+
+.vraagmaken{
+	float:left;
+	width:50%;
+}
+
+
+input[type=submit] {
+	width: 10em;
+	height: 5em;
+	border: 3px solid #003cb3;
+	background-color: #6699ff; 
+	border-radius: 15px;
+	padding: 10px;
+	text-align: center;
+	color: white;
+}

@@ -19,7 +19,7 @@ public class ProfielResource {
 	/*
 	 * Deze functie wordt aangeroepen zodra een gebruiker een profiel aanmaakt. Het
 	 * gebruikt de inhoud van een spelertoken (profielnaam en wachtwoord) om een
-	 * Speler te maken en in de database toe te voegen
+	 * Speler te maken en in de database toe te voegen.
 	 */
 
 	@POST

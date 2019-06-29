@@ -1,28 +1,35 @@
 <!DOCTYPE html>
 <html>
+<head>
+<link rel="stylesheet" href="CSS/header.css">
+<link rel="stylesheet" href="CSS/startscherm.css">
+</head>
+
 <body>
 
 	<h1>Spelsessie</h1>
 
+	<div class="knoppen">
+		<form>
+			<p id="sessieID">
+		</form>
 
-	<form>
-		<p id="sessieID" value="sajdgk">
-	</form>
+		<div id="spelers"></div>
+		<input type="button" id="haalspelers" value="Toon Spelers" />
 
-	<div id="spelers"></div>
-	<input type="button" id="haalspelers" value="Toon Spelers" />
+		<form>
+			<input type="button" id="genereerspel"
+				value="Genereer een sessie ID!" />
+		</form>
 
-	<form>
-		<input type="button" id="genereerspel" value="Genereer een sessie ID!" />
-	</form>
+		<form action="Startscherm.html">
+			<input type="submit" value="Terug" />
+		</form>
 
-	<form action="Startscherm.html">
-		<input type="submit" value="Terug" />
-	</form>
-
-	<form action="VraagStellen.html">
-		<input type="submit" id = "startsessie" value="Start het spel!" />
-	</form>
+		<form action="VraagStellen.html">
+			<input type="submit" id="startsessie" value="Start het spel!" />
+		</form>
+	</div>
 
 	<script>
 

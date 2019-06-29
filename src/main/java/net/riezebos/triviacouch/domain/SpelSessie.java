@@ -3,9 +3,7 @@ package net.riezebos.triviacouch.domain;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
 
 import net.riezebos.triviacouch.persistence.AntwoordDao;
 import net.riezebos.triviacouch.persistence.ConnectionProvider;
@@ -48,7 +46,7 @@ public class SpelSessie {
 	}
 
 	/*
-	 *  Voegt speler toe aan Deelnemer tabel
+	 * Voegt speler toe aan Deelnemer tabel
 	 */
 	public Deelnemer voegSpelerToe(Speler speler) throws SQLException {
 		try (Connection connection = getConnection()) {
@@ -63,7 +61,7 @@ public class SpelSessie {
 	}
 
 	/*
-	 *  Zet vragen voor de sessie in de SpelVraag tabel
+	 * Zet vragen voor de sessie in de SpelVraag tabel
 	 */
 	private void maakVraagSet() throws SQLException {
 		List<Long> vraagIDLijst = maakVraagIDLijst();
@@ -82,7 +80,7 @@ public class SpelSessie {
 		}
 	}
 
-	/* 
+	/*
 	 * Genereer random vraagID's om op te halen uit de tabel.
 	 */
 	private List<Long> maakVraagIDLijst() throws SQLException {
@@ -90,22 +88,19 @@ public class SpelSessie {
 
 		try (Connection connection = getConnection()) {
 			List<Long> idLijst = vraagDao.getVraagIDLijst(connection);
-			long minIndex = Collections.min(idLijst);
-			long maxIndex = Collections.max(idLijst);
-			/* 
-			 * Het getal hieronder mag NOOIT kleiner zijn dan de hoeveelheid vragen in de tabel Vragen.
-			*/ 
+
 			while (vraagIDLijst.size() < 10) {
+				int idx = (int) (Math.random() * idLijst.size());
 
-				long generatedLong = ThreadLocalRandom.current().nextLong(minIndex, maxIndex + 1);
-				if (!vraagIDLijst.contains(generatedLong)) {
-					vraagIDLijst.add(generatedLong);
+				Long vraagID = idLijst.get(idx);
+				if (!vraagIDLijst.contains(vraagID)) {
+					vraagIDLijst.add(vraagID);
 				}
-
 			}
 			return vraagIDLijst;
 		}
 	}
+
 	/*
 	 * Deze methode haalt de eerstvolgende vraag voor een spelsessie op.
 	 */
@@ -125,7 +120,7 @@ public class SpelSessie {
 			if (spelerAntwoord != null) {
 
 				spelerAntwoordDao.addAntwoord(connection, deelnemer, spelerAntwoord);
-				if ("j".equalsIgnoreCase(spelerAntwoord.getCorrect_jn())) {
+				if ("j".equalsIgnoreCase(spelerAntwoord.getCorrectJn())) {
 					deelnemer.addScore(100);
 					deelnemerDao.zetScoreVanDeelnemer(connection, deelnemer);
 					System.out.println("Deelnemer: " + deelnemer.getSpelerID() + "gaf het goede antwoord! :)");
@@ -149,7 +144,7 @@ public class SpelSessie {
 			List<Deelnemer> eersteTweedeDerde = new ArrayList<Deelnemer>();
 
 			/*
-			 *  Zet de drie spelers met de hoogste score in de scorelijst
+			 * Zet de drie spelers met de hoogste score in de scorelijst
 			 */
 			int lijstGrootte = deelnemerLijst.size();
 
@@ -194,9 +189,11 @@ public class SpelSessie {
 			return "open".equalsIgnoreCase(status);
 		}
 	}
-/*
- * Deze methode sluit een sessie voor spelers. Zodra deze methode is aangeroepen kunnen er geen spelers meer aansluiten bij de sessie.
- */
+
+	/*
+	 * Deze methode sluit een sessie voor spelers. Zodra deze methode is aangeroepen
+	 * kunnen er geen spelers meer aansluiten bij de sessie.
+	 */
 	public void sluitSessie() throws SQLException {
 		setStatus("closed");
 		try (Connection connection = getConnection()) {
@@ -205,9 +202,10 @@ public class SpelSessie {
 	}
 
 	/*
-	 * Deze methode kan gebruikt worden om alle records van de spelsessie te verwijderen uit de database.
+	 * Deze methode kan gebruikt worden om alle records van de spelsessie te
+	 * verwijderen uit de database.
 	 */
-	
+
 	public void sluitSpelSessie() throws SQLException {
 		List<Deelnemer> deelnemerLijst = new ArrayList<Deelnemer>();
 		try (Connection connection = getConnection()) {

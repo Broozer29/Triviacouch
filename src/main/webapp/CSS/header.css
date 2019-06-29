@@ -1,0 +1,12 @@
+@charset "UTF-8";
+h1 {
+   margin-left: auto;
+   margin-right: auto;
+   width: 8em;
+   border-radius: 15px;
+   background: #6699ff;
+   padding: 20px; 
+   width: 8em;
+   font-family: "Times New Roman", Times, serif;
+   text-align: center;
+}

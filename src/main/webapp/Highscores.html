@@ -1,24 +1,45 @@
 <!DOCTYPE html>
 <html>
+<head>
+<link rel="stylesheet" href="CSS/header.css">
+<link rel="stylesheet" href="CSS/submitknop.css">
+<link rel="stylesheet" href="CSS/highscores.css">
+</head>
 <body>
+
 
 	<h1>Highscores</h1>
 
-	<div style="display:inline-block"><p id="eersteScore">-</p><p id="eersteNaam">-</p></div>
-	<p id="tweedePlaats">Infinitum</p>
-	<p id="derdePlaats">Ettum</p>
+	<div style="display:inline-block" class = "highscores">
+	<p id="eersteScore">-</p> 
+	<p id="eersteNaam">-</p>
+	<br>
+	<p id="tweedePlaats">-</p>
+	<p id="tweedeScore">-</p>
+	<br>
+	<p id="derdePlaats">-</p>
+	<p id="derdeScore">-</p>
+	</div>
+
+	
+	<form action="Startscherm.html"
+	style="position: absolute; right: 0; bottom: 0; left: 0; padding: 1rem; text-align: right;">
+		<input type="submit" value="Terug" />
+	</form>
 
 </body>
 
 <script>
 
     fetch("api/highscores", { method: 'GET' })
-    .then(response => response.json())
+    .then(response => response.json())	
     .then(function (myJson) { 
-		      document.getElementById("eersteScore").innerHTML = myJson[0].score;
-		      document.getElementById("eersteNaam").innerHTML = myJson[0].spelerID;
-		      document.getElementById("tweedePlaats").innerHTML = myJson[1].score;
-		      document.getElementById("derdePlaats").innerHTML = myJson[1].spelerID;
+		      document.getElementById("eersteScore").innerHTML = "Eerste plaats = " + myJson[0].spelerID;
+		      document.getElementById("eersteNaam").innerHTML = "Met een score van: " + myJson[0].score;
+		      document.getElementById("tweedePlaats").innerHTML = "Tweede plaats = " + myJson[1].spelerID;
+		      document.getElementById("tweedeScore").innerHTML = "Met een score van: " + myJson[1].score;
+		      document.getElementById("derdePlaats").innerHTML = "Derde plaats = " + myJson[2].spelerID;
+		      document.getElementById("derdeScore").innerHTML = "Met een score van: " + myJson[2].score;
           });
 </script>
 

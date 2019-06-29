@@ -6,7 +6,7 @@ public class Antwoord {
 	private long id;
 	private long vraagID;
 	private String antwoord;
-	private String correct_jn;
+	private String correctJn;
 
 	public long getID() {
 		return id;
@@ -32,12 +32,12 @@ public class Antwoord {
 		this.antwoord = antwoord;
 	}
 
-	public String getCorrect_jn() {
-		return correct_jn;
+	public String getCorrectJn() {
+		return correctJn;
 	}
 
-	public void setCorrect_jn(String correct_jn) {
-		this.correct_jn = correct_jn;
+	public void setCorrectJn(String correctJn) {
+		this.correctJn = correctJn;
 	}
 
 	@Override

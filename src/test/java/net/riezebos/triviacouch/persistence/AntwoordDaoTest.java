@@ -34,7 +34,7 @@ public class AntwoordDaoTest extends TestDBConnectionProvider {
 		Antwoord nieuwAntwoord = new Antwoord();
 		nieuwAntwoord.setAntwoordText("Asdf");
 		nieuwAntwoord.setVraagID(1001);
-		nieuwAntwoord.setCorrect_jn("N");
+		nieuwAntwoord.setCorrectJn("N");
 		dao.createAntwoord(connection, nieuwAntwoord, nieuweVraag);
 
 		Antwoord antwoord = dao.findAntwoordID(connection, nieuwAntwoord.getID());

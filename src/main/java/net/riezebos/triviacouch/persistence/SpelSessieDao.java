@@ -49,7 +49,6 @@ public class SpelSessieDao {
 		PreparedStatement stmt = connection.prepareStatement("select status from spelsessie where id = ?");
 		stmt.setLong(1, sessie.getID());
 		ResultSet rs = stmt.executeQuery();
-		SpelSessie result = null;
 
 		if (rs.next()) {
 			sessie.setStatus(rs.getString(1));

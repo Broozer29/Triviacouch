@@ -25,7 +25,7 @@ public class SpelVraagDao {
 
 	public Long getVraagIDVanSessie(Connection connection, SpelSessie sessie) throws SQLException {
 		PreparedStatement stmt = connection
-				.prepareStatement("select vraagID from spelvraag where sessieID = ? order by vraagID");
+				.prepareStatement("select vraagID from spelvraag where sessieID = ?");
 		stmt.setLong(1, sessie.getID());
 		ResultSet rs = stmt.executeQuery();
 		Long result = null;
