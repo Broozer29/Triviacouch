@@ -19,7 +19,7 @@ public class SpelerDaoTest extends TestDBConnectionProvider {
 	@Test
 	public void testCreate() throws SQLException {
 		Connection connection = getConnection();
-		SpelerDao dao = new SpelerDao();
+		SpelerDao dao = new SpelerDaoImpl();
 		Speler nieuweSpeler = new Speler();
 		nieuweSpeler.setProfielnaam("Repelsteeltje");
 		dao.createSpeler(connection, nieuweSpeler);
@@ -35,7 +35,7 @@ public class SpelerDaoTest extends TestDBConnectionProvider {
 	@Test
 	public void testFind() throws SQLException {
 		Connection connection = getConnection();
-		SpelerDao dao = new SpelerDao();
+		SpelerDao dao = new SpelerDaoImpl();
 		Speler speler = dao.findSpelerBijSpelernaam(connection, "Broozer");
 		Assert.assertNotNull(speler);
 
@@ -50,7 +50,7 @@ public class SpelerDaoTest extends TestDBConnectionProvider {
 	@Test
 	public void testUpdate() throws SQLException {
 		Connection connection = getConnection();
-		SpelerDao dao = new SpelerDao();
+		SpelerDao dao = new SpelerDaoImpl();
 		Speler speler = dao.findSpelerBijSpelernaam(connection, "Broozer");
 		Assert.assertNotNull(speler);
 		speler.setProfielnaam("abc");
@@ -67,7 +67,7 @@ public class SpelerDaoTest extends TestDBConnectionProvider {
 	@Test
 	public void testVerwijder() throws SQLException {
 		Connection connection = getConnection();
-		SpelerDao dao = new SpelerDao();
+		SpelerDao dao = new SpelerDaoImpl();
 		Speler nieuweSpeler = new Speler();
 		nieuweSpeler.setProfielnaam("tijdelijk");
 		dao.createSpeler(connection, nieuweSpeler);

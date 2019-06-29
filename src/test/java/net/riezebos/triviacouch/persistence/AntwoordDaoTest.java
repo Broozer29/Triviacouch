@@ -30,7 +30,7 @@ public class AntwoordDaoTest extends TestDBConnectionProvider {
 		Connection connection = getConnection();
 		Vraag nieuweVraag = maakVraag();
 
-		AntwoordDao dao = new AntwoordDao();
+		AntwoordDao dao = new AntwoordDaoImpl();
 		Antwoord nieuwAntwoord = new Antwoord();
 		nieuwAntwoord.setAntwoordText("Asdf");
 		nieuwAntwoord.setVraagID(1001);
@@ -48,7 +48,7 @@ public class AntwoordDaoTest extends TestDBConnectionProvider {
 	@Test
 	public void testFindID() throws SQLException {
 		Connection connection = getConnection();
-		AntwoordDao dao = new AntwoordDao();
+		AntwoordDao dao = new AntwoordDaoImpl();
 		Antwoord antwoord = dao.findAntwoordID(connection, 1001);
 		Assert.assertNotNull(antwoord);
 
@@ -63,7 +63,7 @@ public class AntwoordDaoTest extends TestDBConnectionProvider {
 	@Test
 	public void testFindVraagID() throws SQLException {
 		Connection connection = getConnection();
-		AntwoordDao dao = new AntwoordDao();
+		AntwoordDao dao = new AntwoordDaoImpl();
 		Vraag vraag = new Vraag();
 		vraag.setID(1001L);
 
@@ -81,7 +81,7 @@ public class AntwoordDaoTest extends TestDBConnectionProvider {
 	@Test
 	public void testUpdate() throws Exception {
 		Connection connection = getConnection();
-		AntwoordDao dao = new AntwoordDao();
+		AntwoordDao dao = new AntwoordDaoImpl();
 		Antwoord antwoord = dao.findAntwoordID(connection, 1001);
 		Assert.assertNotNull(antwoord);
 		antwoord.setAntwoordText("hey_hoi_test!");
@@ -97,7 +97,7 @@ public class AntwoordDaoTest extends TestDBConnectionProvider {
 	@Test
 	public void testVerwijder() throws SQLException {
 		Connection connection = getConnection();
-		AntwoordDao dao = new AntwoordDao();
+		AntwoordDao dao = new AntwoordDaoImpl();
 		Antwoord antwoord = dao.findAntwoordID(connection, 1001);
 		dao.deleteAntwoord(connection, antwoord);
 
@@ -108,7 +108,7 @@ public class AntwoordDaoTest extends TestDBConnectionProvider {
 
 	private Vraag maakVraag() throws Exception {
 		Connection connection = getConnection();
-		VraagDao vraagDao = new VraagDao();
+		VraagDao vraagDao = new VraagDaoImpl();
 		Vraag nieuweVraag = new Vraag();
 		nieuweVraag.setVraagText("Testvraagje!");
 		nieuweVraag.setID(IDUtil.getNextId());

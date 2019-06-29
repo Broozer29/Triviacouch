@@ -6,13 +6,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.riezebos.triviacouch.persistence.AntwoordDao;
+import net.riezebos.triviacouch.persistence.AntwoordDaoImpl;
 import net.riezebos.triviacouch.persistence.ConnectionProvider;
 import net.riezebos.triviacouch.persistence.DeelnemerDao;
+import net.riezebos.triviacouch.persistence.DeelnemerDaoImpl;
 import net.riezebos.triviacouch.persistence.HighscoreDao;
+import net.riezebos.triviacouch.persistence.HighscoreDaoImpl;
 import net.riezebos.triviacouch.persistence.SpelSessieDao;
+import net.riezebos.triviacouch.persistence.SpelSessieDaoImpl;
 import net.riezebos.triviacouch.persistence.SpelVraagDao;
+import net.riezebos.triviacouch.persistence.SpelVraagDaoImpl;
 import net.riezebos.triviacouch.persistence.SpelerAntwoordDao;
+import net.riezebos.triviacouch.persistence.SpelerAntwoordDaoImpl;
 import net.riezebos.triviacouch.persistence.VraagDao;
+import net.riezebos.triviacouch.persistence.VraagDaoImpl;
 
 public class SpelSessie {
 
@@ -21,13 +28,13 @@ public class SpelSessie {
 
 	private ConnectionProvider connectionProvider;
 
-	private VraagDao vraagDao = new VraagDao();
-	private SpelerAntwoordDao spelerAntwoordDao = new SpelerAntwoordDao();
-	private SpelVraagDao spelVraagDao = new SpelVraagDao();
-	private DeelnemerDao deelnemerDao = new DeelnemerDao();
-	private SpelSessieDao spelSessieDao = new SpelSessieDao();
-	private HighscoreDao highscoreDao = new HighscoreDao();
-	private AntwoordDao antwoordDao = new AntwoordDao();
+	private VraagDao vraagDao = new VraagDaoImpl();
+	private SpelerAntwoordDao spelerAntwoordDao = new SpelerAntwoordDaoImpl();
+	private SpelVraagDao spelVraagDao = new SpelVraagDaoImpl();
+	private DeelnemerDao deelnemerDao = new DeelnemerDaoImpl();
+	private SpelSessieDao spelSessieDao = new SpelSessieDaoImpl();
+	private HighscoreDao highscoreDao = new HighscoreDaoImpl();
+	private AntwoordDao antwoordDao = new AntwoordDaoImpl();
 
 	public SpelSessie(ConnectionProvider connectionProvider) throws SQLException {
 		this.connectionProvider = connectionProvider;

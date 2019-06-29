@@ -12,7 +12,9 @@ import net.riezebos.triviacouch.domain.Speler;
 import net.riezebos.triviacouch.domain.TriviaCouchGame;
 import net.riezebos.triviacouch.domain.Vraag;
 import net.riezebos.triviacouch.persistence.AntwoordDao;
+import net.riezebos.triviacouch.persistence.AntwoordDaoImpl;
 import net.riezebos.triviacouch.persistence.SpelerDao;
+import net.riezebos.triviacouch.persistence.SpelerDaoImpl;
 import net.riezebos.triviacouch.util.TestDBConnectionProvider;
 /*
  * DIT IS EEN TEST KLASSE. DEZE IS ENKEL BEDOELD VOOR TEST DOELEINDEN.
@@ -23,8 +25,8 @@ public class FullGameTest extends TestDBConnectionProvider {
 	public void test() throws Exception {
 		TriviaCouchGame game = new TriviaCouchGame(new TestDBConnectionProvider());
 		SpelSessie sessie = game.startSessie();
-		SpelerDao spelerDao = new SpelerDao();
-		AntwoordDao antwoordDao = new AntwoordDao();
+		SpelerDao spelerDao = new SpelerDaoImpl();
+		AntwoordDao antwoordDao = new AntwoordDaoImpl();
 
 		Deelnemer deelnemerEen = game.inloggen("Broozer", "letter", sessie);
 		if (deelnemerEen != null) {

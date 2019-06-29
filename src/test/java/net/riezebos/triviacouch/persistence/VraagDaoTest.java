@@ -20,7 +20,7 @@ public class VraagDaoTest extends TestDBConnectionProvider {
 	 */
 	public void testCreate() throws Exception {
 		Connection connection = getConnection();
-		VraagDao dao = new VraagDao();
+		VraagDao dao = new VraagDaoImpl();
 		Vraag nieuweVraag = new Vraag();
 		nieuweVraag.setVraagText("Testvraagje!");
 		nieuweVraag.setID(IDUtil.getNextId());
@@ -37,7 +37,7 @@ public class VraagDaoTest extends TestDBConnectionProvider {
 	@Test
 	public void testFind() throws SQLException {
 		Connection connection = getConnection();
-		VraagDao dao = new VraagDao();
+		VraagDao dao = new VraagDaoImpl();
 		Vraag vraag = dao.getVraag(connection, 1000);
 		Assert.assertNotNull(vraag);
 
@@ -51,7 +51,7 @@ public class VraagDaoTest extends TestDBConnectionProvider {
 	@Test
 	public void testUpdate() throws SQLException {
 		Connection connection = getConnection();
-		VraagDao dao = new VraagDao();
+		VraagDao dao = new VraagDaoImpl();
 		Vraag vraag = dao.getVraag(connection, 1000);
 		Assert.assertNotNull(vraag);
 		vraag.setVraagText("hey_hoi_test!");
@@ -67,7 +67,7 @@ public class VraagDaoTest extends TestDBConnectionProvider {
 	@Test
 	public void testVerwijder() throws SQLException {
 		Connection connection = getConnection();
-		VraagDao dao = new VraagDao();
+		VraagDao dao = new VraagDaoImpl();
 		Vraag vraag = dao.getVraag(connection, 1001);
 		dao.deleteVraag(connection, vraag);
 

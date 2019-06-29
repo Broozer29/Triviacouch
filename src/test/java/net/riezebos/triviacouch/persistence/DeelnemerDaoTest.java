@@ -21,8 +21,8 @@ public class DeelnemerDaoTest extends TestDBConnectionProvider {
 	
 	@Test
 	public void testUpdate() throws SQLException {
-		DeelnemerDao dao = new DeelnemerDao();
-		SpelerDao sdao = new SpelerDao();
+		DeelnemerDao dao = new DeelnemerDaoImpl();
+		SpelerDao sdao = new SpelerDaoImpl();
 
 		SpelSessie spelSessie = new SpelSessie(provider);
 		spelSessie.createNew();

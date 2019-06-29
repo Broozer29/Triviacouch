@@ -5,6 +5,7 @@ import java.sql.SQLException;
 
 import net.riezebos.triviacouch.persistence.ConnectionProvider;
 import net.riezebos.triviacouch.persistence.SpelerDao;
+import net.riezebos.triviacouch.persistence.SpelerDaoImpl;
 
 public class GateKeeper {
 
@@ -12,7 +13,7 @@ public class GateKeeper {
 
 	public boolean logIn(Speler speler, String wachtwoord, ConnectionProvider connection) throws SQLException {
 		connectionProvider = connection;
-		SpelerDao factory = new SpelerDao();
+		SpelerDao factory = new SpelerDaoImpl();
 		speler = controleerProfielnaam(speler.getProfielnaam(), factory);
 		return controleerWachtwoord(speler, wachtwoord);
 	}

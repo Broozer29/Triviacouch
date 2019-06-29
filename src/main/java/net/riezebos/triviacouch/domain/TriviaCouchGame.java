@@ -6,11 +6,16 @@ import java.sql.SQLException;
 import java.util.List;
 
 import net.riezebos.triviacouch.persistence.AntwoordDao;
+import net.riezebos.triviacouch.persistence.AntwoordDaoImpl;
 import net.riezebos.triviacouch.persistence.ConnectionProvider;
 import net.riezebos.triviacouch.persistence.HighscoreDao;
+import net.riezebos.triviacouch.persistence.HighscoreDaoImpl;
 import net.riezebos.triviacouch.persistence.SpelSessieDao;
+import net.riezebos.triviacouch.persistence.SpelSessieDaoImpl;
 import net.riezebos.triviacouch.persistence.SpelerDao;
+import net.riezebos.triviacouch.persistence.SpelerDaoImpl;
 import net.riezebos.triviacouch.persistence.VraagDao;
+import net.riezebos.triviacouch.persistence.VraagDaoImpl;
 
 public class TriviaCouchGame {
 	private ConnectionProvider connectionProvider;
@@ -29,7 +34,7 @@ public class TriviaCouchGame {
 		if (sessieID == null)
 			return null;
 		else {
-			SpelSessieDao spelSessieDao = new SpelSessieDao();
+			SpelSessieDao spelSessieDao = new SpelSessieDaoImpl();
 			return spelSessieDao.getSpelSessie(connectionProvider, sessieID);
 		}
 	}
@@ -39,7 +44,7 @@ public class TriviaCouchGame {
 	}
 
 	public void maakSpeler(Speler speler) throws SQLException {
-		SpelerDao spelerDao = new SpelerDao();
+		SpelerDao spelerDao = new SpelerDaoImpl();
 		try (Connection connection = getConnection()) {
 			spelerDao.createSpeler(connection, speler);
 			connection.commit();
@@ -51,7 +56,7 @@ public class TriviaCouchGame {
 		Deelnemer result = null;
 		if (sessie.isOpen()) {
 			try (Connection connection = getConnection()) {
-				SpelerDao spelerDao = new SpelerDao();
+				SpelerDao spelerDao = new SpelerDaoImpl();
 				Speler speler = spelerDao.findSpelerBijSpelernaam(connection, profielnaam);
 				if (speler != null) {
 					GateKeeper gateKeeper = new GateKeeper();
@@ -65,7 +70,7 @@ public class TriviaCouchGame {
 	}
 
 	public void vraagMaken(Vraag vraag) throws Exception {
-		VraagDao vraagDao = new VraagDao();
+		VraagDao vraagDao = new VraagDaoImpl();
 		try (Connection connection = getConnection()) {
 			vraagDao.createVraag(connection, vraag);
 			connection.commit();
@@ -73,8 +78,8 @@ public class TriviaCouchGame {
 	}
 	
 	public void updateVraag(Vraag vraag) throws Exception {
-		VraagDao vraagDao = new VraagDao();
-		AntwoordDao antwoordDao = new AntwoordDao();
+		VraagDao vraagDao = new VraagDaoImpl();
+		AntwoordDao antwoordDao = new AntwoordDaoImpl();
 		List<Antwoord> nieuweAntwoorden = vraag.getAntwoorden();
 		int itereerInteger = 0;
 		try (Connection connection = getConnection()) {
@@ -92,7 +97,7 @@ public class TriviaCouchGame {
 
 	public List<Highscore> getScores() throws SQLException, IOException {
 
-		HighscoreDao highscoreDao = new HighscoreDao();
+		HighscoreDao highscoreDao = new HighscoreDaoImpl();
 		try (Connection connection = getConnection()) {
 			List<Highscore> scoreLijst = highscoreDao.getHighScores(connection);
 			return scoreLijst;
@@ -104,14 +109,14 @@ public class TriviaCouchGame {
 	 * (kunnen er veel zijn)
 	 */
 	public List<Vraag> getVragen() throws SQLException {
-		VraagDao vraagDao = new VraagDao();
+		VraagDao vraagDao = new VraagDaoImpl();
 		try (Connection connection = getConnection()) {
 			return vraagDao.getVragen(connection);
 		}
 	}
 
 	public Vraag getVraag(long vraagId) throws SQLException {
-		VraagDao vraagDao = new VraagDao();
+		VraagDao vraagDao = new VraagDaoImpl();
 		try (Connection connection = getConnection()) {
 			Vraag vraag = vraagDao.getVraag(connection, vraagId);
 			return vraag;
