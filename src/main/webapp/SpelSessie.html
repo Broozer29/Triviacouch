@@ -31,7 +31,7 @@ document.querySelector("#genereerspel").addEventListener("click", function () {
     fetch("api/spelen", { method: 'GET' })
     .then(response => response.json())
     .then(function (myJson) { 
-		      document.getElementById("sessieID").innerHTML = myJson;
+		      document.getElementById("sessieID").innerHTML = myJson.sessieID;
           });
 	
     fetch("api/vragen", { method: 'GET' })

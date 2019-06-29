@@ -1,7 +1,9 @@
 package net.riezebos.triviacouch.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
@@ -23,26 +25,30 @@ import net.riezebos.triviacouch.service.util.SessionHelper;
 public class SpeelsessieResource {
 
 	/*
-	 * Deze functie wordt gebruikt door de browser om de sessie van zijn sessieID op te halen.
+	 * Deze functie wordt gebruikt door de browser om de sessie van zijn sessieID op
+	 * te halen.
 	 */
-	
+
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public long getSessie(@Context HttpServletRequest httpRequest) {
+	public Map<String, String> getSessie(@Context HttpServletRequest httpRequest) {
+		Map<String, String> result = new HashMap<>();
 		try {
 			TriviaCouchGame game = SessionHelper.getGame(httpRequest.getSession(true));
 			SpelSessie sessie = game.startSessie();
-			return sessie.getID();
+			result.put("sessieID", String.valueOf(sessie.getID()));
 		} catch (Exception e) {
 			e.printStackTrace();
-			return 0;
+			result.put("error", e.getMessage());
 		}
+		return result;
 	}
-	
+
 	/*
-	 * Deze functie wordt gebruikt door de browser om de spelers van zijn sessie op te halen.
+	 * Deze functie wordt gebruikt door de browser om de spelers van zijn sessie op
+	 * te halen.
 	 */
-	
+
 	@POST
 	@Path("/haalspelers")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -76,10 +82,10 @@ public class SpeelsessieResource {
 		}
 		return sessionID;
 	}
-	
-	
+
 	/*
-	 * Deze functie wordt gebruikt door de browser om het ID van de sessie op te halen.
+	 * Deze functie wordt gebruikt door de browser om het ID van de sessie op te
+	 * halen.
 	 */
 
 	@GET
@@ -101,7 +107,7 @@ public class SpeelsessieResource {
 			return 0L;
 		}
 	}
-	
+
 	/*
 	 * Deze functie wordt gebruikt door de browser om de huidige vraag op te halen.
 	 */

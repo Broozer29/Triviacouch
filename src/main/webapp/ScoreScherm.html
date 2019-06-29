@@ -26,7 +26,7 @@
 fetch("api/spelen/getsessieid", { method: 'GET' })
 .then(response => response.json())
 .then(function (myJson) { 
-      	document.getElementById("sessieID").innerHTML = "Sessie ID: "+myJson;
+      	document.getElementById("sessieID").innerHTML = "Sessie ID: "+myJson.sessieID;
   	});
 
 	var url = "api/highscores/getsessiescores";
