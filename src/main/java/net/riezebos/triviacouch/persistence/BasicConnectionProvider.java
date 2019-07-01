@@ -14,6 +14,11 @@ public class BasicConnectionProvider implements ConnectionProvider {
 			Class.forName("org.postgresql.Driver");
 
 			String databaseUrl = System.getenv("JDBC_DATABASE_URL");
+			if (databaseUrl == null)
+				databaseUrl = System.getenv("JDBC_CONNECTION_STRING");
+			if (databaseUrl == null)
+				databaseUrl = System.getProperty("JDBC_CONNECTION_STRING");
+
 			System.out.println("JDBC_DATABASE_URL=" + databaseUrl);
 
 			if (databaseUrl == null)
