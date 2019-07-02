@@ -1,7 +1,9 @@
 package net.riezebos.triviacouch.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
@@ -20,9 +22,10 @@ import net.riezebos.triviacouch.service.util.SessionHelper;
 @Path("/vragen")
 public class VraagResource {
 	/*
-	 * Deze functie wordt gebruikt door de browser om vragen voor een nieuwe sessie op te halen.
+	 * Deze functie wordt gebruikt door de browser om vragen voor een nieuwe sessie
+	 * op te halen.
 	 */
-	
+
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<Vraag> getVragen(@Context HttpServletRequest httpRequest) {
@@ -36,10 +39,11 @@ public class VraagResource {
 		}
 		return result;
 	}
-	
+
 	/*
-	 * Deze functie wordt gebruikt door de browser om een vraag op te halen.
-	 * Het gebruikt een vraagtoken waar een vraagID in zit, om een volledige Vraag op te halen.
+	 * Deze functie wordt gebruikt door de browser om een vraag op te halen. Het
+	 * gebruikt een vraagtoken waar een vraagID in zit, om een volledige Vraag op te
+	 * halen.
 	 */
 
 	@POST
@@ -60,28 +64,30 @@ public class VraagResource {
 		}
 
 	}
-	
-	
+
 	/*
-	 * Deze functie wordt gebruikt door de browser om een bestaande vraag aan te passen.
+	 * Deze functie wordt gebruikt door de browser om een bestaande vraag aan te
+	 * passen.
 	 */
-	
+
 	@POST
 	@Path("/pasvraagaan")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Boolean pasVraagAan(Vraag vraag, @Context HttpServletRequest httpRequest) {
+	public Map<String, String> pasVraagAan(Vraag vraag, @Context HttpServletRequest httpRequest) {
+		Map<String, String> result = new HashMap<>();
+		result.put("success", "false");
 		try {
 			TriviaCouchGame game = SessionHelper.getGame(httpRequest.getSession());
 			game.updateVraag(vraag);
-			return true;
+			result.put("success", "true");
 		} catch (Exception e) {
 			e.printStackTrace();
-			return false;
 		}
+		return result;
 
 	}
-	
+
 	/*
 	 * Deze functie wordt gebruikt door de browser een nieuwe vraag te maken.
 	 */
@@ -90,16 +96,17 @@ public class VraagResource {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/maak")
-	public boolean maakVraag(Vraag vraag, @Context HttpServletRequest httpRequest) {
+	public Map<String, String> maakVraag(Vraag vraag, @Context HttpServletRequest httpRequest) {
+		Map<String, String> result = new HashMap<>();
+		result.put("success", "false");
 		try {
 			TriviaCouchGame game = SessionHelper.getGame(httpRequest.getSession());
 			game.vraagMaken(vraag);
-			return true;
+			result.put("success", "true");
 		} catch (Exception e) {
 			e.printStackTrace();
-			return false;
 		}
-
+		return result;
 	}
 
 }

@@ -97,7 +97,10 @@
 								headers : {
 									'Content-Type' : 'application/json'
 								}
-							})
+							}).then(res => res.json())
+						    .then(jsonobj => { if(jsonobj.success == "true")  alert("Vraag Aangemaakt!");
+						    })
+							  .catch(error => console.error('Error:', error));
 						})
 						
 	</script>
@@ -137,8 +140,9 @@ document.querySelector("#pasVraagAan").addEventListener("click", function () {
 	    'Content-Type': 'application/json'
 	  }
 	}).then(res => res.json())
-	.then(response => {console.log(response)
-});
+    .then(jsonobj => { if(jsonobj.success == "false")  alert("Invalide gegevens!");
+    })
+	  .catch(error => console.error('Error:', error));
 });
 </script>
 <script>

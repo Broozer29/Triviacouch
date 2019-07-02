@@ -1,5 +1,8 @@
 package net.riezebos.triviacouch.service;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -25,7 +28,9 @@ public class ProfielResource {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public boolean profielMaken(SpelerToken spelerToken, @Context HttpServletRequest httpRequest) {
+	public Map<String, String> profielMaken(SpelerToken spelerToken, @Context HttpServletRequest httpRequest) {
+		Map<String, String> result = new HashMap<>();
+		result.put("success", "false");
 		try {
 			TriviaCouchGame game = SessionHelper.getGame(httpRequest.getSession());
 			Speler speler = new Speler();
@@ -33,11 +38,12 @@ public class ProfielResource {
 			speler.setWachtwoord(spelerToken.getWachtwoord());
 			game.maakSpeler(speler);
 
-			return true;
+			result.put("success", "true");
 		} catch (Exception e) {
+			result.put("error", e.getMessage());
 			e.printStackTrace();
-			return false;
 		}
+		return result;
 	}
 
 }
